@@ -35,8 +35,8 @@
         <div class="width">
             <aside>
                 <nav>
-                    <a href="index.html" class="active">Home</a>
-                    <a href="Craft.html" class="">Craft</a>
+                    <a href="index.html" class="">Home</a>
+                    <a href="Craft.html" class="active">Craft</a>
                     <a href="AJAX.html" class="">AJAX</a>
                     <a href="Array.html" class="">Array</a>
                     <a href="Hash.html" class="">Hash</a>
@@ -47,30 +47,46 @@
                 </nav>
             </aside>
             <article>
-                <h1>Introduction</h1>
-<p>Craft is a lightweight but powerful JavaScript framework that helps you to build web applications. 
+                <h1>Craft</h1>
+<h2>Definition</h2>
+<p>Craft is a function that executes the first argument with <code>Craft, window, document</code> as own arguments.  
 
 </p>
-<h2>Concept</h2>
-<p>Craft is a tiny framework (only 3.69KB gzipped), that makes it really fast to load and to initialize. Nevertheless, it is still powerful and helps you to build web apps with only what you need. 
+<h2>Methods</h2>
+<h3>Craft.typeOf</h3>
+<pre><code class="lang-js">Craft.typeOf(object) // -&gt; object&#39;s type</code></pre>
+<p>Returns the object&#39;s type. Acts like native <code>typeof</code> but adds <code>&quot;array&quot;</code> and <code>&quot;null&quot;</code> to the detected types. 
 
 </p>
-<p>The main part of Craft is about extending native JavaScript objects : <code>Array</code>, <code>Function</code> &amp; <code>String</code>. Because of the problems raised by the extension of <code>Element</code> &amp; <code>Object</code>, two new contructors have been deployed : <code>Hash</code> (dedicated to Objects as associative arrays) and <code>DOM</code>, to manipulate the DOM easily without breaking it or be forced to simulate <code>Element</code> on Internet Explorer. 
-
-</p>
-<p>Also, a global <code>Craft</code> object has been created to contain an improved <code>typeOf</code> function, a <code>Browser</code> object, an <code>AJAX</code> constructor, and a <code>toArray</code> function. 
-
-</p>
-<p><strong>Craft.js</strong> has been rewritten in <strong>CoffeeScript</strong> to make custom builds easier, and to improve the readability of the source. 
+<h3>Craft.extend</h3>
+<pre><code class="lang-js">Craft.extend(object, [function || object]) // -&gt; object</code></pre>
+<p>Adds to the object the properties of the second arguments (which can be an object or a function returnong an object).
 
 
 </p>
-<h2>Get Craft</h2>
-<pre><code>git clone -b alpha https://github.com/mlbli/Craft.git</code></pre>
-<h2>Build your version</h2>
-<pre><code>cd path/to/craft/src
+<h2>Properties</h2>
+<h3>Craft.version</h3>
+<pre><code class="lang-js">Craft.version // -&gt; string</code></pre>
+<h3>Craft.Browser</h3>
+<pre><code class="lang-js">Craft.Browser // -&gt; hash</code></pre>
+<p>Contains the following properties : 
 
-coffee -j ../craft.js -c core array hash function string dom browser</code></pre>
+</p>
+<pre><code>UA // lowerCase userAgent
+isChrome // boolean
+isSafari // boolean
+isFirefox // boolean
+isIE // boolean
+isIE6 // boolean
+isIE7 // boolean
+isIE8 // boolean
+isOpera // boolean
+isKonqueror // boolean
+iPhone // boolean
+iPad // boolean
+iPod // boolean
+Android // boolean
+toClassName // active browser joined with spaces in a string</code></pre>
 
             </article>
         </div>

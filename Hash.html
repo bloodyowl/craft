@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width" />
 
     <!-- Site Properities -->
-    <title>Craft | Craft.js</title>
+    <title>Hash | Craft.js</title>
     <meta name="description" content="Small but powerful JavaScript Framework" />
     <meta name="keywords" content="craft, js, framework, javascript" />
 
@@ -35,11 +35,11 @@
         <div class="width">
             <aside>
                 <nav>
-                    <a href="index.html" class="active">Home</a>
+                    <a href="index.html" class="">Home</a>
                     <a href="Craft.html" class="">Craft</a>
                     <a href="AJAX.html" class="">AJAX</a>
                     <a href="Array.html" class="">Array</a>
-                    <a href="Hash.html" class="">Hash</a>
+                    <a href="Hash.html" class="active">Hash</a>
                     <a href="Function.html" class="">Function</a>
                     <a href="String.html" class="">String</a>
                     <a href="DOM.html" class="">DOM</a>
@@ -47,30 +47,59 @@
                 </nav>
             </aside>
             <article>
-                <h1>Introduction</h1>
-<p>Craft is a lightweight but powerful JavaScript framework that helps you to build web applications. 
+                <h1>Hash</h1>
+<h2>Constructor</h2>
+<pre><code class="lang-js">new Hash({
+  key1 : &quot;value&quot;,
+  key2 : &quot;value&quot;,
+  key3 : &quot;value&quot;
+}) 
+// -&gt; hash</code></pre>
+<h2>Hash#forEach</h2>
+<pre><code class="lang-js">myHash.forEach(function(item, index, array){}) // -&gt; Hash</code></pre>
+<p>Calls the given function for each item present in the Hash.  
 
 </p>
-<h2>Concept</h2>
-<p>Craft is a tiny framework (only 3.69KB gzipped), that makes it really fast to load and to initialize. Nevertheless, it is still powerful and helps you to build web apps with only what you need. 
+<h2>Hash#clone</h2>
+<pre><code class="lang-js">myHash.clone() // -&gt; new Hash</code></pre>
+<p>Returns a safe-to-modify Hash from a given source. 
 
 </p>
-<p>The main part of Craft is about extending native JavaScript objects : <code>Array</code>, <code>Function</code> &amp; <code>String</code>. Because of the problems raised by the extension of <code>Element</code> &amp; <code>Object</code>, two new contructors have been deployed : <code>Hash</code> (dedicated to Objects as associative arrays) and <code>DOM</code>, to manipulate the DOM easily without breaking it or be forced to simulate <code>Element</code> on Internet Explorer. 
+<h2>Hash#keys</h2>
+<pre><code class="lang-js">myHash.keys() // -&gt; new Array</code></pre>
+<p>Returns an Array containing all the keys owned by the hash 
 
 </p>
-<p>Also, a global <code>Craft</code> object has been created to contain an improved <code>typeOf</code> function, a <code>Browser</code> object, an <code>AJAX</code> constructor, and a <code>toArray</code> function. 
+<h2>Hash#values</h2>
+<pre><code class="lang-js">myHash.values() // -&gt; new Array</code></pre>
+<p>Returns an Array containing all the values owned by the hash 
 
 </p>
-<p><strong>Craft.js</strong> has been rewritten in <strong>CoffeeScript</strong> to make custom builds easier, and to improve the readability of the source. 
-
+<h2>Hash#get</h2>
+<pre><code class="lang-js">myHash.get(&quot;key&quot;) // -&gt; value</code></pre>
+<p>Returns the value of a given key
 
 </p>
-<h2>Get Craft</h2>
-<pre><code>git clone -b alpha https://github.com/mlbli/Craft.git</code></pre>
-<h2>Build your version</h2>
-<pre><code>cd path/to/craft/src
+<h2>Hash#set</h2>
+<pre><code class="lang-js">myHash.set(&quot;key&quot;, &quot;value&quot;) // -&gt; hash</code></pre>
+<p>Sets the given key to the given value
 
-coffee -j ../craft.js -c core array hash function string dom browser</code></pre>
+</p>
+<h2>Hash.toQueryString</h2>
+<pre><code class="lang-js">myHash.toQueryString // -&gt; &quot;key1=value1&amp;key2=value2 ...&quot;</code></pre>
+<p>Returns a HTTP query string from the hash. 
+
+</p>
+<h2>Hash#isEmpty</h2>
+<pre><code class="lang-js">myHash.isEmpty() // -&gt; true</code></pre>
+<p>Checks if the Hash is empty or not.
+
+</p>
+<h2>Array#invoke</h2>
+<pre><code class="lang-js">myHash.invoke(method, arg1, /* arg2 … */)</code></pre>
+<p>Calls the method for each item of the given hash. 
+
+</p>
 
             </article>
         </div>

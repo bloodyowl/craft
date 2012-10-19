@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Site Properities -->
+    <title>Array | Craft.js</title>
+    <meta name="description" content="Small but powerful JavaScript Framework" />
+    <meta name="keywords" content="craft, js, framework, javascript" />
+
+    <!-- DocPad Meta -->
+    <meta http-equiv="X-Powered-By" content="DocPad"/>
+
+    <!-- DocPad Styles + Our Own -->
+    <link rel="stylesheet" href="styles/style.css" />
+
+</head>
+<body>
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+
+    <header>
+        <div class="width">
+            <h1>Craft<span>.js</span> <i>Small but powerful JavaScript framework</i></h1>
+            <p>Go and play with the console!</p>
+        </div>
+    </header>
+        <div class="width">
+            <aside>
+                <nav>
+                    <a href="index.html" class="">Home</a>
+                    <a href="Craft.html" class="">Craft</a>
+                    <a href="AJAX.html" class="">AJAX</a>
+                    <a href="Array.html" class="active">Array</a>
+                    <a href="Hash.html" class="">Hash</a>
+                    <a href="Function.html" class="">Function</a>
+                    <a href="String.html" class="">String</a>
+                    <a href="DOM.html" class="">DOM</a>
+                    <a href="https://github.com/mlbli/Craft/">GitHub repository</a>
+                </nav>
+            </aside>
+            <article>
+                <h1>Array</h1>
+<h2>Array#forEach</h2>
+<pre><code class="lang-js">[1,2,3,4,5,6].forEach(function(item, index, array){}) // -&gt; Array</code></pre>
+<p>Calls the given function for each item present in the Array.  
+
+</p>
+<h2>Array#clone</h2>
+<pre><code class="lang-js">[1,2,3].clone() // -&gt; new Array</code></pre>
+<p>Returns a safe-to-modify Array from a given source. 
+
+</p>
+<h2>Array#map</h2>
+<pre><code class="lang-js">[1,2,3].map(function(item, index, array){}) // -&gt; new Array</code></pre>
+<p>Replaces the value of each item with the value returned by the function. 
+
+</p>
+<h2>Array#filter</h2>
+<pre><code class="lang-js">[1,2,3].filter(function(item, index, array){}) // -&gt; new Array</code></pre>
+<p>Returns a new Array from the source after having removed every iteration of the function that returned false. 
+
+</p>
+<h2>Array#reduce</h2>
+<pre><code class="lang-js">[1,2,3].reduce(function(item, nextItem, index, array){}) // -&gt; object</code></pre>
+<p>Iterates over the array and returns the last value returned by the function.
+
+</p>
+<h2>Array#indexOf</h2>
+<pre><code class="lang-js">[1,2,3,4].indexOf(value[, start]) // -&gt; index</code></pre>
+<p>Returns the first index where value is found. Can start from a given index. 
+
+</p>
+<h2>Array#pluck</h2>
+<pre><code class="lang-js">[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;].pluck(&quot;length&quot;) // -&gt; [3,3,3]</code></pre>
+<p>Returns the given property for every item. 
+
+</p>
+<h2>Array#isEmpty</h2>
+<pre><code class="lang-js">[].isEmpty() // -&gt; true</code></pre>
+<p>Checks if the Array is empty or not.
+
+</p>
+<h2>Array#invoke</h2>
+<pre><code class="lang-js">[].invoke(method, arg1, /* arg2 … */)</code></pre>
+<p>Calls the method for each item of the given array. 
+
+</p>
+<h2>Array#clean</h2>
+<pre><code class="lang-js">[false, [], undefined, 1, 2, null, 3].clean() // -&gt; [1,2,3]</code></pre>
+<p>Returns a new Array cleaned from <code>false, [], undefined, null</code>. 
+
+</p>
+<h2>Array#intersect</h2>
+<pre><code class="lang-js">[1,2,3,4,5].intersect([2,4, &quot;foo&quot;]) // -&gt; [2,4]</code></pre>
+<p>Returns common values of two arrays. 
+
+</p>
+<h2>Array#difference</h2>
+<pre><code class="lang-js">[1,2,3,4,5].difference([2,4, &quot;foo&quot;]) // -&gt; [1,3,5]</code></pre>
+<p>Returns values that are in the first array, but not in the second. 
+
+
+</p>
+
+            </article>
+        </div>
+        <script type="text/javascript" src="https://raw.github.com/mlbli/Craft/master/craft.js"></script>
+</body>
+</html>

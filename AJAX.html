@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width" />
 
     <!-- Site Properities -->
-    <title>Craft | Craft.js</title>
+    <title>AJAX | Craft.js</title>
     <meta name="description" content="Small but powerful JavaScript Framework" />
     <meta name="keywords" content="craft, js, framework, javascript" />
 
@@ -35,9 +35,9 @@
         <div class="width">
             <aside>
                 <nav>
-                    <a href="index.html" class="active">Home</a>
+                    <a href="index.html" class="">Home</a>
                     <a href="Craft.html" class="">Craft</a>
-                    <a href="AJAX.html" class="">AJAX</a>
+                    <a href="AJAX.html" class="active">AJAX</a>
                     <a href="Array.html" class="">Array</a>
                     <a href="Hash.html" class="">Hash</a>
                     <a href="Function.html" class="">Function</a>
@@ -47,30 +47,30 @@
                 </nav>
             </aside>
             <article>
-                <h1>Introduction</h1>
-<p>Craft is a lightweight but powerful JavaScript framework that helps you to build web applications. 
+                <h1>AJAX</h1>
+<h2>Craft.AJAX</h2>
+<pre><code class="lang-js">var myRequest = new Craft.AJAX({
+  url : &quot;path/to/request&quot;,
+  method : &quot;POST&quot; // or &quot;GET&quot; (default : &quot;GET&quot;),
+  success : function(res){},
+  loading : function(){},
+  async : true // or false (default : true),
+  query : &quot;foo=bar&amp;bar=baz&quot; // if method is &quot;POST&quot;
+}) 
+// -&gt; AJAX instance</code></pre>
+<p><strong>NOTE</strong> : The AJAX Object owns the <code>Hash.prototype</code>. 
 
 </p>
-<h2>Concept</h2>
-<p>Craft is a tiny framework (only 3.69KB gzipped), that makes it really fast to load and to initialize. Nevertheless, it is still powerful and helps you to build web apps with only what you need. 
+<h2>Craft.AJAX#update</h2>
+<pre><code class="lang-js">myRequest.update() // -&gt; responseText if async is set to false</code></pre>
+<p>Sends the request and executes the callback. If the request is synchronous, the responseText is returned. 
 
 </p>
-<p>The main part of Craft is about extending native JavaScript objects : <code>Array</code>, <code>Function</code> &amp; <code>String</code>. Because of the problems raised by the extension of <code>Element</code> &amp; <code>Object</code>, two new contructors have been deployed : <code>Hash</code> (dedicated to Objects as associative arrays) and <code>DOM</code>, to manipulate the DOM easily without breaking it or be forced to simulate <code>Element</code> on Internet Explorer. 
+<h2>Update periodically</h2>
+<p>Simply use : 
 
 </p>
-<p>Also, a global <code>Craft</code> object has been created to contain an improved <code>typeOf</code> function, a <code>Browser</code> object, an <code>AJAX</code> constructor, and a <code>toArray</code> function. 
-
-</p>
-<p><strong>Craft.js</strong> has been rewritten in <strong>CoffeeScript</strong> to make custom builds easier, and to improve the readability of the source. 
-
-
-</p>
-<h2>Get Craft</h2>
-<pre><code>git clone -b alpha https://github.com/mlbli/Craft.git</code></pre>
-<h2>Build your version</h2>
-<pre><code>cd path/to/craft/src
-
-coffee -j ../craft.js -c core array hash function string dom browser</code></pre>
+<pre><code class="lang-js">myRequest.update.every(15)</code></pre>
 
             </article>
         </div>
