@@ -48,9 +48,9 @@ isIE7 // boolean
 isIE8 // boolean
 isOpera // boolean
 isKonqueror // boolean
-iPhone // boolean
-iPad // boolean
-iPod // boolean
-Android // boolean
+isiPhone // boolean
+isiPad // boolean
+isiPod // boolean
+isAndroid // boolean
 toClassName // active browser joined with spaces in a string
 ```

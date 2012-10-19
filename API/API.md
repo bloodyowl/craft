@@ -16,7 +16,7 @@ Also, a global `Craft` object has been created to contain an improved `typeOf` f
 ## Get Craft
 
 ```
-git clone -b alpha https://github.com/mlbli/Craft.git
+git clone https://github.com/mlbli/Craft.git
 ```
 
 ## Build your version
@@ -74,10 +74,10 @@ isIE7 // boolean
 isIE8 // boolean
 isOpera // boolean
 isKonqueror // boolean
-iPhone // boolean
-iPad // boolean
-iPod // boolean
-Android // boolean
+isiPhone // boolean
+isiPad // boolean
+isiPod // boolean
+isAndroid // boolean
 toClassName // active browser joined with spaces in a string
 ```
 # AJAX 
