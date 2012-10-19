@@ -4,7 +4,7 @@
 ## Get it 
 
 ```
-git clone -b alpha https://github.com/mlbli/Craft.git
+git clone https://github.com/mlbli/Craft.git
 ```
 
 
