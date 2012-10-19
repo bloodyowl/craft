@@ -24,4 +24,4 @@ git clone https://github.com/mlbli/Craft.git
 cd path/to/craft/src
 
 coffee -j ../craft.js -c core array hash function string dom browser
-```
+``` 
