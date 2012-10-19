@@ -16,7 +16,7 @@ Also, a global `Craft` object has been created to contain an improved `typeOf` f
 ## Get Craft
 
 ```
-git clone -b alpha https://github.com/mlbli/Craft.git
+git clone https://github.com/mlbli/Craft.git
 ```
 
 ## Build your version
