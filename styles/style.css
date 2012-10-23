@@ -28,7 +28,8 @@ a:active{
    color: #000;
 }
 nav a.active{
-   color: #369;
+   color: #000;
+   background-color:#f0f0f0
 }
 html, body{
    padding: 0;
@@ -94,7 +95,7 @@ aside nav a{
    padding: .5em 1em;
    text-decoration: none;
    font-weight: 700;
-   border-bottom: 1px solid #999;
+   border-bottom: 1px solid #bbb;
 }
 aside nav a:last-child{
    border-bottom: none;
