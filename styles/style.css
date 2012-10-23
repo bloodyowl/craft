@@ -47,6 +47,7 @@ body {
 header{
    color: #000;
    text-align: left;
+   overflow: hidden;
 }
 
 pre {
