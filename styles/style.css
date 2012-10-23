@@ -32,9 +32,6 @@ nav a.active{
    border-radius:.2em;
    border-bottom: none;
    background-color:#369;
-   -webkit-transform: scale(1.1);
-   -moz-transform: scale(1.1);
-   transform: scale(1.1);
 }
 html, body{
    padding: 0;
@@ -97,10 +94,18 @@ aside nav{
 }
 aside nav a{
    display: block;
+   position: relative;
    padding: .5em 1em;
    text-decoration: none;
    font-weight: 700;
    border-bottom: 1px solid #bbb;
+}
+aside nav a:hover, aside nav a:focus{
+   left: -1em;
+   transition: .3s linear all;
+   -webkit-transition: .3s linear all;
+   -moz-transition: .3s linear all;
+   -o-transition: .3s linear all;
 }
 aside nav a:last-child{
    border-bottom: none;
