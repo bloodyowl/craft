@@ -104,7 +104,7 @@ aside nav a{
    -moz-transition: .3s linear all;
    -o-transition: .3s linear all;
 }
-}
+
 aside nav a:hover, aside nav a:focus{
    left: 1em;
 }
