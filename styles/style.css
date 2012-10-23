@@ -97,7 +97,7 @@ aside nav a{
    padding: .5em 1em;
    text-decoration: none;
    font-weight: 700;
-   border-bottom: 4px solid #fff;
+   border-bottom: 4px solid #ccc;
    transition: .3s linear all;
    -webkit-transition: .3s linear all;
    -moz-transition: .3s linear all;
