@@ -30,10 +30,11 @@ a:active{
 nav a.active{
    color: #fff;
    border-radius:.2em;
+   border-bottom: none;
    background-color:#369;
-   -webkit-transform: scale(1.02);
-   -moz-transform: scale(1.02);
-   transform: scale(1.02);
+   -webkit-transform: scale(1.1);
+   -moz-transform: scale(1.1);
+   transform: scale(1.1);
 }
 html, body{
    padding: 0;
