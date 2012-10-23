@@ -29,7 +29,6 @@ a:active{
 }
 nav a.active{
    color: #fff;
-   border-radius:.2em;
    border-bottom: none;
    background-color:#369;
 }
@@ -98,7 +97,7 @@ aside nav a{
    padding: .5em 1em;
    text-decoration: none;
    font-weight: 700;
-   border-bottom: 1px solid #bbb;
+   border-bottom: 4px solid #369;
    transition: .3s linear all;
    -webkit-transition: .3s linear all;
    -moz-transition: .3s linear all;
