@@ -99,13 +99,14 @@ aside nav a{
    text-decoration: none;
    font-weight: 700;
    border-bottom: 1px solid #bbb;
-}
-aside nav a:hover, aside nav a:focus{
-   left: -1em;
    transition: .3s linear all;
    -webkit-transition: .3s linear all;
    -moz-transition: .3s linear all;
    -o-transition: .3s linear all;
+}
+}
+aside nav a:hover, aside nav a:focus{
+   left: 1em;
 }
 aside nav a:last-child{
    border-bottom: none;
