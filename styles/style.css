@@ -106,7 +106,7 @@ aside nav a{
 }
 
 aside nav a:hover, aside nav a:focus{
-   left: 1em;
+   text-indent: 1em;
 }
 aside nav a:last-child{
    border-bottom: none;
