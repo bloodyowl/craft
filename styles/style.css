@@ -62,6 +62,7 @@ h1{
 }
 header h1{
    float: left;
+   font-weight: 300;
 }
 header p{
    font-weight:500;
