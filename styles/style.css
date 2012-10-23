@@ -28,8 +28,12 @@ a:active{
    color: #000;
 }
 nav a.active{
-   color: #000;
-   background-color:#f0f0f0
+   color: #fff;
+   border-radius:.2em;
+   background-color:#369;
+   -webkit-transform: scale(1.02);
+   -moz-transform: scale(1.02);
+   transform: scale(1.02);
 }
 html, body{
    padding: 0;
