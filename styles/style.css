@@ -45,9 +45,8 @@ body {
 }
 
 header{
-   background: #036;
-   color: #fff;
-   text-align: center;
+   color: #000;
+   text-align: left;
 }
 
 pre {
@@ -56,20 +55,21 @@ pre {
   padding: 1em;
 }
 h1{
-   font-size: 2em;
+   font-size: 3em;
    margin: 0;
    padding: 1.2em 1em .3em;
+   float: left;
 }
 header p{
    font-weight:500;
-   color: rgba(255,255,255,.3);
+   color: #666;
+   float: right;
 }
 h1 span{
-   color: rgba(255,255,255,.3);
+   color: rgba(0,0,0,.3);
 }
 h1 i{
-   font-style: normal;
-   font-size: .5em;
+   font-size: .6em;
    display: block;
 }
 article h1{
