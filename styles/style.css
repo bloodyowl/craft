@@ -73,8 +73,9 @@ h1 span{
    color: rgba(0,0,0,.3);
 }
 h1 i{
-   font-size: .6em;
+   font-size: .5em;
    display: block;
+   font-style: normal;
 }
 article h1{
    padding: .5em .3em;
