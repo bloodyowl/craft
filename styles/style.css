@@ -58,10 +58,11 @@ h1{
    font-size: 4em;
    margin: 0;
    padding: .3em 1em .3em;
-   font-weight: 300;
+   font-weight: 400;
 }
 header h1{
    float: left;
+   font-weight: 700;
 }
 header p{
    font-weight:500;
