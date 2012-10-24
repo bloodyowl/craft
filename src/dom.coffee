@@ -269,9 +269,9 @@ extend DOM::, ->
       $A(element.elements).forEach((item) ->
          value = getValue.call item
          name = item.name
-         return if typeOf(value) is undefined or not name
-         if name of result and typeOf(result[name]) is "array"
-            result[name].push(value)
+         return if typeOf(value) is "undefined" or not name
+         if name of result
+            result[name] = [].concat(result[name]).concat(value)
             return
          else
             result[name] = value

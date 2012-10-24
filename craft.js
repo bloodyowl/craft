@@ -896,11 +896,11 @@ https://github.com/mlbli/Craft
         var name, value;
         value = getValue.call(item);
         name = item.name;
-        if (typeOf(value) === void 0 || !name) {
+        if (typeOf(value) === "undefined" || !name) {
           return;
         }
-        if (name in result && typeOf(result[name]) === "array") {
-          result[name].push(value);
+        if (name in result) {
+          result[name] = [].concat(result[name]).concat(value);
         } else {
           result[name] = value;
         }
