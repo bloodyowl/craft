@@ -83,7 +83,29 @@ article h1{
    font-size: 2.6em;
    border-bottom: 5px solid #ccc;
 }
-
+.button{
+   display: inline-block;
+   margin: .3em;
+   background: #369;
+   color: #fff;
+   padding: .7em;
+   text-decoration: none;
+   font-weight: 700;
+   
+}
+.button:hover, .button:focus{
+   color: #fff;
+   background: #69b;
+}
+.button:active{
+   background: #000;
+   color: #fff;
+}
+.button span{
+   display:block;
+   font-size: .8em;
+   font-weight: 400;
+}
 aside{
    float: left;
    width: 15em;
