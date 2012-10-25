@@ -15,5 +15,6 @@
       "url": "https://github.com/mlbli/craft.git"
     }
   ],
-  "homepage": "http://mlbli.github.com/craft"
+  "homepage": "http://mlbli.github.com/craft",
+  "license": "MIT"
 }
