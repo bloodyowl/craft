@@ -83,6 +83,12 @@ h1{
 header h1{
    float: left;
    font-weight: 700;
+   position: relative;
+}
+header h1 img{
+   position: relative;
+   top: -.1em;
+   margin-right: .2em;
 }
 header p{
    font-weight:500;
