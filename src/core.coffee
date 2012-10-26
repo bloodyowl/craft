@@ -10,8 +10,9 @@ $A = toArray (splits strings with " ")
 ###
 $A = (list, start = 0) ->
   return list.split " " if typeOf(list) is "string"
-  return Array::slice.call list, start if "NodeList" of window
-  i for i in list[start ..]
+  newList = []
+  newList[_i] = i for i in list
+  newList.slice(start)
 
 ###
 typeOf 

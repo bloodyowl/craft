@@ -21,23 +21,19 @@ https://github.com/mlbli/Craft
 
 
   $A = function(list, start) {
-    var i, _i, _len, _ref, _results;
+    var i, newList, _i, _len;
     if (start == null) {
       start = 0;
     }
     if (typeOf(list) === "string") {
       return list.split(" ");
     }
-    if ("NodeList" in window) {
-      return Array.prototype.slice.call(list, start);
+    newList = [];
+    for (_i = 0, _len = list.length; _i < _len; _i++) {
+      i = list[_i];
+      newList[_i] = i;
     }
-    _ref = list.slice(start);
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      i = _ref[_i];
-      _results.push(i);
-    }
-    return _results;
+    return newList.slice(start);
   };
 
   /*
@@ -254,19 +250,16 @@ https://github.com/mlbli/Craft
       return result;
     };
     difference = function(values) {
-      var array, i, result, _i, _len, _results;
+      var array, i, result, _i, _len;
       array = this;
       result = [];
-      _results = [];
       for (_i = 0, _len = array.length; _i < _len; _i++) {
         i = array[_i];
         if (values.indexOf(i) === -1) {
-          _results.push(result.push(i));
-        } else {
-          _results.push(void 0);
+          result.push(i);
         }
       }
-      return _results;
+      return result;
     };
     return {
       forEach: forEach,
@@ -793,10 +786,10 @@ https://github.com/mlbli/Craft
           element.classList.add(item);
         }
       } else {
-        actualClasses = this.classNames();
+        actualClasses = new DOM(element).classNames();
         for (_j = 0, _len1 = classes.length; _j < _len1; _j++) {
           item = classes[_j];
-          if (actualClasses.indexOf(item !== -1)) {
+          if (actualClasses.indexOf(item) !== -1) {
             continue;
           }
           actualClasses.push(item);
@@ -815,12 +808,12 @@ https://github.com/mlbli/Craft
           element.classList.remove(item);
         }
       } else {
-        element.className = this.classNames().difference(classes).join(" ");
+        element.className = new DOM(element).classNames().difference(classes).join(" ");
       }
       return this;
     };
     toggleClass = function(classes) {
-      var element, item, _i, _len;
+      var element, item, wrappedElement, _i, _j, _len, _len1;
       element = _get(this);
       classes = $A(classes);
       if (classList) {
@@ -829,10 +822,14 @@ https://github.com/mlbli/Craft
           element.classList.toggle(item);
         }
       } else {
-        if (this.hasClass(item)) {
-          this.removeClass(item);
-        } else {
-          this.removeClass(item);
+        wrappedElement = new DOM(element);
+        for (_j = 0, _len1 = classes.length; _j < _len1; _j++) {
+          item = classes[_j];
+          if (wrappedElement.hasClass(item)) {
+            wrappedElement.removeClass(item);
+          } else {
+            wrappedElement.addClass(item);
+          }
         }
       }
       return this;
@@ -946,7 +943,7 @@ https://github.com/mlbli/Craft
         if (eventListener) {
           element.removeEventListener(item, handler);
         } else {
-          element.dettachEvent("on" + item, handler);
+          element.detachEvent("on" + item, handler);
         }
       }
       return this;
@@ -1044,7 +1041,7 @@ https://github.com/mlbli/Craft
     extend: extend,
     AJAX: AJAX,
     toArray: $A,
-    version: "0.1.3"
+    version: "0.1.4"
   });
 
   extend(window, {

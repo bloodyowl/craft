@@ -83,7 +83,8 @@ extend Array::, ->
       array = @
       result = []
       for i in array
-         result.push(i) if values.indexOf(i) is -1      
+         result.push(i) if values.indexOf(i) is -1
+      result
 
    forEach: forEach,
    clone: clone,

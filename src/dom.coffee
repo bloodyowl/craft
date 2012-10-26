@@ -206,9 +206,9 @@ extend DOM::, ->
       if classList
       then element.classList.add item for item in classes
       else 
-         actualClasses = @classNames()
+         actualClasses = new DOM(element).classNames()
          for item in classes
-            continue if actualClasses.indexOf item isnt -1 
+            continue if actualClasses.indexOf(item) isnt -1 
             actualClasses.push item
          element.className = actualClasses.join(" ")
       @
@@ -218,7 +218,7 @@ extend DOM::, ->
       classes = $A classes
       if classList
       then element.classList.remove item for item in classes
-      else element.className = @classNames().difference(classes).join(" ")
+      else element.className = new DOM(element).classNames().difference(classes).join(" ")
       @
       
    toggleClass = (classes) ->
@@ -227,7 +227,9 @@ extend DOM::, ->
       if classList
       then element.classList.toggle item for item in classes
       else 
-         if @hasClass item then @removeClass item else @removeClass item
+         wrappedElement = new DOM(element)
+         for item in classes
+            if wrappedElement.hasClass item then wrappedElement.removeClass item else wrappedElement.addClass item
       @
    
    getValue = ->
@@ -306,7 +308,7 @@ extend DOM::, ->
       for item in events
          if eventListener
          then element.removeEventListener item, handler 
-         else element.dettachEvent "on#{item}", handler
+         else element.detachEvent "on#{item}", handler
       @
    
    invoke = (method, args ...) ->
