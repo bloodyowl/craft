@@ -27,6 +27,23 @@ a:hover, a:focus{
 a:active{
    color: #000;
 }
+#share{
+   position: absolute;
+   bottom: 1em;
+   right: 0;
+   background: #fff;
+   border: 1px solid #ccc;
+   padding: .4em;
+   border-radius: .2em;
+   box-shadow: 0 .1em .3em rgba(0,0,0,.1);
+}
+#share a{
+   font-weight: 700;
+   font-size: 1.2em;
+   display: inline-block;
+   margin: 0 1em;
+   text-decoration: none;
+}
 nav a.active{
    color: #fff;
    border-bottom: none;
@@ -46,6 +63,9 @@ body {
 header{
    color: #000;
    text-align: left;
+}
+
+header .width{
    overflow: hidden;
 }
 

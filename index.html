@@ -32,6 +32,11 @@
         <div class="width">
             <h1>Craft<span>.js</span> <i>Small but powerful JavaScript framework</i></h1>
             <p>Go and play with the console!</p>
+            <nav id="share">
+            <a href="http://twitter.com/?status=Craft.js%20%E2%80%94%20Small%20but%20powerful%20JavaScript%20framework%20http%3A%2F%2Fmlb.tl%2FKQrV%20via%20%40_mlb">Tweet it</a>
+            <a href="http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fmlb.tl%2FKQrV">Share it</a>
+            <a href="https://plus.google.com/share?url=http%3A%2F%2Fmlb.tl%2FKQrV">Plus one</a>
+            </nav>
         </div>
         
     </header>
@@ -83,5 +88,8 @@ coffee -j ../craft.js -c core array hash function string dom browser</code></pre
             </article>
         </div>
         <script type="text/javascript" src="https://raw.github.com/mlbli/Craft/master/craft.js"></script>
+        <script type="text/javascript">
+        DOM.getById("share").children().invoke(DOM.prototype.listen, "click", function(e){ Event.stop(e); window.open(this.href, "", "width=640, height=280")})
+        </script>
 </body>
 </html>
