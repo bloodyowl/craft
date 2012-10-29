@@ -116,6 +116,9 @@ extend DOM::, ->
       _get(@)[key] = value
       @
    
+   getElement = (number, end) ->
+      return new DOM(@get(number))
+   
    clone = (bool) ->
       new DOM(_get(@).cloneNode(bool))
    
@@ -350,6 +353,7 @@ extend DOM::, ->
    prependTo: prependTo,
    css: css,
    children: children,
+   getElement: getElement,
    parent: parent,
    siblings: siblings,
    classNames: classNames,

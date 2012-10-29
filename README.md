@@ -43,9 +43,11 @@ To run the unit tests, run a local server on the cloned repository and reach `/t
 
 ## Changelog
 
+**29/10/2012** : Added `DOM#getElement`  method
+
 **26/10/2012** : Fixed IE issues
 
-**24/10/2012** : Fixed DOM#serialize issue
+**24/10/2012** : Fixed `DOM#serialize` issue
 
 **18/10/2012** : 
 

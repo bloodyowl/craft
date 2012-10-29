@@ -634,7 +634,7 @@ https://github.com/mlbli/Craft
        Shorthand to unwrap DOM instances
     */
 
-    var addClass, appendTo, children, classNames, clone, css, empty, get, getAttr, getByClass, getById, getByTag, getValue, hasClass, insert, invoke, listen, parent, prependTo, remove, removeClass, serialize, set, setAttr, setValue, siblings, stopListening, toggleClass, _extract, _get;
+    var addClass, appendTo, children, classNames, clone, css, empty, get, getAttr, getByClass, getById, getByTag, getElement, getValue, hasClass, insert, invoke, listen, parent, prependTo, remove, removeClass, serialize, set, setAttr, setValue, siblings, stopListening, toggleClass, _extract, _get;
     _get = function(elements) {
       if (elements instanceof DOM) {
         return elements._;
@@ -662,6 +662,9 @@ https://github.com/mlbli/Craft
     set = function(key, value) {
       _get(this)[key] = value;
       return this;
+    };
+    getElement = function(number, end) {
+      return new DOM(this.get(number));
     };
     clone = function(bool) {
       return new DOM(_get(this).cloneNode(bool));
@@ -994,6 +997,7 @@ https://github.com/mlbli/Craft
       prependTo: prependTo,
       css: css,
       children: children,
+      getElement: getElement,
       parent: parent,
       siblings: siblings,
       classNames: classNames,

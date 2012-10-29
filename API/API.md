@@ -452,7 +452,11 @@ myDOMElement.children()  // -> DOMchildren
 ```
 Returns the children of a given element. 
 
- 
+## getElement
+```js
+myDOMElements.getElement(n)  // -> DOMElement
+```
+Returns a chain able element corresponding to the nth element of the list.  
 
 ## getValue
 ```js
