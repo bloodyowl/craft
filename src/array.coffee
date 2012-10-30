@@ -8,7 +8,7 @@ extend Array::, ->
    ###
    Faster-than-native [].forEach polyfill 
    ###
-   forEach = (fn, context = null) ->
+   forEach = (fn, context) ->
       array = @
       fn.call(context, i, _i, array) for i in array
       array
@@ -20,7 +20,7 @@ extend Array::, ->
    ###
    ECMAScript 5th Edition Methods
    ###  
-   map = (fn, context = null) ->
+   map = (fn, context) ->
       array = @
       mapped = []
       for i in array
@@ -28,14 +28,14 @@ extend Array::, ->
       mapped
       
 
-   filter = (fn, context = null)->
+   filter = (fn, context)->
       array = @
       filtered = []
       for i in array
         filtered.push(i) if fn.call(context, i, _i, array)
       filtered
       
-   reduce = (fn, context = null) ->
+   reduce = (fn, context) ->
       array = @
       i = 0
       result = array[i]

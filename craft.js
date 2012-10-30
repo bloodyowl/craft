@@ -141,9 +141,6 @@ https://github.com/mlbli/Craft
     var clean, clone, difference, filter, forEach, indexOf, intersect, invoke, isEmpty, map, pluck, reduce;
     forEach = function(fn, context) {
       var array, i, _i, _len;
-      if (context == null) {
-        context = null;
-      }
       array = this;
       for (_i = 0, _len = array.length; _i < _len; _i++) {
         i = array[_i];
@@ -160,9 +157,6 @@ https://github.com/mlbli/Craft
 
     map = function(fn, context) {
       var array, i, mapped, _i, _len;
-      if (context == null) {
-        context = null;
-      }
       array = this;
       mapped = [];
       for (_i = 0, _len = array.length; _i < _len; _i++) {
@@ -173,9 +167,6 @@ https://github.com/mlbli/Craft
     };
     filter = function(fn, context) {
       var array, filtered, i, _i, _len;
-      if (context == null) {
-        context = null;
-      }
       array = this;
       filtered = [];
       for (_i = 0, _len = array.length; _i < _len; _i++) {
@@ -188,9 +179,6 @@ https://github.com/mlbli/Craft
     };
     reduce = function(fn, context) {
       var array, i, result;
-      if (context == null) {
-        context = null;
-      }
       array = this;
       i = 0;
       result = array[i];
