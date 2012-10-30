@@ -177,13 +177,13 @@ https://github.com/mlbli/Craft
       }
       return filtered;
     };
-    reduce = function(fn, context) {
+    reduce = function(fn) {
       var array, i, result;
       array = this;
       i = 0;
       result = array[i];
       while (++i < array.length) {
-        result = fn.call(context, result, array[i], i, array);
+        result = fn(result, array[i], i, array);
       }
       return result;
     };

@@ -35,12 +35,12 @@ extend Array::, ->
         filtered.push(i) if fn.call(context, i, _i, array)
       filtered
       
-   reduce = (fn, context) ->
+   reduce = (fn) ->
       array = @
       i = 0
       result = array[i]
       while ++i < array.length
-         result = fn.call(context, result, array[i], i, array)
+         result = fn(result, array[i], i, array)
       result
       
    indexOf = (search, start = 0) ->
