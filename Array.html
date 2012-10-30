@@ -50,7 +50,7 @@
             <article>
                 <h1>Array</h1>
 <h2>Array#forEach</h2>
-<pre><code class="lang-js">[1,2,3,4,5,6].forEach(function(item, index, array){}) // -&gt; Array</code></pre>
+<pre><code class="lang-js">[1,2,3,4,5,6].forEach(function(item, index, array){}[, context]) // -&gt; Array</code></pre>
 <p>Calls the given function for each item present in the Array.  
 
 </p>
@@ -60,17 +60,17 @@
 
 </p>
 <h2>Array#map</h2>
-<pre><code class="lang-js">[1,2,3].map(function(item, index, array){}) // -&gt; new Array</code></pre>
+<pre><code class="lang-js">[1,2,3].map(function(item, index, array){}[, context]) // -&gt; new Array</code></pre>
 <p>Replaces the value of each item with the value returned by the function. 
 
 </p>
 <h2>Array#filter</h2>
-<pre><code class="lang-js">[1,2,3].filter(function(item, index, array){}) // -&gt; new Array</code></pre>
+<pre><code class="lang-js">[1,2,3].filter(function(item, index, array){}[, context]) // -&gt; new Array</code></pre>
 <p>Returns a new Array from the source after having removed every iteration of the function that returned false. 
 
 </p>
 <h2>Array#reduce</h2>
-<pre><code class="lang-js">[1,2,3].reduce(function(item, nextItem, index, array){}) // -&gt; object</code></pre>
+<pre><code class="lang-js">[1,2,3].reduce(function(item, nextItem, index, array){}[, context]) // -&gt; object</code></pre>
 <p>Iterates over the array and returns the last value returned by the function.
 
 </p>
