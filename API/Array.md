@@ -3,7 +3,7 @@
 ## Array#forEach
 
 ```js
-[1,2,3,4,5,6].forEach(function(item, index, array){}) // -> Array
+[1,2,3,4,5,6].forEach(function(item, index, array){}[, context]) // -> Array
 ```
 
 Calls the given function for each item present in the Array.  
@@ -19,7 +19,7 @@ Returns a safe-to-modify Array from a given source.
 ## Array#map
 
 ```js
-[1,2,3].map(function(item, index, array){}) // -> new Array
+[1,2,3].map(function(item, index, array){}[, context]) // -> new Array
 ```
 
 Replaces the value of each item with the value returned by the function. 
@@ -27,7 +27,7 @@ Replaces the value of each item with the value returned by the function.
 ## Array#filter
 
 ```js 
-[1,2,3].filter(function(item, index, array){}) // -> new Array
+[1,2,3].filter(function(item, index, array){}[, context]) // -> new Array
 ```
 
 Returns a new Array from the source after having removed every iteration of the function that returned false. 
@@ -35,7 +35,7 @@ Returns a new Array from the source after having removed every iteration of the 
 ## Array#reduce
 
 ```js
-[1,2,3].reduce(function(item, nextItem, index, array){}) // -> object
+[1,2,3].reduce(function(item, nextItem, index, array){}[, context]) // -> object
 ```
 
 Iterates over the array and returns the last value returned by the function.

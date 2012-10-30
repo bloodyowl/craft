@@ -8,9 +8,9 @@ extend Array::, ->
    ###
    Faster-than-native [].forEach polyfill 
    ###
-   forEach = (fn) ->
+   forEach = (fn, context = null) ->
       array = @
-      fn i, _i, array for i in array
+      fn.call(context, i, _i, array) for i in array
       array
       
       
@@ -20,27 +20,27 @@ extend Array::, ->
    ###
    ECMAScript 5th Edition Methods
    ###  
-   map = (fn) ->
+   map = (fn, context = null) ->
       array = @
       mapped = []
       for i in array
-         mapped[_i] = fn(i, _i, array) 
+         mapped[_i] = fn.call(context, i, _i, array) 
       mapped
       
 
-   filter = (fn)->
+   filter = (fn, context = null)->
       array = @
       filtered = []
       for i in array
-        filtered.push(i) if fn i, _i, array 
+        filtered.push(i) if fn.call(context, i, _i, array)
       filtered
       
-   reduce = (fn) ->
+   reduce = (fn, context = null) ->
       array = @
       i = 0
       result = array[i]
       while ++i < array.length
-         result = fn result, array[i], i, array
+         result = fn.call(context, result, array[i], i, array)
       result
       
    indexOf = (search, start = 0) ->

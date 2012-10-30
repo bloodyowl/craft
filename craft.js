@@ -139,12 +139,15 @@ https://github.com/mlbli/Craft
     */
 
     var clean, clone, difference, filter, forEach, indexOf, intersect, invoke, isEmpty, map, pluck, reduce;
-    forEach = function(fn) {
+    forEach = function(fn, context) {
       var array, i, _i, _len;
+      if (context == null) {
+        context = null;
+      }
       array = this;
       for (_i = 0, _len = array.length; _i < _len; _i++) {
         i = array[_i];
-        fn(i, _i, array);
+        fn.call(context, i, _i, array);
       }
       return array;
     };
@@ -155,35 +158,44 @@ https://github.com/mlbli/Craft
        ECMAScript 5th Edition Methods
     */
 
-    map = function(fn) {
+    map = function(fn, context) {
       var array, i, mapped, _i, _len;
+      if (context == null) {
+        context = null;
+      }
       array = this;
       mapped = [];
       for (_i = 0, _len = array.length; _i < _len; _i++) {
         i = array[_i];
-        mapped[_i] = fn(i, _i, array);
+        mapped[_i] = fn.call(context, i, _i, array);
       }
       return mapped;
     };
-    filter = function(fn) {
+    filter = function(fn, context) {
       var array, filtered, i, _i, _len;
+      if (context == null) {
+        context = null;
+      }
       array = this;
       filtered = [];
       for (_i = 0, _len = array.length; _i < _len; _i++) {
         i = array[_i];
-        if (fn(i, _i, array)) {
+        if (fn.call(context, i, _i, array)) {
           filtered.push(i);
         }
       }
       return filtered;
     };
-    reduce = function(fn) {
+    reduce = function(fn, context) {
       var array, i, result;
+      if (context == null) {
+        context = null;
+      }
       array = this;
       i = 0;
       result = array[i];
       while (++i < array.length) {
-        result = fn(result, array[i], i, array);
+        result = fn.call(context, result, array[i], i, array);
       }
       return result;
     };
@@ -1045,7 +1057,7 @@ https://github.com/mlbli/Craft
     extend: extend,
     AJAX: AJAX,
     toArray: $A,
-    version: "0.1.4"
+    version: "0.1.5"
   });
 
   extend(window, {
