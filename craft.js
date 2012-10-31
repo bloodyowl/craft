@@ -1027,7 +1027,7 @@ https://github.com/mlbli/Craft
     userAgent = window.navigator.userAgent.toLowerCase();
     className = [];
     that.UA = userAgent;
-    $A("Chrome Safari Firefox IE IE6 IE7 IE8 Opera Konqueror iPhone iPad iPod Android").forEach(function(item) {
+    $A("Webkit Firefox IE IE6 IE7 IE8 Opera Konqueror iPhone iPad iPod Android").forEach(function(item) {
       var $item, test;
       $item = item.toLowerCase();
       test = new RegExp($item.replace(/[6-8]/, function(m) {
@@ -1049,7 +1049,7 @@ https://github.com/mlbli/Craft
     extend: extend,
     AJAX: AJAX,
     toArray: $A,
-    version: "0.1.6"
+    version: "0.1.7"
   });
 
   extend(window, {

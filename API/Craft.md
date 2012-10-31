@@ -39,8 +39,7 @@ Contains the following properties :
 
 ```
 UA // lowerCase userAgent
-isChrome // boolean
-isSafari // boolean
+isWebkit // boolean
 isFirefox // boolean
 isIE // boolean
 isIE6 // boolean
