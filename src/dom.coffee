@@ -143,6 +143,10 @@ extend DOM::, ->
       if typeOf(object) is "string"
          element.appendChild object.toElement()
          return @
+         
+      if object instanceof DOM
+         element.appendChild _get(object)
+         return @
 
       top = object.top
       bottom = object.bottom

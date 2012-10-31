@@ -695,6 +695,10 @@ https://github.com/mlbli/Craft
         element.appendChild(object.toElement());
         return this;
       }
+      if (object instanceof DOM) {
+        element.appendChild(_get(object));
+        return this;
+      }
       top = object.top;
       bottom = object.bottom;
       before = object.before;
@@ -1045,7 +1049,7 @@ https://github.com/mlbli/Craft
     extend: extend,
     AJAX: AJAX,
     toArray: $A,
-    version: "0.1.5"
+    version: "0.1.6"
   });
 
   extend(window, {

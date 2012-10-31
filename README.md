@@ -43,6 +43,8 @@ To run the unit tests, run a local server on the cloned repository and reach `/t
 
 ## Changelog
 
+**31/10/2012** : Added possibility to pass a DOM object as first argument of `DOM#insert`
+
 **31/10/2012** : Made `Array.prototype` polyfills compatible with ES5
 
 **29/10/2012** : Added `DOM#getElement`  method

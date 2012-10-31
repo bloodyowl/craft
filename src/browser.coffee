@@ -22,7 +22,7 @@ extend Craft,
   extend: extend,
   AJAX: AJAX,
   toArray: $A
-  version : "0.1.5"
+  version : "0.1.6"
 
 extend window,
   Craft: Craft,
