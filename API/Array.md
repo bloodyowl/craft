@@ -35,7 +35,7 @@ Returns a new Array from the source after having removed every iteration of the 
 ## Array#reduce
 
 ```js
-[1,2,3].reduce(function(item, nextItem, index, array){}[, context]) // -> object
+[1,2,3].reduce(function(item, nextItem, index, array){}) // -> object
 ```
 
 Iterates over the array and returns the last value returned by the function.
