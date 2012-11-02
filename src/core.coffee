@@ -34,6 +34,7 @@ extend = (object, source) ->
   return object
 
 nameSpace = (object, key) ->
+  return object[key] if typeOf(key) is "number"
   ns = key.split(".")
   i = 0
   l = ns.length

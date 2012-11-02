@@ -76,6 +76,9 @@ https://github.com/mlbli/Craft
 
   nameSpace = function(object, key) {
     var cache, i, l, ns;
+    if (typeOf(key) === "number") {
+      return object[key];
+    }
     ns = key.split(".");
     i = 0;
     l = ns.length;
