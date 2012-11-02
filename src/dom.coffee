@@ -110,7 +110,6 @@ extend DOM::, ->
 
    get = (key) ->
       return _get(@) if key is undefined or key is null
-      console.log([nameSpace, nameSpace(_get(@), key)])
       nameSpace(_get(@), key)
    
    set = (key, value) ->

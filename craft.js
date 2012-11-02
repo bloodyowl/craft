@@ -669,7 +669,6 @@ https://github.com/mlbli/Craft
       if (key === void 0 || key === null) {
         return _get(this);
       }
-      console.log([nameSpace, nameSpace(_get(this), key)]);
       return nameSpace(_get(this), key);
     };
     set = function(key, value) {
