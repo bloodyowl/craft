@@ -107,6 +107,9 @@ https://github.com/mlbli/Craft
 
   AJAX = function(params) {
     var request, that;
+    if (!(this instanceof AJAX)) {
+      return new AJAX(params);
+    }
     if (!params) {
       return;
     }
@@ -301,6 +304,9 @@ https://github.com/mlbli/Craft
 
   Hash = function(object) {
     var i;
+    if (!(this instanceof Hash)) {
+      return new Hash(object);
+    }
     if (!object) {
       return;
     }
@@ -537,6 +543,9 @@ https://github.com/mlbli/Craft
 
 
   DOM = function(arg) {
+    if (!(this instanceof DOM)) {
+      return new DOM(arg);
+    }
     if (!arg) {
       return DOM.create("div");
     }

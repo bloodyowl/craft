@@ -59,6 +59,7 @@ Craft.AJAX
 ###
 
 AJAX = (params) ->
+  return new AJAX(params) if not (this instanceof AJAX)
   return if not params
   request = if "XMLHttpRequest" of window then new XMLHttpRequest() else ActiveXObject("Microsoft.XMLHTTP")
   that = @

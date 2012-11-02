@@ -43,7 +43,10 @@ To run the unit tests, run a local server on the cloned repository and reach `/t
 
 ## Changelog
 
-**02/11/2012** : Added nesting support for `DOM#get` and `Hash#get` (such as `myEl.get("foo.bar")`)
+**02/11/2012** :
+
+* Added nesting support for `DOM#get` and `Hash#get` (such as `myEl.get("foo.bar")`)
+* Made DOM, AJAX, and Hash constructor invokable without `new` keyword. 
 
 **01/11/2012** : Changed `Craft.Browser.isChrome` and `Craft.Browser.isSafari` to `Craft.Browser.isWebkit`
 

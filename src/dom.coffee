@@ -12,6 +12,7 @@ DOM
 Enables the possibility to extend the DOM without breaking it (window.Element is a mess in IE)
 ###
 DOM = (arg) ->
+   return new DOM(arg) if not (this instanceof DOM)
    return DOM.create "div" if not arg # Creates an empty <div> if arg doesn't exist
    return arg if arg instanceof DOM
    @_ = arg # Wraps the element or Array of Elements inside the "_" property of the created object. 

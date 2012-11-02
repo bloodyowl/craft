@@ -4,6 +4,7 @@ https://github.com/mlbli/Craft
 ###
 
 Hash = (object) ->
+  return new Hash(object) if not (this instanceof Hash)
   return if not object
   for own i of object
     @[i] = object[i]
