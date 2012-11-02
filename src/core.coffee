@@ -32,6 +32,17 @@ extend = (object, source) ->
   source = source() if typeOf(source) is "function"
   object[i] = source[i] for own i of source
   return object
+
+nameSpace = (object, key) ->
+  ns = key.split(".")
+  i = 0
+  l = ns.length
+  cache = object
+  while i < l
+    return if not cache or not cache.hasOwnProperty(ns[i])
+    cache = cache[ns[i]] 
+    i++
+  cache
   
 ###
 Craft.AJAX

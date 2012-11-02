@@ -43,8 +43,7 @@ extend Hash::, ->
     item for own i, item of hash
     
   get = (key)->
-    hash = @
-    hash[key] if hash.hasOwnProperty key
+    nameSpace(@, key)
     
   set = (key, value)->
     hash = @

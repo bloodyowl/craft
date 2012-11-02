@@ -7,7 +7,7 @@ https://github.com/mlbli/Craft
 
 
 (function() {
-  var $A, AJAX, Browser, Craft, DOM, Hash, classList, eventListener, extend, reduceToArray, typeOf,
+  var $A, AJAX, Browser, Craft, DOM, Hash, classList, eventListener, extend, nameSpace, reduceToArray, typeOf,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice;
 
@@ -72,6 +72,22 @@ https://github.com/mlbli/Craft
       object[i] = source[i];
     }
     return object;
+  };
+
+  nameSpace = function(object, key) {
+    var cache, i, l, ns;
+    ns = key.split(".");
+    i = 0;
+    l = ns.length;
+    cache = object;
+    while (i < l) {
+      if (!cache || !cache.hasOwnProperty(ns[i])) {
+        return;
+      }
+      cache = cache[ns[i]];
+      i++;
+    }
+    return cache;
   };
 
   /*
@@ -356,11 +372,7 @@ https://github.com/mlbli/Craft
       return _results;
     };
     get = function(key) {
-      var hash;
-      hash = this;
-      if (hash.hasOwnProperty(key)) {
-        return hash[key];
-      }
+      return nameSpace(this, key);
     };
     set = function(key, value) {
       var hash;
@@ -657,7 +669,8 @@ https://github.com/mlbli/Craft
       if (key === void 0 || key === null) {
         return _get(this);
       }
-      return _get(this)[key];
+      console.log([nameSpace, nameSpace(_get(this), key)]);
+      return nameSpace(_get(this), key);
     };
     set = function(key, value) {
       _get(this)[key] = value;
@@ -1049,7 +1062,7 @@ https://github.com/mlbli/Craft
     extend: extend,
     AJAX: AJAX,
     toArray: $A,
-    version: "0.1.7"
+    version: "0.1.8"
   });
 
   extend(window, {

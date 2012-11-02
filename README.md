@@ -43,6 +43,8 @@ To run the unit tests, run a local server on the cloned repository and reach `/t
 
 ## Changelog
 
+**02/11/2012** : Added nesting support for `DOM#get` and `Hash#get` (such as `myEl.get("foo.bar")`)
+
 **01/11/2012** : Changed `Craft.Browser.isChrome` and `Craft.Browser.isSafari` to `Craft.Browser.isWebkit`
 
 **31/10/2012** : Added possibility to pass a DOM object as first argument of `DOM#insert`
