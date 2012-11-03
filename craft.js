@@ -84,7 +84,7 @@ https://github.com/mlbli/Craft
     l = ns.length;
     cache = object;
     while (i < l) {
-      if (!cache || !cache.hasOwnProperty(ns[i])) {
+      if (!cache || !Object.prototype.hasOwnProperty.call(cache, ns[i])) {
         return;
       }
       cache = cache[ns[i]];

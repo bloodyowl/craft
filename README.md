@@ -43,6 +43,8 @@ To run the unit tests, run a local server on the cloned repository and reach `/t
 
 ## Changelog
 
+**03/11/2012** : Fixed IE issue when using `Hash#get` and `DOM#get` with DOM elements in IE. 
+
 **02/11/2012** :
 
 * Added nesting support for `DOM#get` and `Hash#get` (such as `myEl.get("foo.bar")`)

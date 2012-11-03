@@ -40,7 +40,7 @@ nameSpace = (object, key) ->
   l = ns.length
   cache = object
   while i < l
-    return if not cache or not cache.hasOwnProperty(ns[i])
+    return if not cache or not Object.prototype.hasOwnProperty.call(cache, ns[i])
     cache = cache[ns[i]] 
     i++
   cache
