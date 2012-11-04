@@ -706,7 +706,8 @@ https://github.com/mlbli/Craft
     remove = function() {
       var element;
       element = _get(this);
-      return element.parentNode.removeChild(element);
+      element.parentNode.removeChild(element);
+      return this;
     };
     /*
        DOM insertion

@@ -134,6 +134,7 @@ extend DOM::, ->
    remove = ->
       element = _get(@)
       element.parentNode.removeChild(element)
+      @
    
    ###
    DOM insertion

@@ -26,7 +26,7 @@ Executes the function when the DOM is ready to be manipulated.
 
 ## remove
 ```js
-myDOMElement.remove() 
+myDOMElement.remove() // -> DOM Object (Element)
 ```
 Removes the given element. 
 
