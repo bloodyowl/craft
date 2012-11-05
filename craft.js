@@ -84,7 +84,7 @@ https://github.com/mlbli/Craft
     l = ns.length;
     cache = object;
     while (i < l) {
-      if (Craft.Browser.isFirefox && isEl) {
+      if (isEl && (Craft.Browser.isFirefox || Craft.Browser.isIE)) {
         cache = cache[ns[i]];
         i++;
         continue;

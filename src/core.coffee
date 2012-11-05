@@ -40,7 +40,7 @@ nameSpace = (object, key, isEl) ->
   l = ns.length
   cache = object
   while i < l
-    if Craft.Browser.isFirefox and isEl
+    if isEl and (Craft.Browser.isFirefox or Craft.Browser.isIE) 
       cache = cache[ns[i]] 
       i++
       continue
