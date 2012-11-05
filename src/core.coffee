@@ -33,13 +33,17 @@ extend = (object, source) ->
   object[i] = source[i] for own i of source
   return object
 
-nameSpace = (object, key) ->
+nameSpace = (object, key, isEl) ->
   return object[key] if typeOf(key) is "number"
   ns = key.split(".")
   i = 0
   l = ns.length
   cache = object
   while i < l
+    if Craft.Browser.isFirefox and isEl
+      cache = cache[ns[i]] 
+      i++
+      continue
     return if not cache or not Object.prototype.hasOwnProperty.call(cache, ns[i])
     cache = cache[ns[i]] 
     i++

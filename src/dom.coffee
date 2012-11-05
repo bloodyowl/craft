@@ -111,7 +111,7 @@ extend DOM::, ->
 
    get = (key) ->
       return _get(@) if key is undefined or key is null
-      nameSpace(_get(@), key)
+      nameSpace(_get(@), key, true)
    
    set = (key, value) ->
       _get(@)[key] = value

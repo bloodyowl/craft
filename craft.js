@@ -74,7 +74,7 @@ https://github.com/mlbli/Craft
     return object;
   };
 
-  nameSpace = function(object, key) {
+  nameSpace = function(object, key, isEl) {
     var cache, i, l, ns;
     if (typeOf(key) === "number") {
       return object[key];
@@ -84,6 +84,11 @@ https://github.com/mlbli/Craft
     l = ns.length;
     cache = object;
     while (i < l) {
+      if (Craft.Browser.isFirefox && isEl) {
+        cache = cache[ns[i]];
+        i++;
+        continue;
+      }
       if (!cache || !Object.prototype.hasOwnProperty.call(cache, ns[i])) {
         return;
       }
@@ -681,7 +686,7 @@ https://github.com/mlbli/Craft
       if (key === void 0 || key === null) {
         return _get(this);
       }
-      return nameSpace(_get(this), key);
+      return nameSpace(_get(this), key, true);
     };
     set = function(key, value) {
       _get(this)[key] = value;
