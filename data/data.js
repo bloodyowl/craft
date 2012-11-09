@@ -108,7 +108,7 @@ Docs.parse({
       ],
       "demo" : "[1,2,3,4,5,6,7,8,9,10].intersect([4,6,'foo',9,1])"
     },
-    "#intersect" : {
+    "#difference" : {
       "description" : "Returns a new Array that returns items that are present in <code>myArray</code> but not in <code>otherArray</code>.",
       "usage" : "myArray.difference(otherArray)", 
       "arguments" : [
