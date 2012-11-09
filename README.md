@@ -9,67 +9,16 @@ git clone https://github.com/mlbli/Craft.git
 
 
 ## Build
-If you don't have CoffeeScript, install it through the npm command line
 
 ```
-[sudo] npm install -g coffee-script
-```
-and then 
-
-```
-cd src
-
-coffee -j ../craft.js -c core array hash function string dom browser
+grunt concat
 ```
 
-I recommand the use of **UglifyJS** to minify the scripts. Install it: 
+### Minify
 
 ```
-[sudo] npm install -g uglify-js
+grunt min
 ```
-and then
-
-```
-uglifyjs -o craft-min.js craft.js
-```
-
-## Tests
-
-To run the unit tests, run a local server on the cloned repository and reach `/tests/unit/index.html` (required for `Craft.AJAX`). 
-
-## API
-
-**Browse the** API/ folder. 
-
-## Changelog
-
-**03/11/2012** : Fixed IE issue when using `Hash#get` and `DOM#get` with DOM elements in IE. 
-
-**02/11/2012** :
-
-* Added nesting support for `DOM#get` and `Hash#get` (such as `myEl.get("foo.bar")`)
-* Made DOM, AJAX, and Hash constructor invokable without `new` keyword. 
-
-**01/11/2012** : Changed `Craft.Browser.isChrome` and `Craft.Browser.isSafari` to `Craft.Browser.isWebkit`
-
-**31/10/2012** : Added possibility to pass a DOM object as first argument of `DOM#insert`
-
-**31/10/2012** : Made `Array.prototype` polyfills compatible with ES5
-
-**29/10/2012** : Added `DOM#getElement`  method
-
-**26/10/2012** : Fixed IE issues
-
-**24/10/2012** : Fixed `DOM#serialize` issue
-
-**18/10/2012** : 
-
-* Removed `Function#toHandler` and created `Event.stop(eventObject)` instead. 
-* Fixed `Craft.AJAX` issues. 
-* `Craft.AJAX#send` has been rename to `Craft.AJAX#update`.
-* API created
-
-**17/10/2012** : Initial commit. 
 
 
 ## MIT License
