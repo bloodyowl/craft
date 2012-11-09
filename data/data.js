@@ -547,7 +547,7 @@ Docs.parse({
     }
   },
   "Event" : {
-    "Introduction" : "It is recommanded to read <a href='/docs#!/Element'> the Element section</a> before reading this.",
+    "Introduction" : "It is recommanded to read <a href='docs.htm#!/Element'> the Element section</a> before reading this.",
     "Element#listen" : {
       "description" : "Listen a given <code>event</code> and executes a <code>handler</code> when the event is fired. ",
       "usage" : "myElement.listen(event, handler)", 
@@ -578,7 +578,7 @@ Docs.parse({
     }
   },
   "Selectors" : {
-    "Introduction" : "It is recommanded to read <a href='/docs#!/Element'> the Element section</a> before reading this.",
+    "Introduction" : "It is recommanded to read <a href='docs.htm#!/Element'> the Element section</a> before reading this.",
     "Element.getById" : {
       "description" : "<strong>Alias of</strong> <code>$</code><br><br>Get an element by its <code>id</code>. <br> <strong>Note : </strong>If no element is found, to prevent exceptions, a <code>Element.create('div')</code> is returned. ",
       "usage" : "Element.getById(id) \nmyElement.getById(id)", 
