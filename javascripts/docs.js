@@ -131,7 +131,7 @@ Element.ready(function(){
   })
   
   Element.create("script", {
-    src : "data/data.minified.js",
+    src : "data/data-minified.js",
     type : "text/javascript"
   }).appendTo(document.body)
   
