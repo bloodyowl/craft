@@ -131,7 +131,7 @@ Element.ready(function(){
   })
   
   Element.create("script", {
-    src : "/data/data.js",
+    src : "data/data.js",
     type : "text/javascript"
   }).appendTo(document.body)
   
