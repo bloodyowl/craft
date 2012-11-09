@@ -322,7 +322,7 @@ Docs.parse({
       "arguments" : [
         {"object" : "Object to get type analyzed. "},
         {"output" : "(<code>String</code>) A result from the following strings : " + 
-        "<ul><li><code>'number'</code></li><li><code>'object'</code></li><li><code>'array'</code></li><li><code>'string'</code></li><li><code>'null'</code></li><li><code>'undefined'</code></li><li><code>'function'</code></li><li><code>'boolean'</code></li></ul>"}
+        "<ul><li><code>'number'</code></li><li><code>'regexp'</code></li><li><code>'object'</code></li><li><code>'array'</code></li><li><code>'string'</code></li><li><code>'null'</code></li><li><code>'undefined'</code></li><li><code>'function'</code></li><li><code>'boolean'</code></li></ul>"}
       ],
       "demo" : "Object.typeOf([])"
     },
