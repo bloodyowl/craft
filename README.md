@@ -6,6 +6,9 @@ Craft.js is a lightweight & extensible JavaScript framework that handles much of
 
 Craft is compatible with all of the major browsers. (IE : 6+, Firefox : 3.6+, Safari : 4+, Chrome, Opera : 8+)
 
+## API
+Available on [craftjs.org](http://craftjs.org).
+
 ## Get it 
 
 ```
