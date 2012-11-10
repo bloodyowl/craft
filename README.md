@@ -1,5 +1,10 @@
 # Craft
 
+Craft.js is a lightweight & extensible JavaScript framework that handles much of the boilerplate you want to get rid off. Craft makes JavaScript development much quicker and lets you keep your code clean and performant.
+
+## Compatibility
+
+Craft is compatible with all of the major browsers. (IE : 6+, Firefox : 3.6+, Safari : 4+, Chrome, Opera : 8+)
 
 ## Get it 
 
