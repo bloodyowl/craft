@@ -14,7 +14,7 @@
     var array = []
       , index = start || 0
       , length = list.length
-    for(;index < length; index++) array[index] = list[index]
+    for(;index < length; index++) array.push(list[index])
     return array
   }
   
