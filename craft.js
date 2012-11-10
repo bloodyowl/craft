@@ -13,7 +13,7 @@
     , extend
 
   function typeOf(object){
-    var type = typeof object;
+    var type = typeof object
     if(object instanceof RegExp) return "regexp"
     if(object === null) return "null"
     if(object instanceof Array) return "array"
@@ -458,7 +458,7 @@
     create : function(tag, properties){
       var element = document.createElement(tag)
         , index
-      for(index in properties) if(hasOwn.call(properties, index)) element[index] = properties[index];
+      for(index in properties) if(hasOwn.call(properties, index)) element[index] = properties[index]
       return $(element)
     },
     from : function(string){
@@ -505,7 +505,7 @@
         , parent
         , nextSibling
         , firstChild
-      if(!object) return this;
+      if(!object) return this
       if(typeOf(object) == "string") return self.insert({ bottom : toNodes(object) })
       if(nodeType && (nodeType == 1 || nodeType == 11 || nodeType == 3)) return self.insert({ bottom : object })
       
@@ -683,7 +683,7 @@
       toArray(self.elements).forEach(function(item){
         var value = Element.methods.getValue.call(item)
           , name = item.name
-        if(typeOf(value) == "undefined" || !name) return;
+        if(typeOf(value) == "undefined" || !name) return
         if(name in result) {
           result[name] = [].concat(result[name]).concat(value)
           return

@@ -3,7 +3,7 @@
     , extend
 
   function typeOf(object){
-    var type = typeof object;
+    var type = typeof object
     if(object instanceof RegExp) return "regexp"
     if(object === null) return "null"
     if(object instanceof Array) return "array"
