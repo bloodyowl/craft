@@ -32,10 +32,11 @@
       return filtered 
     }
   
-    function reduce(fn, context){
+    function reduce(fn, initial){
       var self = this
-        , reduced = self[0]
-        , index = 1
+        , hasInit = typeOf(initial) != "undefined"
+        , reduced = hasInit ? initial : self[0]
+        , index = hasInit ? 0 : 1
         , length = self.length
       
       for(;index < length; index++) reduced = fn(reduced, self[index], index, self)    
