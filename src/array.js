@@ -12,7 +12,7 @@
     
     function map(fn, context){
       var self = this
-        , mapped = []
+        , mapped = Array(self.length)
         , index = 0
         , length = self.length
       
@@ -55,9 +55,14 @@
     }
     
     function pluck(property){
-      return this.map(function(item){
-        return item[property]
-      })
+      var self = this
+        , plucked = Array(self.length)
+        , index = 0
+        , length = self.length
+      
+      for(;index < length; index++) plucked[index] = self[index][property]
+      
+      return plucked 
     }
     
     function isEmpty(){
