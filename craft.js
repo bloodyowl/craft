@@ -182,7 +182,7 @@
     
     
     function group(){
-      return this.reduce(function(a,b){ return [].concat(a).concat(b) })
+      return this.reduce(function(a,b){ return a.concat(b) }, [])
     }
     
     return {
