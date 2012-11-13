@@ -1,6 +1,6 @@
 # Craft
 
-Craft.js is a lightweight & extensible JavaScript framework that handles much of the boilerplate you want to get rid off. Craft makes JavaScript development much quicker and lets you keep your code clean and performant.
+Craft.js is a lightweight & extensible JavaScript framework that handles much of the boilerplate you want to get rid of. Craft makes JavaScript development much quicker and lets you keep your code clean and performant.
 
 ## Compatibility
 
