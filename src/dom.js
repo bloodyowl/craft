@@ -79,7 +79,7 @@
     },
     ready : function(func){
       if (/in/.test(document.readyState) || !document.body) (function(){ Element.ready(func) }).delay(0.01)
-      else func()
+      else func.delay(0)
     },
     getById : function(id){
       return $(id)
