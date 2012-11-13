@@ -1,4 +1,4 @@
-  var Craft = Craft || { version : "1.1.1" }
+  var Craft = Craft || { version : "1.1.2" }
     , hasOwn = Object.prototype.hasOwnProperty
     , extend
 
