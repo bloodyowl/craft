@@ -413,15 +413,22 @@
    if(NATIVE_ELEMENT) return element
    else return extend(element, Element.methods)
  }
- 
+
+ extend(Craft, {
+   noConflict : function(){
+     if(window.$ == $) window.Craft.$ = $
+     return $
+   }
+ })
+
  extend(window, {
    $ : $
  })
- 
+
  if(!NATIVE_EVENT) extend(window, {
    Event : {}
  })
- 
+
  extend(Event, {
    stop : function(eventObject){
      eventObject = eventObject || window.event
@@ -434,7 +441,7 @@
      }
    }
  })
- 
+
  function buildNodes(string){
    var el = document.createElement("div")
      , fragment = document.createDocumentFragment()
@@ -448,14 +455,14 @@
    for(;index < length; index++) fragment.appendChild(childNodes[index])
    return fragment
  }
- 
+
  function toNodes(object){
    var nodeType = object.nodeType
    if(typeOf(object) == "string") return buildNodes(object)
    if(nodeType && (nodeType == 1 || nodeType == 11 || nodeType == 3)) return object
    else return document.createTextNode("")
  }
-  
+
   extend(Element, {
     extend : function(object){
       extend(Element.methods, object)
@@ -491,7 +498,7 @@
       }
     }
   })
-  
+
   Element.methods = {
     get : function(key){
       return this[key]
@@ -504,7 +511,7 @@
     insert : function(object){
       var self = this
         , nodeType = object.nodeType
-        , top 
+        , top
         , bottom
         , before
         , after
@@ -514,7 +521,7 @@
       if(!object) return this
       if(typeOf(object) == "string") return self.insert({ bottom : toNodes(object) })
       if(nodeType && (nodeType == 1 || nodeType == 11 || nodeType == 3)) return self.insert({ bottom : object })
-      
+
       if(top = object.top) {
         if(firstChild = self.firstChild){
           self.insertBefore(toNodes(top), firstChild)
@@ -556,7 +563,7 @@
         , childNodes = self.childNodes
         , index = childNodes.length
       while(index--) self.removeChild(childNodes[index])
-      // enable insertBefore with firstChild, event if empty. 
+      // enable insertBefore with firstChild, event if empty.
       self.appendChild(document.createTextNode(""))
       return self
     },
@@ -611,7 +618,7 @@
     addClass : function(classes){
       var self = this
         , index, classNames, item
-      
+
       classes = classes.split(" ")
       index = classes.length
 
@@ -626,14 +633,14 @@
         self.className = classNames.join(" ")
       }
       return self
-    }, 
+    },
     removeClass : function(classes){
       var self = this
         , index
-      
+
       classes = classes.split(" ")
       index = classes.length
-      
+
       if(classList) while(index--) self.classList.remove(classes[index])
       else self.className = self.classNames().difference(classes).join(" ")
       return self
@@ -641,7 +648,7 @@
     toggleClass : function(classes){
       var self = this
         , index, item
-        
+
       classes = classes.split(" ")
       index = classes.length
 
@@ -667,7 +674,7 @@
       }
       if(checkRegExp.test(self.type)) return self.checked ? self.value : undefined
       return self.value
-    }, 
+    },
     setValue : function(value){
       var self = this
         , tag = self.nodeName
@@ -681,7 +688,7 @@
         })
       } else {
         self.value = value
-      } 
+      }
       return self
     },
     serialize : function(){
@@ -699,7 +706,7 @@
         }
       })
       return result
-    }, 
+    },
     listen : function(event, handler){
       var self = this
         , events = event.split(" ")
@@ -739,10 +746,10 @@
       }
     }
   }
-  
+
   Element.extend(Element.methods)
-  
-  
+
+
 
 
   function Browser(){
