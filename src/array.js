@@ -1,48 +1,48 @@
   extend(Array.prototype, function(){
-    
+
     function each(fn, context){
       var self = this
         , index = 0
         , length = self.length
-      
+
       for(;index < length; index++) fn.call(context, self[index], index, self)
-      
-      return self 
+
+      return self
     }
-    
+
     function collect(fn, context){
       var self = this
         , mapped = Array(self.length)
         , index = 0
         , length = self.length
-      
+
       for(;index < length; index++) mapped[index] = fn.call(context, self[index], index, self)
-      
-      return mapped 
+
+      return mapped
     }
-    
+
     function select (fn, context){
       var self = this
         , filtered = []
         , index = 0
         , length = self.length
-      
+
       for(;index < length; index++) if(fn.call(context, self[index], index, self)) filtered.push(self[index])
-      
-      return filtered 
+
+      return filtered
     }
-  
+
     function fold(fn, initial){
       var self = this
-        , hasInit = typeOf(initial) != "undefined"
+        , hasInit = arguments.length != 1
         , reduced = hasInit ? initial : self[0]
         , index = hasInit ? 0 : 1
         , length = self.length
-      
-      for(;index < length; index++) reduced = fn(reduced, self[index], index, self)    
-      return reduced 
+
+      for(;index < length; index++) reduced = fn(reduced, self[index], index, self)
+      return reduced
     }
-    
+
     function find(search, start){
       var self = this
         , index = start || 0
@@ -50,22 +50,22 @@
       for(;index < length; index++) if(self[index] === search) return index
       return -1
     }
-    
+
     function contains(value){
       return !!~this.find(value)
     }
-    
+
     function pluck(property){
       var self = this
         , plucked = Array(self.length)
         , index = 0
         , length = self.length
-      
+
       for(;index < length; index++) plucked[index] = self[index][property]
-      
-      return plucked 
+
+      return plucked
     }
-    
+
     function isEmpty(){
       var self = this
         , index = 0
@@ -73,11 +73,11 @@
       for(;index < length; index++) return false
       return true
     }
-    
+
     function clone(){
       return this.concat()
     }
-    
+
     function clean(){
       var self = this
         , cleaned = []
@@ -92,7 +92,7 @@
       }
       return cleaned
     }
-    
+
     function intersect(values){
       var self = this
         , result = []
@@ -105,7 +105,7 @@
       }
       return result
     }
-    
+
     function difference(values){
       var self = this
         , result = []
@@ -118,7 +118,7 @@
       }
       return result
     }
-    
+
     function invoke(fn){
       var self = this
         , index = 0
@@ -128,12 +128,12 @@
       for(;index < length; index++) result[index] = (typeOf(fn) == "string" ? Element.methods[fn] : fn).apply($(self[index]), args)
       return result
     }
-    
-    
+
+
     function group(){
       return this.fold(function(a,b){ return a.concat(b) }, [])
     }
-    
+
     return {
       each: each,
       clone: clone,

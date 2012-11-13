@@ -1,8 +1,8 @@
 module.exports = function(grunt){
   grunt.initConfig({
     meta : {
-      banner : "/*!\n  Craft.js" + 
-               "\n  1.1.0 \n*/"
+      banner : "/*!\n  Craft.js" +
+               "\n  1.1.1 \n*/"
     },
     concat: {
       dist: {
@@ -23,7 +23,7 @@ module.exports = function(grunt){
         laxcomma: true,
         bitwise: false,
         eqeqeq: false,
-        boss: true, 
+        boss: true,
         evil: true,
         browser: true
       }

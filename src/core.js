@@ -1,4 +1,4 @@
-  var Craft = Craft || { version : "1.1.0" }
+  var Craft = Craft || { version : "1.1.1" }
     , hasOwn = Object.prototype.hasOwnProperty
     , extend
 
@@ -9,7 +9,7 @@
     if(object instanceof Array) return "array"
     return type
   }
-  
+
   function toArray(list, start){
     var array = []
       , index = start || 0
@@ -17,23 +17,22 @@
     for(;index < length; index++) array.push(list[index])
     return array
   }
-  
+
   extend = Object.extend = function(object, source, noCall){
     var index
     if(!noCall && typeOf(source) == "function") source = source()
     for(index in source) if(hasOwn.call(source, index)) object[index] = source[index]
     return object
   }
-  
+
   extend(window, {
     Craft : Craft
   })
-  
+
   extend(Object, {
     typeOf : typeOf
   })
-  
+
   extend(Array, {
     convert : toArray
   })
-  
