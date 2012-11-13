@@ -1,6 +1,6 @@
   extend(Array.prototype, function(){
     
-    function forEach(fn, context){
+    function each(fn, context){
       var self = this
         , index = 0
         , length = self.length
@@ -10,7 +10,7 @@
       return self 
     }
     
-    function map(fn, context){
+    function collect(fn, context){
       var self = this
         , mapped = Array(self.length)
         , index = 0
@@ -21,7 +21,7 @@
       return mapped 
     }
     
-    function filter (fn, context){
+    function select (fn, context){
       var self = this
         , filtered = []
         , index = 0
@@ -32,7 +32,7 @@
       return filtered 
     }
   
-    function reduce(fn, initial){
+    function fold(fn, initial){
       var self = this
         , hasInit = typeOf(initial) != "undefined"
         , reduced = hasInit ? initial : self[0]
@@ -43,7 +43,7 @@
       return reduced 
     }
     
-    function indexOf(search, start){
+    function find(search, start){
       var self = this
         , index = start || 0
         , length = self.length
@@ -52,7 +52,7 @@
     }
     
     function contains(value){
-      return !!~this.indexOf(value)
+      return !!~this.find(value)
     }
     
     function pluck(property){
@@ -131,17 +131,17 @@
     
     
     function group(){
-      return this.reduce(function(a,b){ return a.concat(b) }, [])
+      return this.fold(function(a,b){ return a.concat(b) }, [])
     }
     
     return {
-      forEach: forEach,
+      each: each,
       clone: clone,
-      map: map,
-      filter: filter,
-      reduce: reduce,
+      collect: collect,
+      select: select,
+      fold: fold,
       group: group,
-      indexOf: indexOf,
+      find: find,
       contains: contains,
       pluck: pluck,
       isEmpty: isEmpty,

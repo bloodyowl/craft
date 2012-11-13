@@ -7,7 +7,7 @@
   
     ;("Webkit Firefox IE IE6 IE7 IE8 Opera Konqueror iPhone iPad iPod Android")
       .split(" ")
-      .forEach(function(item){
+      .each(function(item){
         var _item = item.toLowerCase()
           , test = new RegExp(_item.replace(/[6-9]/, " $&")).test(userAgent)
   

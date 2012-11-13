@@ -85,13 +85,13 @@
       return $(id)
     },
     getByTag : function(tag){
-      return toArray(document.getElementsByTagName(tag)).map(function(item){ return $(item)})
+      return toArray(document.getElementsByTagName(tag)).collect(function(item){ return $(item)})
     },
     getByClass : function(klass){
       if("getElementsByClassName" in document){
-        return toArray(document.getElementsByClassName(klass)).map(function(item){ return $(item)})
+        return toArray(document.getElementsByClassName(klass)).collect(function(item){ return $(item)})
       } else {
-        return toArray(document.getElementsByTagName("*")).map(function(item){return $(item) }).filter(function(item){return item.hasClass(klass)})
+        return toArray(document.getElementsByTagName("*")).collect(function(item){return $(item) }).select(function(item){return item.hasClass(klass)})
       }
     }
   })
@@ -175,17 +175,18 @@
         , style = self.style
       if(!object) return style.cssText
       if(typeOf(object) == "function") object = object.call(self, style)
-      Hash(object).forEach(function(item, index){
+      Hash(object).each(function(item, index){
         style[index.camelize()] = typeOf(item) == "number" && item !== 0 ? item + "px" : "" + item
       })
       return self
     },
     getChildren : function(){
       var self = this
-        , result = []
-      toArray(self.children).forEach(function(item){
-        result.push($(item))
-      })
+        , children = self.children
+        , length = children.length
+        , result = Array(length)
+        , index = 0
+      for(;index < length; index++) result[index] = $(children[index])
       return result
     },
     getParent : function(){
@@ -195,7 +196,7 @@
     getSiblings : function(){
       var self = this
         , parent = self.getParent()
-      return parent && parent.getChildren().filter(function(item){
+      return parent && parent.getChildren().select(function(item){
         return item != self
       })
     },
@@ -265,7 +266,7 @@
       if(!formElementsRegExp.test(tag) || self.disabled) return
       if(tag == "SELECT"){
         options = toArray(self.options)
-        if(self.multiple) return options.filter(function(item){return !!item.selected}).pluck("value")
+        if(self.multiple) return options.select(function(item){return !!item.selected}).pluck("value")
         return options[self.selectedIndex].value
       }
       if(checkRegExp.test(self.type)) return self.checked ? self.value : undefined
@@ -277,9 +278,9 @@
       if(!formElementsRegExp.test(tag) || self.disabled) return self
       if(tag == "SELECT"){
         options = toArray(self.options)
-        if(self.multiple) options.forEach(function(item){item.selected = false})
-        ;[].concat(value).forEach(function(item){
-          var index = typeOf(item) == "number" ? item : options.pluck("value").indexOf(item)
+        if(self.multiple) options.each(function(item){item.selected = false})
+        ;[].concat(value).each(function(item){
+          var index = typeOf(item) == "number" ? item : options.pluck("value").find(item)
           if(index > -1 && options.length > index) options[index].selected = true
         })
       } else {
@@ -290,7 +291,7 @@
     serialize : function(){
       var self = this
         , result = new Hash()
-      toArray(self.elements).forEach(function(item){
+      toArray(self.elements).each(function(item){
         var value = Element.methods.getValue.call(item)
           , name = item.name
         if(typeOf(value) == "undefined" || !name) return
@@ -332,13 +333,13 @@
       return $(id)
     },
     getByTag : function(tag){
-      return toArray(this.getElementsByTagName(tag)).map(function(item){ return $(item)})
+      return toArray(this.getElementsByTagName(tag)).collect(function(item){ return $(item)})
     },
     getByClass : function(klass){
       if("getElementsByClassName" in document){
-        return toArray(this.getElementsByClassName(klass)).map(function(item){ return $(item)})
+        return toArray(this.getElementsByClassName(klass)).collect(function(item){ return $(item)})
       } else {
-        return toArray(this.getElementsByTagName("*")).map(function(item){return $(item) }).filter(function(item){return item.hasClass(klass)})
+        return toArray(this.getElementsByTagName("*")).collect(function(item){return $(item) }).select(function(item){return item.hasClass(klass)})
       }
     }
   }

@@ -9,7 +9,7 @@
   
   extend(Hash.prototype, function(){
     
-    function forEach(fn, context){
+    function each(fn, context){
       var self = this
         , index
       for(index in self) if(hasOwn.call(self, index)) fn.call(context, self[index], index, self)
@@ -22,13 +22,13 @@
     
     function keys(){
       var array = []
-      this.forEach(function(item, index){array.push(index)}) 
+      this.each(function(item, index){array.push(index)}) 
       return array
     }
     
     function values(){
       var array = []
-      this.forEach(function(item){ array.push(item) })
+      this.each(function(item){ array.push(item) })
       return array
     }
     
@@ -52,7 +52,7 @@
     function toQueryString(){
       var self = this
         , queryString = ""
-      self.forEach(function(item, index){
+      self.each(function(item, index){
         if(!item) return
         queryString += index + "=" + [].concat(item).join("&" + index + "=") + "&"
       })
@@ -61,7 +61,7 @@
     }
     
     return {
-      forEach: forEach,
+      each: each,
       clone: clone,
       keys: keys,
       values: values,
