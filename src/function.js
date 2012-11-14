@@ -1,5 +1,5 @@
   extend(Function.prototype, {
-    bind : function(context){
+    attach : function(context){
       var self = this
         , args = toArray(arguments, 1)
       return function(){

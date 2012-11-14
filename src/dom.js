@@ -69,8 +69,8 @@
 
   extend(Element, {
     extend : function(object){
-      extend(Element.methods, object)
-      if(NATIVE_ELEMENT) extend(Element.prototype, object)
+      extend(Element.methods, object, false, true)
+      if(NATIVE_ELEMENT) extend(Element.prototype, object, false, true)
     },
     create : function(tag, properties){
       var element = document.createElement(tag)
@@ -282,6 +282,7 @@
     setValue : function(value){
       var self = this
         , tag = self.nodeName
+        , options
       if(!formElementsRegExp.test(tag) || self.disabled) return self
       if(tag == "SELECT"){
         options = toArray(self.options)

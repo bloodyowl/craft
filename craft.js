@@ -1,6 +1,6 @@
 /*!
   Craft.js
-  1.1.2 
+  1.1.3 
 */
 
 
@@ -8,7 +8,7 @@
 ;(function(window, document){
 
 
-  var Craft = Craft || { version : "1.1.2" }
+  var Craft = Craft || { version : "1.1.3" }
     , hasOwn = Object.prototype.hasOwnProperty
     , extend
 
@@ -28,10 +28,10 @@
     return array
   }
 
-  extend = Object.extend = function(object, source, noCall){
+  extend = Object.extend = function(object, source, noCall, noOverwrite){
     var index
     if(!noCall && typeOf(source) == "function") source = source()
-    for(index in source) if(hasOwn.call(source, index)) object[index] = source[index]
+    for(index in source) if(hasOwn.call(source, index) && (noOverwrite ? !(index in object) : true)) object[index] = source[index]
     return object
   }
 
@@ -285,7 +285,7 @@
 
 
   extend(Function.prototype, {
-    bind : function(context){
+    attach : function(context){
       var self = this
         , args = toArray(arguments, 1)
       return function(){
@@ -335,7 +335,7 @@
         return match.toUpperCase()
       })
     }
-  })  
+  }, false, true)  
 
 
   function Ajax(params){
@@ -353,7 +353,7 @@
     self.request.onreadystatechange = function(){
       var readyState = self.request.readyState
         , status, loading, success, error
-      
+    
       if(readyState == 2 && (loading = self.loading)) loading()
       if(readyState == 4 && (status = self.request.status) && ((status >= 200 && status < 300) || status == 304) && (success = self.success)) success(self.request.responseText)
       if(readyState == 4 && (status = self.request.status) && ((status < 200 || status > 300) && status != 304) && (error = self.error)) error(status)
@@ -465,8 +465,8 @@
 
   extend(Element, {
     extend : function(object){
-      extend(Element.methods, object)
-      if(NATIVE_ELEMENT) extend(Element.prototype, object)
+      extend(Element.methods, object, false, true)
+      if(NATIVE_ELEMENT) extend(Element.prototype, object, false, true)
     },
     create : function(tag, properties){
       var element = document.createElement(tag)
@@ -678,6 +678,7 @@
     setValue : function(value){
       var self = this
         , tag = self.nodeName
+        , options
       if(!formElementsRegExp.test(tag) || self.disabled) return self
       if(tag == "SELECT"){
         options = toArray(self.options)

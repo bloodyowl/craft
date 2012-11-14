@@ -1,4 +1,4 @@
-  var Craft = Craft || { version : "1.1.2" }
+  var Craft = Craft || { version : "1.1.3" }
     , hasOwn = Object.prototype.hasOwnProperty
     , extend
 
@@ -18,10 +18,10 @@
     return array
   }
 
-  extend = Object.extend = function(object, source, noCall){
+  extend = Object.extend = function(object, source, noCall, noOverwrite){
     var index
     if(!noCall && typeOf(source) == "function") source = source()
-    for(index in source) if(hasOwn.call(source, index)) object[index] = source[index]
+    for(index in source) if(hasOwn.call(source, index) && (noOverwrite ? !(index in object) : true)) object[index] = source[index]
     return object
   }
 

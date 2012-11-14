@@ -16,4 +16,4 @@
         return match.toUpperCase()
       })
     }
-  })  
+  }, false, true)  
