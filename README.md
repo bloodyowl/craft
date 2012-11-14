@@ -9,6 +9,9 @@ Craft is compatible with all of the major browsers. (IE : 6+, Firefox : 3.6+, Sa
 ## API
 Available on [craftjs.org](http://craftjs.org).
 
+## Tests
+Available on [craftjs.org/tests](http://craftjs.org/tests).
+
 ## Get it 
 
 ```
@@ -22,7 +25,7 @@ git clone https://github.com/mlbli/Craft.git
 grunt concat
 ```
 
-### Minify
+## Minify
 
 ```
 grunt min
@@ -37,3 +40,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## Acknowledgement
+
+**Prototype.js** for its inspiring API (you can see Craft.js as a *Prototype-lite* even if it doesn't target the same usages). 
