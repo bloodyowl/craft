@@ -26,14 +26,17 @@ asyncTest("Ajax#periodicalUpdate", 1, function(){
 			},
 			success : function(res){
 			  isDone++
+			},
+			error : function(){
+  			isDone++
 			}
-	   }).periodicalUpdate(0.1)
+	   }).periodicalUpdate(1)
 	
 	window.setTimeout(function(){
-		ok(isDone >= 1)
-		window.clearInterval(interval)
+	  window.clearInterval(interval)
+		ok(isDone >= 1, "Passed")
 		start()
-	}, 150)
+	}, 2000)
 	
 })
 
