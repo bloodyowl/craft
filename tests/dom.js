@@ -29,7 +29,7 @@ test("Element#set", function() {
  $(document.createElement("div")).appendTo(appendTo)
 
 
- ok(appendTo.innerHTML == "<div></div>", "Element#appendTo")
+ ok(appendTo.children[0].nodeName == "DIV", "Element#appendTo")
 	 
  })
  
@@ -40,7 +40,7 @@ test("Element#set", function() {
  $(document.createElement("div")).prependTo(prependTo)
 
 
- ok(prependTo.innerHTML == "<div></div>", "Element#prependTo")
+ ok(prependTo.children[0].nodeName == "DIV", "Element#prependTo")
  
  })
  

@@ -8,9 +8,11 @@ asyncTest("Element#listen", function(){
 		ok(true)
 		start()
 	
-	}).click()
+	})
 	
-	
+	Element.ready(function(){
+	  $(el).appendTo(document.body).click()
+  })
 	
 })
 
@@ -32,8 +34,10 @@ asyncTest("Element#stopListening", 1, function(){
 	  start()
 	})	
 	
-	el.click()
-	el.click()
+	Element.ready(function(){
+	  $(el).appendTo(document.body).click()
+	  $(el).click()
+  })
 
 })
 
@@ -54,6 +58,10 @@ asyncTest("Element.stop", 1, function(){
 	  }, 100)
 	})	
 	
-	el.click()
+	Element.ready(function(){
+	  $(el).appendTo(document.body).click()
+  })
+	
+	
 
 })
