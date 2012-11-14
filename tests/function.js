@@ -1,11 +1,11 @@
 test("Function#attach", function() {
 
-  ok((function(a, b){return [this.version, a, b]}).attach(Craft,'function')('bound').join(",") == '1.1.3,function,bound')
+  ok((function(a, b){return [this.version, a, b]}).attach(Craft,'function')('bound').join(",") == '1.1.4,function,bound')
 });
 
-test("Function#curry", function() {
+test("Function#partial", function() {
 
-  ok((function(a, b, c){return [a, b, c]}).curry('function', 'is')('curried').join(",") == "function,is,curried")
+  ok((function(a, b, c){return [a, b, c]}).partial('function', 'is')('curried').join(",") == "function,is,curried")
 });
 
 

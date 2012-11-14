@@ -6,10 +6,10 @@
         return self.apply(context, args.concat(toArray(arguments)))
       }
     },
-    curry : function(){
+    partial : function(){
       var self = this
         , args = toArray(arguments)
-      
+
       return function(){
         return self.apply(this, args.concat(toArray(arguments)))
       }
