@@ -12,7 +12,7 @@ Available on [craftjs.org](http://craftjs.org).
 ## Tests
 Available on [craftjs.org/tests](http://craftjs.org/tests).
 
-## Get it 
+## Get it
 
 ```
 git clone https://github.com/mlbli/Craft.git
@@ -47,19 +47,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Changelog
 
-**14/11/2012** : 
+**15/11/2012** :
+  Added `Element.listen` & `Element.stopListening` to let `window` be listened.
 
-* `Function.prototype` is not overwritten anymore : 
-	* `(function(){}).bind` -> `(function(){}).attach` 
+**14/11/2012** :
 
-* For a better understanding : 
-	* `(function(){}).curry` ->  `(function(){}).partial` 
+* `Function.prototype` is not overwritten anymore :
+	* `(function(){}).bind` -> `(function(){}).attach`
+
+* For a better understanding :
+	* `(function(){}).curry` ->  `(function(){}).partial`
 
 * Unit tests added.
 
-**13/11/2012** : 
+**13/11/2012** :
 
-* `Array.prototype` is not overwritten anymore : 
+* `Array.prototype` is not overwritten anymore :
 
 	* `[].forEach` -> `[].each`
 	* `[].map` -> `[].collect`
@@ -68,18 +71,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	* `[].reduce` -> `[].fold`
 
 * `[].fold` now accepts `undefined` as initial value.
-* `Craft.noConflict` added to stock `$` in `Craft.$` and in any variable if needed. 
+* `Craft.noConflict` added to stock `$` in `Craft.$` and in any variable if needed.
 
-**12/11/2012** : Element ready now acts like an event callback (errors thrown inside don't stop the others callbacks). 
+**12/11/2012** : Element ready now acts like an event callback (errors thrown inside don't stop the others callbacks).
 
 **09/11/2012** : New Element API (check the [docs](http://craftjs.org/docs))
 
-**03/11/2012** : Fixed IE issue when using `Hash#get` and `DOM#get` with DOM elements in IE. 
+**03/11/2012** : Fixed IE issue when using `Hash#get` and `DOM#get` with DOM elements in IE.
 
 **02/11/2012** :
 
 * Added nesting support for `DOM#get` and `Hash#get` (such as `myEl.get("foo.bar")`)
-* Made DOM, AJAX, and Hash constructor invokable without `new` keyword. 
+* Made DOM, AJAX, and Hash constructor invokable without `new` keyword.
 
 **01/11/2012** : Changed `Craft.Browser.isChrome` and `Craft.Browser.isSafari` to `Craft.Browser.isWebkit`
 
@@ -93,11 +96,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 **24/10/2012** : Fixed `DOM#serialize` issue
 
-**18/10/2012** : 
+**18/10/2012** :
 
-* Removed `Function#toHandler` and created `Event.stop(eventObject)` instead. 
-* Fixed `Craft.AJAX` issues. 
+* Removed `Function#toHandler` and created `Event.stop(eventObject)` instead.
+* Fixed `Craft.AJAX` issues.
 * `Craft.AJAX#send` has been rename to `Craft.AJAX#update`.
 * API created
 
-**17/10/2012** : Initial commit.  
+**17/10/2012** : Initial commit.

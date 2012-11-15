@@ -43,12 +43,18 @@
        eventObject.returnValue = false
        eventObject.cancelBubble = true
      }
+   },
+   listen : function(element, event, handler){
+     return Element.methods.listen.call(element, event, handler)
+   },
+   stopListening : function(element, event, handler){
+     return Element.methods.stopListening.call(element, event, handler)
    }
  })
 
  function buildNodes(string){
    var el = document.createElement("div")
-     , fragment = document.createDocumentFragment()
+     , fragment
      , length
      , childNodes
      , index = 0
@@ -56,6 +62,7 @@
    childNodes = toArray(el.childNodes)
    length = childNodes.length
    if(length == 1) return childNodes[0]
+   fragment = document.createDocumentFragment()
    for(;index < length; index++) fragment.appendChild(childNodes[index])
    return fragment
  }
