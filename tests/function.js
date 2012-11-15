@@ -1,6 +1,6 @@
 test("Function#attach", function() {
 
-  ok((function(a, b){return [this.version, a, b]}).attach(Craft,'function')('bound').join(",") == '1.1.4,function,bound')
+  ok((function(a, b){return [this.version, a, b]}).attach({version:"1.1.4"},'function')('bound').join(",") == '1.1.4,function,bound')
 });
 
 test("Function#partial", function() {
