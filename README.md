@@ -48,7 +48,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## Changelog
 
 **15/11/2012** :
-  Added `Element.listen` & `Element.stopListening` to let `window` be listened.
+  Added `Event.listen` & `Event.stopListening` to let `window` be listened.
 
 **14/11/2012** :
 
