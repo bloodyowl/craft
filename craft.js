@@ -8,7 +8,7 @@
 ;(function(window, document){
 
 
-  var Craft = Craft || { version : "1.1.5" }
+  var Craft = Craft || { version : "1.1.6" }
     , hasOwn = Object.prototype.hasOwnProperty
     , extend
 
