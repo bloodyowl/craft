@@ -1,6 +1,6 @@
 /*!
   Craft.js
-  1.1.5 
+  1.1.6 
 */
 
 
@@ -475,7 +475,7 @@
       extend(Element.methods, object, false, true)
       if(NATIVE_ELEMENT) extend(Element.prototype, object, false, true)
     },
-    create : function(tag, properties){
+    make : function(tag, properties){
       var element = document.createElement(tag)
         , index
       for(index in properties) if(hasOwn.call(properties, index)) element[index] = properties[index]

@@ -47,6 +47,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Changelog
 
+**16/11/2012** :
+  Renamed `Element.create` -> `Element.make`. The previous one causes a bug on some versions of IE8.
+
 **15/11/2012** :
   Added `Event.listen` & `Event.stopListening` to let `window` be listened.
 
