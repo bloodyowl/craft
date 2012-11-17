@@ -694,6 +694,8 @@
           var index = typeOf(item) == "number" ? item : options.pluck("value").find(item)
           if(index > -1 && options.length > index) options[index].selected = true
         })
+      } else if (tag == "TEXTAREA"){
+        self.empty().insert(value)
       } else {
         self.value = value
       }
