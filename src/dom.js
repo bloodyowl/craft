@@ -127,31 +127,17 @@
         , before
         , after
         , parent
-        , nextSibling
-        , firstChild
       if(!object) return this
       if(typeOf(object) == "string") return self.insert({ bottom : toNodes(object) })
       if(nodeType && (nodeType == 1 || nodeType == 11 || nodeType == 3)) return self.insert({ bottom : object })
 
-      if(top = object.top) {
-        if(firstChild = self.firstChild){
-          self.insertBefore(toNodes(top), firstChild)
-        } else {
-          self.appendChild(toNodes(top))
-        }
-      }
+      if(top = object.top) self.insertBefore(toNodes(top), self.firstChild)
       if(bottom = object.bottom) self.appendChild(toNodes(bottom))
       if(before = object.before) {
         if(parent = self.parentNode) parent.insertBefore(toNodes(before), self)
       }
       if(after = object.after) {
-        if(parent = self.parentNode) {
-          if(nextSibling = self.nextSibling){
-            parent.insertBefore(toNodes(after), nextSibling)
-          } else {
-            parent.appendChild(toNodes(after))
-          }
-        }
+        if(parent = self.parentNode) parent.insertBefore(toNodes(after), self.nextSibling)
       }
       return self
     },
@@ -174,8 +160,6 @@
         , childNodes = self.childNodes
         , index = childNodes.length
       while(index--) self.removeChild(childNodes[index])
-      // enable insertBefore with firstChild, event if empty.
-      self.appendChild(document.createTextNode(""))
       return self
     },
     remove : function(){
