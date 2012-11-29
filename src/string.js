@@ -15,5 +15,19 @@
       return this.replace(/^\w|\s\w/g, function(match){
         return match.toUpperCase()
       })
+    },
+    compile : function(object) {
+      if(arguments.length > 1) object = toArray(arguments)
+    
+      return this.replace(/\{\{([\w\*\.]*?)\}\}/g, function(path, match){
+        var split = match.split(".")
+        if(typeOf(object) == "string"){
+          if(match == "*") return object
+          else return ""
+        }
+        return split.fold(function(previous, actual){
+          return actual in previous ? previous[actual] : ""
+        }, object)
+      })
     }
   }, false, true)  

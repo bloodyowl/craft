@@ -1,6 +1,6 @@
 /*!
   Craft.js
-  1.1.6 
+  1.1.7 
 */
 
 
@@ -8,7 +8,7 @@
 ;(function(window, document){
 
 
-  var Craft = Craft || { version : "1.1.6" }
+  var Craft = Craft || { version : "1.1.7" }
     , hasOwn = Object.prototype.hasOwnProperty
     , extend
 
@@ -333,6 +333,20 @@
     capitalize : function(){
       return this.replace(/^\w|\s\w/g, function(match){
         return match.toUpperCase()
+      })
+    },
+    compile : function(object) {
+      if(arguments.length > 1) object = toArray(arguments)
+    
+      return this.replace(/\{\{([\w\*\.]*?)\}\}/g, function(path, match){
+        var split = match.split(".")
+        if(typeOf(object) == "string"){
+          if(match == "*") return object
+          else return ""
+        }
+        return split.fold(function(previous, actual){
+          return actual in previous ? previous[actual] : ""
+        }, object)
       })
     }
   }, false, true)  
