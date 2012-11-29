@@ -1,27 +1,40 @@
-  extend(String.prototype, {
-    parseJSON : function(){
+  extend(String.prototype, function(){
+    
+    var _trim = /^\s+|\s+$/g
+      , _camelize = /-\D/g
+      , _capitalize = /^\w|\s\w/g
+      , _compile = /\{\{([\w\*\.]*?)\}\}/g
+    
+    function parseJSON(){
       var self = this
       return "JSON" in window ? JSON.parse(self) : (new Function("return " + self))()
-    },
-    trim : function(){
-      return this.replace(/^\s+|\s+$/g, "")
-    },
-    camelize : function(){
-      return this.replace(/-\D/g, function(match, i){
+    }
+    
+    function trim(){
+      return this.replace(_trim, "")
+    }
+    
+    function camelize(){
+      return this.replace(_camelize, function(match, i){
         return i !== 0 ? match.charAt(1).toUpperCase() : match.charAt(1)
       })
-    },
-    capitalize : function(){
-      return this.replace(/^\w|\s\w/g, function(match){
+    }
+    
+    function capitalize(){
+      return this.replace(_capitalize, function(match){
         return match.toUpperCase()
       })
-    },
-    compile : function(object) {
-      if(arguments.length > 1) object = toArray(arguments)
+    }
     
-      return this.replace(/\{\{([\w\*\.]*?)\}\}/g, function(path, match){
+    function compile(object) {
+      var objectIsString
+      
+      if(arguments.length > 1) object = toArray(arguments)
+      
+      objectIsString = typeOf(object) == "string"
+      return this.replace(_compile, function(path, match){
         var split = match.split(".")
-        if(typeOf(object) == "string"){
+        if(objectIsString){
           if(match == "*") return object
           else return ""
         }
@@ -29,5 +42,13 @@
           return actual in previous ? previous[actual] : ""
         }, object)
       })
+    }
+    
+    return {
+      parseJSON : parseJSON,
+      trim : trim,
+      camelize : camelize,
+      capitalize : capitalize,
+      compile : compile
     }
   }, false, true)  
