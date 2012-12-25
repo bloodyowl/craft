@@ -876,25 +876,27 @@
         window.setTimeout(function(){
           if("error" in self && !oneFailed) self.error(type + " isn't a valid type. ")
           oneFailed = true
-        }, 0)
+        }, 16)
         return
       }
       
       if(type == "function") {
         window.setTimeout(function(){
           push(index, item(), self.callback)
-        }, 0)
+        }, 16)
         return
       }
-      if(type == "string") item = Ajax({url : item})
-      
-      item.set("success", function(res){
-        push(index, res, self.callback)
-      })
-      .set("error", function(res){
-        if("error" in self && !oneFailed) self.error(item.url + " can't be reached.")
-        oneFailed = true
-      })
+      if(item instanceof Ajax) item = item.url
+      if(type == "string") item = Ajax({
+        url : item, 
+        success : function(res){
+          push(index, res, self.callback)
+        },
+        error : function(res){
+          if("error" in self && !oneFailed) self.error(item.url + " can't be reached.")
+          oneFailed = true
+        }
+        })
       item.update()
     })
     return self
