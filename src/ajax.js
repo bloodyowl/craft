@@ -38,7 +38,7 @@
         , status, loading, success, error
 
       if(readyState == 2 && (loading = self.loading)) loading()
-      if(readyState == 4 && (status = self.request.status) && ((status >= 200 && status < 300) || status == 304) && (success = self.success)) success(self.request.responseText)
+      if(readyState == 4 && (status = self.request.status) && ((status >= 200 && status < 300) || status == 304) && (success = self.success)) success(self.request[self.xml ? "responseXML" : "responseText"])
       if(readyState == 4 && (status = self.request.status) + 1 && ((status < 200 || status > 300) && status != 304) && (error = self.error)) error(status)
     }
   }

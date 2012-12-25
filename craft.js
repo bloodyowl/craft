@@ -406,7 +406,7 @@
         , status, loading, success, error
 
       if(readyState == 2 && (loading = self.loading)) loading()
-      if(readyState == 4 && (status = self.request.status) && ((status >= 200 && status < 300) || status == 304) && (success = self.success)) success(self.request.responseText)
+      if(readyState == 4 && (status = self.request.status) && ((status >= 200 && status < 300) || status == 304) && (success = self.success)) success(self.request[self.xml ? "responseXML" : "responseText"])
       if(readyState == 4 && (status = self.request.status) + 1 && ((status < 200 || status > 300) && status != 304) && (error = self.error)) error(status)
     }
   }
@@ -886,9 +886,24 @@
         }, 16)
         return
       }
-      if(item instanceof Ajax) item = item.url
-      if(type == "string") item = Ajax({
-        url : item, 
+      
+      var xml, jsonp, headers, string
+      
+      if(item instanceof Ajax) {
+        xml = item.xml
+        jsonp = item.jsonp
+        headers = item.headers
+        string = item.url
+      } else {
+        if(typeof item == "string") string = item
+        else return
+      }
+      
+      item = Ajax({
+        url : string, 
+        xml : xml,
+        jsonp : jsonp, 
+        headers : headers,
         success : function(res){
           push(index, res, self.callback)
         },
@@ -896,8 +911,7 @@
           if("error" in self && !oneFailed) self.error(item.url + " can't be reached.")
           oneFailed = true
         }
-        })
-      item.update()
+        }).update()
     })
     return self
   }
