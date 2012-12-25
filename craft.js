@@ -916,22 +916,22 @@
     return self
   }
   
-  Defer.prototype.then = function(callback){
-    var self = this
-    self.callback = callback
-    return self
-  }
-  
-  Defer.prototype.fail = function(callback){
-    var self = this
-    self.error = callback
-    return self
-  }
-  
-  Defer.prototype.init = function(callback){
-    callback()
-    return this
-  }
+  extend(Defer.prototype, {
+    then : function(callback){
+      var self = this
+      self.callback = callback
+      return self
+    },
+    fail : function(callback){
+      var self = this
+      self.error = callback
+      return self
+    },
+    init : function(callback){
+      callback()
+      return this
+    }
+  })
   
   window.Defer = Defer
 
