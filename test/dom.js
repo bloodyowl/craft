@@ -152,13 +152,20 @@ test("Element#set", function() {
  test("Element#getValue", function(){
 
 
-	 var select = document.createElement("select")
+	 var select 
 	   , option1 = document.createElement("option")
 	   , option2 = document.createElement("option")
        , option3 = document.createElement("option")
        , value
+       
+    try{
+     select= document.createElement("<select multiple>")
+    } catch (e){
+      select= document.createElement("select")
+      select.multiple = true
+    }
 
-	 select.multiple = true
+	 
 	 option1.selected = true
 	 option1.value = "Foo"
 	 option2.value = "Bar"
@@ -204,13 +211,20 @@ test("Element#set", function() {
   test("Element#setValue", function(){
 
 
-	 var select = document.createElement("select")
+	 var select
 	   , option1 = document.createElement("option")
 	   , option2 = document.createElement("option")
        , option3 = document.createElement("option")
        , value
+       
+      try{
+       select= document.createElement("<select multiple>")
+      } catch (e){
+        select= document.createElement("select")
+        select.multiple = true
+      }
 
-	 select.multiple = true
+
 	 option1.value = "Foo"
 	 option2.value = "Bar"
 	 option3.value = "Baz"

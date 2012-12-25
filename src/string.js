@@ -46,9 +46,9 @@
     
     return {
       parseJSON : parseJSON,
-      trim : trim,
+      trim : String.prototype.trim || trim,
       camelize : camelize,
       capitalize : capitalize,
       compile : compile
     }
-  }, false, true)  
+  })  

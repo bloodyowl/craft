@@ -1,5 +1,28 @@
+  var _external = /\/\//
+
+  function getJSONP(url, done){
+    return function(){
+    
+      var callback = "request" + (+new Date())
+        , script = Element.make("script", {
+          type : "text/javascript",
+          src: url + (!!~url.indexOf("?") ? "&" : "?") + "callback=" + callback
+        })
+    
+      window[callback] = function(object){
+        done(object)
+        script.remove()
+        window[callback] = null
+      }
+    
+     
+        script.appendTo(document.body)
+      }
+    
+  }
+
   function Ajax(params){
-    var request = "XMLHttpRequest" in window ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP")
+    var request = (params.jsonp === true || (_external.test(params.url) && params.jsonp !== false)) ? getJSONP(params.url, params.success) :"XMLHttpRequest" in window ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP")
       , self = this
 
     if(!(self instanceof Ajax)) return new Ajax(params)
@@ -10,7 +33,7 @@
     if(!self.method) self.method = "GET"
     if(typeOf(self.async) != "boolean") self.async = true
 
-    self.request.onreadystatechange = function(){
+    if(typeOf(request) != "function") self.request.onreadystatechange = function(){
       var readyState = self.request.readyState
         , status, loading, success, error
 
@@ -33,6 +56,11 @@
         , query = self.query
         , headers = self.headers
         , index
+        
+      if(typeof request == "function") {
+        request()
+        return self
+      } 
 
       request.open(method, url, async)
 
@@ -44,6 +72,7 @@
 
       request.send(query || null)
       if(!async) return request[xml ? "responseXML" : "responseText"]
+      return self
     },
     periodicalUpdate : function(time){
       var self = this
@@ -51,4 +80,4 @@
     }
   })
 
-  extend(window, { Ajax: Ajax })
+  window.Ajax = Ajax

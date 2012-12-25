@@ -7,6 +7,32 @@ test("Ajax", function() {
   ok(typeof request.request != undefined, "Request created")
 });
 
+test("JSONP", function() {
+  var request = Ajax({url:'//foo.fr/bar'})
+  ok(typeof request.request == "function", "JSONP is detected")
+});
+
+
+test("JSONP can be deactivated", function() {
+  var request = Ajax({url:'//foo.fr/bar', jsonp : false})
+  ok(typeof request.request == "object")
+});
+
+
+
+
+asyncTest("JSONP update", 1, function(){
+  
+  Ajax({url:"http://mlb.li/jsonp/?foo=bar", success: function(res){    
+    ok(typeof res == "object", "JSONP works")
+    start()
+    
+  }}).update()
+  
+
+})
+
+
 test("Ajax#update", function(){
 	
 	ok(Ajax({url:"ajax/index.txt", async: false}).update() == "AJAX passed")

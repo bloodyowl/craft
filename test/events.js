@@ -41,6 +41,56 @@
   
   })
   
+  
+  asyncTest("Element#listen with delegation", function(){
+  
+    var el = document.createElement("div")
+    var subel  = document.createElement("div")
+    el.appendChild(subel)
+  
+    $(el).listen("click", "div", function(){
+  
+      ok(true)
+      start()
+  
+    })
+  
+    Element.ready(function(){
+      $(el).appendTo(document.body)
+      click($(subel))
+    })
+  
+  })
+  
+  asyncTest("Element#listen with delegation (focus & blur bubble)", 2, function(){
+  
+    var el = document.createElement("div")
+    var subel  = document.createElement("input")
+    el.appendChild(subel)
+  
+    $(el).listen("focus", "input", function(){
+  
+      ok(true, "focus")
+      start()
+  
+    })
+    
+    $(el).listen("blur", "input", function(){
+    
+      ok(true, "blur")
+      start()
+    
+    })
+  
+    Element.ready(function(){
+      $(el).appendTo(document.body)
+      $(subel).focus()
+      $(subel).blur()
+      $(el).remove()
+    })
+  
+  })
+  
   asyncTest("Element#stopListening", 1, function(){
   
     var el = document.createElement("div")

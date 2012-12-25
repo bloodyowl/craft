@@ -5,10 +5,9 @@
    , checkRegExp = /checkbox|radio/
    , eventListener = "addEventListener" in window
    , Element = NATIVE_ELEMENT ? window.Element : {}
+   , nativeRemove = document.createElement("div").remove
 
- if(!NATIVE_ELEMENT) extend(window, {
-    Element : Element
- })
+ if(!NATIVE_ELEMENT) window.Element = Element
 
  function $(element) {
    if(!element) return document.createElement("div")
@@ -18,20 +17,14 @@
    else return extend(element, Element.methods)
  }
 
- extend(Craft, {
-   noConflict : function(){
+ Craft.noConflict = function(){
      if(window.$ == $) window.Craft.$ = $
      return $
    }
- })
 
- extend(window, {
-   $ : $
- })
+ window.$ = $
 
- if(!NATIVE_EVENT) extend(window, {
-   Event : {}
- })
+ if(!NATIVE_EVENT) window.Event = {}
 
  extend(Event, {
    stop : function(eventObject){
@@ -44,8 +37,8 @@
        eventObject.cancelBubble = true
      }
    },
-   listen : function(element, event, handler){
-     return Element.methods.listen.call(element, event, handler)
+   listen : function(element, event, selector, handler){
+     return Element.methods.listen.call(element, event, selector, handler)
    },
    stopListening : function(element, event, handler){
      return Element.methods.stopListening.call(element, event, handler)
@@ -76,8 +69,8 @@
 
   extend(Element, {
     extend : function(object){
-      extend(Element.methods, object, false, true)
-      if(NATIVE_ELEMENT) extend(Element.prototype, object, false, true)
+      extend(Element.methods, object)
+      if(NATIVE_ELEMENT) extend(Element.prototype, object)
     },
     make : function(tag, properties){
       var element = document.createElement(tag)
@@ -109,6 +102,42 @@
       }
     }
   })
+  
+  
+  var _splitSelector = /\s*,\s*/
+    , _mustForceBubble = /blur|focus/
+    , _replacements = {
+      "blur" : "focusout",
+      "focus" : "focusin"
+    }
+  
+  function matches(element, selector, ancestor){
+    var result
+      , firstChar = selector.charAt(0)
+    if(!element) return false
+    while(element && "nodeName" in element && element != ancestor){
+      if(firstChar == ".") result = $(element).hasClass(selector.slice(1))
+      else if(firstChar == "#") result = $(element).id == selector.slice(1)
+      else result = element.nodeName.toLowerCase() == selector
+      if(result) return element
+      element = element.parentNode
+    }
+  }
+  
+  function delegate(handler, selector, self){
+    return function _handler(e){
+      e = e || window.event 
+      var target = e.target || e.srcElement
+        , element
+        , selectors = selector.split(_splitSelector)
+        , index = 0
+        , length = selectors.length
+      for(;index < length; index++) if(element = matches(target, selectors[index], self)) {
+        handler(e, $(element), _handler)
+        return
+      }
+    }
+  }
 
   Element.methods = {
     get : function(key){
@@ -162,7 +191,7 @@
       while(index--) self.removeChild(childNodes[index])
       return self
     },
-    remove : function(){
+    remove : nativeRemove || function(){
       var self = this
         , parent
       if(parent = self.parentNode) parent.removeChild(self)
@@ -305,14 +334,25 @@
       })
       return result
     },
-    listen : function(event, handler){
+    listen : function(event, selector, handler){
+      if(!handler) {
+        handler = selector
+        selector = null
+      } else {
+        handler = delegate(handler, selector, this)
+      }
       var self = this
         , events = event.split(" ")
         , index = events.length
         , item
+        , capture
       while(index--){
         item = events[index]
-        if(eventListener) self.addEventListener(item, handler)
+        if(selector && _mustForceBubble.test(item)) {
+          if(eventListener) capture = true
+          else item = _replacements[item]
+        }
+        if(eventListener) self.addEventListener(item, handler, capture)
         else self.attachEvent("on" + item, handler)
       }
       return self

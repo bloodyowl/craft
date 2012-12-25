@@ -18,6 +18,4 @@
     self.toClassName = function(){return className.join(" ")} 
   }
   
-  extend(Craft, {
-    Browser: new Browser()
-  })
+  Craft.Browser = new Browser()

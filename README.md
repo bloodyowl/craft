@@ -10,7 +10,7 @@ Craft is compatible with all of the major browsers. (IE : 6+, Firefox : 3.6+, Sa
 Available on [craftjs.org](http://craftjs.org).
 
 ## Tests
-Available on [craftjs.org/tests](http://craftjs.org/tests).
+Available on [craftjs.org/test](http://craftjs.org/test).
 
 ## Get it
 
@@ -46,6 +46,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 **Prototype.js** for its inspiring API (you can see Craft.js as a *Prototype-lite* even if it doesn't target the same usages).
 
 ## Changelog
+
+**25/12/2012** : 
+  `Defer`, `JSONP` & Event delegation. 
 
 **16/11/2012** :
   Renamed `Element.create` -> `Element.make`. The previous one causes a bug on some versions of IE8.

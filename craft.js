@@ -1,6 +1,6 @@
 /*!
   Craft.js
-  1.1.7 
+  1.2.0 
 */
 
 
@@ -8,7 +8,7 @@
 ;(function(window, document){
 
 
-  var Craft = Craft || { version : "1.1.7" }
+  var Craft = Craft || { version : "1.2.0" }
     , hasOwn = Object.prototype.hasOwnProperty
     , extend
 
@@ -21,6 +21,7 @@
   }
 
   function toArray(list, start){
+    if(!("length" in list)) return []
     var array = []
       , index = start || 0
       , length = list.length
@@ -28,24 +29,16 @@
     return array
   }
 
-  extend = Object.extend = function(object, source, noCall, noOverwrite){
+  extend = Object.extend = function(object, source, noCall){
     var index
     if(!noCall && typeOf(source) == "function") source = source()
-    for(index in source) if(hasOwn.call(source, index) && (noOverwrite ? !(index in object) : true)) object[index] = source[index]
+    for(index in source) if(hasOwn.call(source, index)) object[index] = source[index]
     return object
   }
 
-  extend(window, {
-    Craft : Craft
-  })
-
-  extend(Object, {
-    typeOf : typeOf
-  })
-
-  extend(Array, {
-    convert : toArray
-  })
+  window.Craft = Craft
+  Object.typeOf = typeOf
+  Array.convert = toArray
 
 
 
@@ -365,16 +358,39 @@
     
     return {
       parseJSON : parseJSON,
-      trim : trim,
+      trim : String.prototype.trim || trim,
       camelize : camelize,
       capitalize : capitalize,
       compile : compile
     }
-  }, false, true)  
+  })  
 
+
+  var _external = /\/\//
+
+  function getJSONP(url, done){
+    return function(){
+    
+      var callback = "request" + (+new Date())
+        , script = Element.make("script", {
+          type : "text/javascript",
+          src: url + (!!~url.indexOf("?") ? "&" : "?") + "callback=" + callback
+        })
+    
+      window[callback] = function(object){
+        done(object)
+        script.remove()
+        window[callback] = null
+      }
+    
+     
+        script.appendTo(document.body)
+      }
+    
+  }
 
   function Ajax(params){
-    var request = "XMLHttpRequest" in window ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP")
+    var request = (params.jsonp === true || (_external.test(params.url) && params.jsonp !== false)) ? getJSONP(params.url, params.success) :"XMLHttpRequest" in window ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP")
       , self = this
 
     if(!(self instanceof Ajax)) return new Ajax(params)
@@ -385,7 +401,7 @@
     if(!self.method) self.method = "GET"
     if(typeOf(self.async) != "boolean") self.async = true
 
-    self.request.onreadystatechange = function(){
+    if(typeOf(request) != "function") self.request.onreadystatechange = function(){
       var readyState = self.request.readyState
         , status, loading, success, error
 
@@ -408,6 +424,11 @@
         , query = self.query
         , headers = self.headers
         , index
+        
+      if(typeof request == "function") {
+        request()
+        return self
+      } 
 
       request.open(method, url, async)
 
@@ -419,6 +440,7 @@
 
       request.send(query || null)
       if(!async) return request[xml ? "responseXML" : "responseText"]
+      return self
     },
     periodicalUpdate : function(time){
       var self = this
@@ -426,7 +448,7 @@
     }
   })
 
-  extend(window, { Ajax: Ajax })
+  window.Ajax = Ajax
 
 
  var NATIVE_ELEMENT = "Element" in window
@@ -436,10 +458,9 @@
    , checkRegExp = /checkbox|radio/
    , eventListener = "addEventListener" in window
    , Element = NATIVE_ELEMENT ? window.Element : {}
+   , nativeRemove = document.createElement("div").remove
 
- if(!NATIVE_ELEMENT) extend(window, {
-    Element : Element
- })
+ if(!NATIVE_ELEMENT) window.Element = Element
 
  function $(element) {
    if(!element) return document.createElement("div")
@@ -449,20 +470,14 @@
    else return extend(element, Element.methods)
  }
 
- extend(Craft, {
-   noConflict : function(){
+ Craft.noConflict = function(){
      if(window.$ == $) window.Craft.$ = $
      return $
    }
- })
 
- extend(window, {
-   $ : $
- })
+ window.$ = $
 
- if(!NATIVE_EVENT) extend(window, {
-   Event : {}
- })
+ if(!NATIVE_EVENT) window.Event = {}
 
  extend(Event, {
    stop : function(eventObject){
@@ -475,8 +490,8 @@
        eventObject.cancelBubble = true
      }
    },
-   listen : function(element, event, handler){
-     return Element.methods.listen.call(element, event, handler)
+   listen : function(element, event, selector, handler){
+     return Element.methods.listen.call(element, event, selector, handler)
    },
    stopListening : function(element, event, handler){
      return Element.methods.stopListening.call(element, event, handler)
@@ -507,8 +522,8 @@
 
   extend(Element, {
     extend : function(object){
-      extend(Element.methods, object, false, true)
-      if(NATIVE_ELEMENT) extend(Element.prototype, object, false, true)
+      extend(Element.methods, object)
+      if(NATIVE_ELEMENT) extend(Element.prototype, object)
     },
     make : function(tag, properties){
       var element = document.createElement(tag)
@@ -540,6 +555,42 @@
       }
     }
   })
+  
+  
+  var _splitSelector = /\s*,\s*/
+    , _mustForceBubble = /blur|focus/
+    , _replacements = {
+      "blur" : "focusout",
+      "focus" : "focusin"
+    }
+  
+  function matches(element, selector, ancestor){
+    var result
+      , firstChar = selector.charAt(0)
+    if(!element) return false
+    while(element && "nodeName" in element && element != ancestor){
+      if(firstChar == ".") result = $(element).hasClass(selector.slice(1))
+      else if(firstChar == "#") result = $(element).id == selector.slice(1)
+      else result = element.nodeName.toLowerCase() == selector
+      if(result) return element
+      element = element.parentNode
+    }
+  }
+  
+  function delegate(handler, selector, self){
+    return function _handler(e){
+      e = e || window.event 
+      var target = e.target || e.srcElement
+        , element
+        , selectors = selector.split(_splitSelector)
+        , index = 0
+        , length = selectors.length
+      for(;index < length; index++) if(element = matches(target, selectors[index], self)) {
+        handler(e, $(element), _handler)
+        return
+      }
+    }
+  }
 
   Element.methods = {
     get : function(key){
@@ -593,7 +644,7 @@
       while(index--) self.removeChild(childNodes[index])
       return self
     },
-    remove : function(){
+    remove : nativeRemove || function(){
       var self = this
         , parent
       if(parent = self.parentNode) parent.removeChild(self)
@@ -736,14 +787,25 @@
       })
       return result
     },
-    listen : function(event, handler){
+    listen : function(event, selector, handler){
+      if(!handler) {
+        handler = selector
+        selector = null
+      } else {
+        handler = delegate(handler, selector, this)
+      }
       var self = this
         , events = event.split(" ")
         , index = events.length
         , item
+        , capture
       while(index--){
         item = events[index]
-        if(eventListener) self.addEventListener(item, handler)
+        if(selector && _mustForceBubble.test(item)) {
+          if(eventListener) capture = true
+          else item = _replacements[item]
+        }
+        if(eventListener) self.addEventListener(item, handler, capture)
         else self.attachEvent("on" + item, handler)
       }
       return self
@@ -781,6 +843,83 @@
 
 
 
+  
+  var slice = [].slice
+  
+  function makePusher(array, length){
+    return function(index, value, callback){
+      var i = 0
+      array[index] = value
+      if(array.length == length) {
+        for(;i < length; i++) if(array[i] === undefined) return 
+        if(callback) callback.apply(null, array)
+      } 
+    }
+  }
+  
+  function Defer(){
+    var args = slice.call(arguments)
+      , self = this
+      , i = 0
+      , length = args.length
+      , item
+      , stack = self.stack = []
+      , push = makePusher(stack, length)
+      , oneFailed = false
+      
+    if(!(self instanceof Defer)) return Defer.apply(new Defer(), arguments)
+    
+    args.each(function(item, index){
+      
+      var type = typeof item
+      if(type != "object" && type != "string" && type != "function") {
+        window.setTimeout(function(){
+          if("error" in self && !oneFailed) self.error(type + " isn't a valid type. ")
+          oneFailed = true
+        }, 0)
+        return
+      }
+      
+      if(type == "function") {
+        window.setTimeout(function(){
+          push(index, item(), self.callback)
+        }, 0)
+        return
+      }
+      if(type == "string") item = Ajax({url : item})
+      
+      item.set("success", function(res){
+        push(index, res, self.callback)
+      })
+      .set("error", function(res){
+        if("error" in self && !oneFailed) self.error(item.url + " can't be reached.")
+        oneFailed = true
+      })
+      item.update()
+    })
+    return self
+  }
+  
+  Defer.prototype.then = function(callback){
+    var self = this
+    self.callback = callback
+    return self
+  }
+  
+  Defer.prototype.fail = function(callback){
+    var self = this
+    self.error = callback
+    return self
+  }
+  
+  Defer.prototype.init = function(callback){
+    callback()
+    return this
+  }
+  
+  window.Defer = Defer
+
+
   function Browser(){
     var self = this
       , userAgent = window.navigator.userAgent.toLowerCase()
@@ -801,9 +940,7 @@
     self.toClassName = function(){return className.join(" ")} 
   }
   
-  extend(Craft, {
-    Browser: new Browser()
-  })
+  Craft.Browser = new Browser()
 
 
 })(this, this.document)
