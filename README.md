@@ -31,6 +31,8 @@ grunt min
 
 ## Test
 
+Requires PhantomJS. 
+
 ```
 $ grunt test
 Running "server" task
