@@ -451,7 +451,7 @@
   window.Ajax = Ajax
 
 
- var NATIVE_ELEMENT = "Element" in window
+ var NATIVE_ELEMENT = !!document.createElement("div").constructor
    , NATIVE_EVENT = "Event" in window
    , classList = "classList" in document.createElement("i")
    , formElementsRegExp = /SELECT|INPUT|TEXTAREA|BUTTON/
