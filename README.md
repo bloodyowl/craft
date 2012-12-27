@@ -73,7 +73,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	* `[].forEach` -> `[].each`
 	* `[].map` -> `[].collect`
 	* `[].filter` -> `[].select`
-	* `[].indexOf` -> `[].map`
+	* `[].indexOf` -> `[].find`
 	* `[].reduce` -> `[].fold`
 
 * `[].fold` now accepts `undefined` as initial value.
