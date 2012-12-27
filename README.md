@@ -9,10 +9,7 @@ Craft is compatible with all of the major browsers. (IE : 6+, Firefox : 3.6+, Sa
 ## API
 Available on [craftjs.org](http://craftjs.org).
 
-## Tests
-Available on [craftjs.org/test](http://craftjs.org/test).
-
-## Get it
+## Get Craft
 
 ```
 git clone https://github.com/mlbli/Craft.git
@@ -32,14 +29,21 @@ grunt min
 ```
 
 
-## MIT License
-Copyright (c) 2012, Matthias Le Brun
+## Test
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+```
+$ grunt test
+Running "server" task
+Starting static web server on port 8000.
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+Running "qunit:all" (qunit) task
+Testing test/..............................................................................OK
+>> 139 assertions passed (3204ms)
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Done, without errors.
+```
+
+Available on [craftjs.org/test](http://craftjs.org/test).
 
 ## Acknowledgement
 
