@@ -1,6 +1,6 @@
 /*!
   Craft.js
-  1.2.0 
+  1.2.1 
 */
 
 
@@ -8,7 +8,7 @@
 ;(function(window, document){
 
 
-  var Craft = Craft || { version : "1.2.0" }
+  var Craft = Craft || { version : "1.2.1" }
     , hasOwn = Object.prototype.hasOwnProperty
     , extend
 
@@ -368,17 +368,17 @@
 
   var _external = /\/\//
 
-  function getJSONP(url, done){
+  function getJSONP(url, self){
     return function(){
-    
       var callback = "request" + (+new Date())
+        , success
         , script = Element.make("script", {
           type : "text/javascript",
           src: url + (!!~url.indexOf("?") ? "&" : "?") + "callback=" + callback
         })
     
       window[callback] = function(object){
-        done(object)
+        if(success = self.success) success(object)
         script.remove()
         window[callback] = null
       }
@@ -390,7 +390,7 @@
   }
 
   function Ajax(params){
-    var request = (params.jsonp === true || (_external.test(params.url) && params.jsonp !== false)) ? getJSONP(params.url, params.success || function(){}) :"XMLHttpRequest" in window ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP")
+    var request = (params.jsonp === true || (_external.test(params.url) && params.jsonp !== false)) ? getJSONP(params.url, this) :"XMLHttpRequest" in window ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP")
       , self = this
 
     if(!(self instanceof Ajax)) return new Ajax(params)
@@ -889,29 +889,16 @@
       
       var xml, jsonp, headers, string
       
-      if(item instanceof Ajax) {
-        xml = item.xml
-        jsonp = item.jsonp
-        headers = item.headers
-        string = item.url
-      } else {
-        if(typeof item == "string") string = item
-        else return
-      }
-      
-      item = Ajax({
-        url : string, 
-        xml : xml,
-        jsonp : jsonp, 
-        headers : headers,
-        success : function(res){
+      if(typeof item == "string") item = Ajax({url : item})
+      if(!(item instanceof Ajax)) return
+      item.set("success", function(res){
           push(index, res, self.callback)
-        },
-        error : function(res){
+        })
+        .set("error",function(res){
           if("error" in self && !oneFailed) self.error(item.url + " can't be reached.")
           oneFailed = true
-        }
-        }).update()
+        })
+        .update()
     })
     return self
   }

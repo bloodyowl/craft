@@ -44,29 +44,16 @@
       
       var xml, jsonp, headers, string
       
-      if(item instanceof Ajax) {
-        xml = item.xml
-        jsonp = item.jsonp
-        headers = item.headers
-        string = item.url
-      } else {
-        if(typeof item == "string") string = item
-        else return
-      }
-      
-      item = Ajax({
-        url : string, 
-        xml : xml,
-        jsonp : jsonp, 
-        headers : headers,
-        success : function(res){
+      if(typeof item == "string") item = Ajax({url : item})
+      if(!(item instanceof Ajax)) return
+      item.set("success", function(res){
           push(index, res, self.callback)
-        },
-        error : function(res){
+        })
+        .set("error",function(res){
           if("error" in self && !oneFailed) self.error(item.url + " can't be reached.")
           oneFailed = true
-        }
-        }).update()
+        })
+        .update()
     })
     return self
   }

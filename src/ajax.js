@@ -1,16 +1,16 @@
   var _external = /\/\//
 
-  function getJSONP(url, done){
+  function getJSONP(url, self){
     return function(){
-    
       var callback = "request" + (+new Date())
+        , success
         , script = Element.make("script", {
           type : "text/javascript",
           src: url + (!!~url.indexOf("?") ? "&" : "?") + "callback=" + callback
         })
     
       window[callback] = function(object){
-        done(object)
+        if(success = self.success) success(object)
         script.remove()
         window[callback] = null
       }
@@ -22,7 +22,7 @@
   }
 
   function Ajax(params){
-    var request = (params.jsonp === true || (_external.test(params.url) && params.jsonp !== false)) ? getJSONP(params.url, params.success || function(){}) :"XMLHttpRequest" in window ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP")
+    var request = (params.jsonp === true || (_external.test(params.url) && params.jsonp !== false)) ? getJSONP(params.url, this) :"XMLHttpRequest" in window ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP")
       , self = this
 
     if(!(self instanceof Ajax)) return new Ajax(params)
