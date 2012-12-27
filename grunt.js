@@ -17,6 +17,13 @@ module.exports = function(grunt){
     lint: {
       afterconcat: ['<config:concat.dist.dest>']
     },
+    qunit: {
+      all: ['http://localhost:8000/test/']
+    },
+    server: {
+      port: 8000,
+      base: '.'
+    },
     jshint: {
       options: {
         asi: true,
@@ -29,4 +36,7 @@ module.exports = function(grunt){
       }
     }
   });
+
+  grunt.registerTask('test', 'server qunit');
 }
+
