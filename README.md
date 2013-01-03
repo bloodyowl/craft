@@ -20,16 +20,11 @@ git clone https://github.com/mlbli/Craft.git
 
 ## Build
 
-```
-grunt concat
-```
-
-## Minify
+Builds, lints, minifies, tests. 
 
 ```
-grunt min
+grunt
 ```
-
 
 ## Test
 
