@@ -39,6 +39,6 @@ module.exports = function(grunt){
 
   grunt.registerTask('test', 'server qunit');
   grunt.registerTask('default', 'lint qunit concat min');
-  grunt.registerTask('travis', 'lint qunit');
+  grunt.registerTask('travis', 'lint server qunit');
 }
 
