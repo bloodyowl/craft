@@ -128,7 +128,7 @@
         , result = []
         , method = typeOf(fn) == "string" ? Element.methods[fn] : fn
       
-      if(argsL == 0) for(;index < length; index++) result[index] = method.call($(self[index]))
+      if(argsL === 0) for(;index < length; index++) result[index] = method.call($(self[index]))
       if(argsL == 1) for(;index < length; index++) result[index] = method.call($(self[index]), args[0])
       if(argsL == 2) for(;index < length; index++) result[index] = method.call($(self[index]), args[0], args[1])
       if(argsL == 3) for(;index < length; index++) result[index] = method.call($(self[index]), args[0], args[1], args[2])
