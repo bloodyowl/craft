@@ -6,7 +6,7 @@ module.exports = function(grunt){
     },
     concat: {
       dist: {
-        src: ['<banner>', 'src/before.js', 'src/core.js',  'src/array.js', 'src/hash.js', 'src/function.js', 'src/string.js', 'src/ajax.js', 'src/dom.js', 'src/defer.js', 'src/browser.js', 'src/after.js'],
+        src: ['<banner>', 'src/before.js', 'src/core.js',  'src/array.js', 'src/invoke.js', 'src/hash.js', 'src/function.js', 'src/string.js', 'src/ajax.js', 'src/dom.js', 'src/defer.js', 'src/browser.js', 'src/after.js'],
         dest: 'craft.js',
         separator : '\n\n\n'
       },

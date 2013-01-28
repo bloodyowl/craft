@@ -19,7 +19,7 @@
     "grunt": "~0.3.14"
   },
   "scripts": {
-    "test": "grunt"
+    "test": "grunt travis --verbose"
   },
   "homepage": "http://craftjs.org",
   "license": "MIT"
