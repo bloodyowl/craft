@@ -65,7 +65,8 @@
   asyncTest("Element#listen with delegation (focus & blur bubble)", 2, function(){
   
     var el = document.createElement("div")
-    var subel  = document.createElement("input")
+    var subel = document.createElement("input")
+    
     el.appendChild(subel)
   
     $(el).listen("focus", "input", function(){
