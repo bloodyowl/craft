@@ -122,6 +122,12 @@
     function group(){
       return this.fold(function(a,b){ return a.concat(b) }, [])
     }
+    
+    function compile(string){
+      return this.collect(function(item){
+        return string.compile(item)
+      }).join("")
+    }
 
     return {
       each: each,
@@ -136,6 +142,7 @@
       isEmpty: isEmpty,
       clean: clean,
       intersect: intersect,
+      compile : compile,
       difference: difference
     }
   })
