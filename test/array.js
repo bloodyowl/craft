@@ -167,4 +167,9 @@ test("Array#difference", function() {
   ok(array[0] == 2)
 });
 
+test("Array#compile", function(){
+  
+  ok([1,2,3,4,5,6].compile("<li>Hello {{*}}</li>") == "<li>Hello 1</li><li>Hello 2</li><li>Hello 3</li><li>Hello 4</li><li>Hello 5</li><li>Hello 6</li>")
+  
+})
 

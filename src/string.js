@@ -39,6 +39,10 @@
           else return ""
         }
         return split.fold(function(previous, actual){
+          if(/string|number/.test(typeof previous)) {
+            if(previous !== object) return ""
+            else return previous
+          }
           return actual in previous ? previous[actual] : ""
         }, object)
       })
