@@ -1,26 +1,15 @@
 {
-  "name": "Craft.js",
-  "description": "Small but powerful JavaScript framework",
-  "version": "1.2.2",
-  "maintainers": [
-    {
-      "name": "Matthias Le Brun",
-      "email": "hello@mlb.li",
-      "web": "http://mlb.li"
-    }
-  ],
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/mlbli/craft.git"
-    }
-  ],
-  "devDependencies": {
+  "name": "craft",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "3.0.0rc4",
     "grunt": "~0.3.14"
   },
-  "scripts": {
-    "test": "grunt travis --verbose"
-  },
-  "homepage": "http://craftjs.org",
-  "license": "MIT"
+  "engines" :{
+    "node" : "0.8.11",
+    "npm" : "1.1.65"
+  }
 }
