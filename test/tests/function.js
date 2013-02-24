@@ -82,29 +82,6 @@
 
   })
   
-  asyncTest("Function.prototype.every", function(){
-    
-    expect(3)
-    
-    var index = 0
-      , interval
-    
-    function fn(a, b){
-      index++
-      if(index == 3) {
-        equal(a + " " + b, "foo bar", "Arguments are passed")
-        equal(index, 3, "Function is reapeated")
-        start()
-        window.clearInterval(interval)
-      }
-    }
-    
-    interval = fn.every(0.01, "foo", "bar")
-    
-    ok(typeof interval == "number", "interval id is returned")
-  
-  })
-  
   asyncTest("Function.prototype.debounce", function(){
     
     expect(2)

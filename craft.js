@@ -1267,9 +1267,9 @@ var Arrays = (function(){
   
   function any(fn, ctx){
     var self = this 
-      , length = self.length
+      , l = self.length
       , i = 0
-    for(;i < l; i++) if(fn.call(ctx, item, index, self)) return true
+    for(;i < l; i++) if(fn.call(ctx, self[i], i, self)) return true
     return false
   }
   
@@ -1278,9 +1278,10 @@ var Arrays = (function(){
   
   function all(fn, ctx){
     var self = this 
-      , length = self.length
+      , l = self.length
       , i = 0
-    for(;i < l; i++) if(!fn.call(ctx, item, index, self)) return false
+
+    for(;i < l; i++) if(!fn.call(ctx, self[i], i, self)) return false
     return true
   }
 
@@ -1316,6 +1317,7 @@ var Arrays = (function(){
 
 
 Array.implement(Arrays)
+Object.extend(Array, Object.collect(Arrays, function(a){return function(i){return a.apply(i, [].slice.call(arguments, 1))}}))
 
  /*
     Array.from
@@ -1451,28 +1453,6 @@ var functionMethods = (function(){
   }
 
   /*
-    Function.prototype.every
-    =======
-    Executes a function every `time` seconds
-    =======
-    @arguments {
-      time : duration in seconds
-      arg1[, arg2 …] : first arguments
-    }
-    @output 
-      setInterval id
-  */
-
-
- function every(time){
-    var self = this
-      , args = _arrayFrom(arguments, 1)
-    return window.setInterval(function(){
-      self.apply(undefined, args)
-    }, time * 1000)
-  }
-
-  /*
     Function.prototype.debounce
     =======
     Delays a callback of `time` seconds every time the returned function is executed. 
@@ -1502,7 +1482,6 @@ var functionMethods = (function(){
       attach : attach
     , partial : partial
     , delay : delay
-    , every : every
     , debounce : debounce
   }
 
@@ -1970,6 +1949,8 @@ String.implement(stringMethods)
       })
       match = url.match(_isExternal)
       if(/\.js$/.test(url)) request = Request.getScript(url, uniqResponder)
+      if(/^js\:/.test(url)) request = Request.getScript(url.replace(/^js\:/, ""), uniqResponder)
+      if(/^jsonp\:/.test(url)) request = Request.JSONP(url.replace(/^jsonp\:/, ""), uniqResponder)
       else if(match && match[0] != window.location.host) request = Request.JSONP(url, uniqResponder)
       else request = Request(o)
       self.requests[i] = request
@@ -2142,7 +2123,7 @@ String.implement(stringMethods)
       writeAttr("height", self.height)(self)
       writeAttr("width", self.width)(self)
       writeAttr("alt", "")(self)
-      if(++loaded == l) fn.apply(null, imgs)
+      if(++loaded == l) if(fn) fn.apply(null, imgs)
     }
     
     for(;i < l; i++) {
@@ -2340,6 +2321,7 @@ function matcher(selector, root, noBubbling, delegated){
       } else {
         uniq = false
         element = element.parentNode
+        if(element == root) break
       }
       if(checkers[i](element)) {
         i--
@@ -2395,9 +2377,9 @@ function getElements(selector, root){
 
 function Selector(string, context, constructor, maxLength){
   if(!string) return constructor ? new constructor() : []
-  context = (isObject(context) && (context.nodeName != "FORM" && context.length) ? context[0] : context) || document
-  if(typeof context == "string") context = Selector(context, null, null, maxLength)
-  
+  context = (isObject(context) && (!isElement(context) && context.length) ? context[0] : context) || document
+  if(typeof context == "string") context = Selector(context, null, null, maxLength)[0]
+  if(!context) return []
   var selectors = string.match(_matchSelectors), i = 0, l = selectors.length, item 
     , results = constructor ? new constructor() : [] 
     , temp, j, k, element 
@@ -2603,6 +2585,7 @@ Selector.matcher = function(selector, root, param, target){
     } : 
     function(el, ev, handler, capture){
       if(ev == "mouseenter" || ev == "mouseleave") ev = ev == "mouseenter" ? "mouseover" : "mouseout"
+      if(capture && doesntBubble.test(ev)) ev = ev == "focus" ? "focusin" : "focusout"
       if(!!~ev.indexOf(":")) {
         el.attachEvent("ondataavailable", handler)
         el.attachEvent("onlosecapture", handler)
@@ -2625,21 +2608,24 @@ Selector.matcher = function(selector, root, param, target){
       el.detachEvent("ondataavailable", handler)
       el.detachEvent("onlosecapture", handler)
     }
-    if(capture && (ev == "focus" || ev == "blur")) ev = patches[ev]
+    if(capture && (ev == "focus" || ev == "blur")) ev = ev == "focus" ? "focusin" : "focusout"
     el.detachEvent("on" + ev, handler)
     return el
   }
+  
+  var window_events = {}
     
   function register(el, ev, obj){
-    var storage = el._craftevents_, arr
+    var storage = el == window ? window_events : el._craftevents_, arr
     if(!storage) storage = el._craftevents_ = {}
     arr = storage[ev] = storage[ev] || []
     arr.push(obj)
     if(Browser.IE) ieCache.push(el)
   }
+
   
   function unregister(el, ev, handler){
-    var storage = el._craftevents_, arr
+    var storage = el == window ? window_events : el._craftevents_, arr
     if(!storage) return
     if(!ev) return Object.each(storage, function(item, index, obj){ 
       if(isArray(item)) {
@@ -2677,6 +2663,11 @@ Selector.matcher = function(selector, root, param, target){
   function stopListening(el, ev, handler){
     unregister(el, ev, handler)
   }
+  
+  Object.extend(window.Event, {
+      listen : listen
+    , stopListening : stopListening
+  })
   
   if(Browser.IE) listen(window, "unload", function(){ ieCache.each(function(item){ stopListening(item) }) })
   
@@ -2728,7 +2719,6 @@ Selector.matcher = function(selector, root, param, target){
       if(Browser.isIE) {
         if(match) return element[attributes[match[0]]]
         if(!!~name.indexOf(":") && (cache = element.attributes) && (cache = element.attributes[name])) return cache.nodeValue
-        return null
       }
       if(_hasBuggyHref && _buggyHref.test(name)) {
         var attr = element.getAttribute(name, 2)
@@ -2824,7 +2814,7 @@ Selector.matcher = function(selector, root, param, target){
   
   Object.extend(Elements, elementHelpers)
   
-  "collect fold foldRight find findLast contains pluck isEmpty groupBy last groupWith"
+  "collect fold foldRight find findLast contains pluck isEmpty groupBy last groupWith any all"
   .split(" ")
   .each(function(i){
      Elements.implement(i, function(){
@@ -3361,11 +3351,11 @@ Selector.matcher = function(selector, root, param, target){
     */
   
     function index(){
-      return _collect.call(this, function(item){
-        var parent = item.parentNode
+      if(!isNode(this[0])) return null
+      var item = this[0]
+        , parent = item.parentNode
         if(!parent) return null
         return _find.call(parent.children, item)
-      })
     }
     
     /*
@@ -3448,6 +3438,12 @@ Selector.matcher = function(selector, root, param, target){
         results.push(item.cloneNode(deep))
       })
       return new Elements(results)
+    }
+    
+    function parent(){
+      var self = this
+      if(isNode(self[0])) return new Elements(self[0].parentNode)
+      return new Elements()
     }
     
     /*
@@ -3725,6 +3721,7 @@ Selector.matcher = function(selector, root, param, target){
       , attr : attr
       , data : data
       , clone : clone
+      , parent : parent
       , coords : coords
       , offset : offset
       , globalOffset : globalOffset

@@ -54,11 +54,10 @@
      equal($("section", div).length, 1, "html5 elements")
    })
    
-   test("Selector.matcher", function(){
+   test("Element.matches", function(){
      
-     var matcher = Selector.matcher("#qunit > h2")
-     equal(matcher($("#qunit-banner")[0]), true, "Matches")
-     equal(matcher($("#qunit")[0]), false, "Matches")
+     equal(Elements.matches($("#qunit-banner")[0], "#qunit > h2"), true, "Matches")
+     equal(Elements.matches($("#qunit")[0], "#qunit > h2"), false, "Matches")
      
    })
     

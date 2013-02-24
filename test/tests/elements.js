@@ -75,9 +75,9 @@
     
     table.html("<tbody></tbody>")
     
-    deepEqual(els.html().join().toLowerCase(), "<p>hello!</p>,<p>hello!</p>,<p>hello!</p>", "reads")
+    deepEqual(els.html().toLowerCase(), "<p>hello!</p>", "reads")
     equal(p[0].nodeName, "DIV", "Reference of old elements is kept")
-    deepEqual(els.html("foo").html(), ["foo", "foo", "foo"], "writes")
+    deepEqual(els.html("foo").html(), "foo", "writes")
     equal(table[0].children[0].nodeName, "TBODY", "Table elements work")
   })
   
@@ -85,8 +85,8 @@
     
     var els = makeElementSet()
     
-    deepEqual(els.text(), ["hello!", "hello!", "hello!"], "reads")
-    deepEqual(els.text("foo").text(), ["foo", "foo", "foo"], "writes")
+    deepEqual(els.text(), "hello!", "reads")
+    deepEqual(els.text("foo").text(), "foo", "writes")
     
   })
   
