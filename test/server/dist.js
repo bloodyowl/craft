@@ -7,9 +7,9 @@ exports.run = function(){
      , file = require("fs")
   
   app.configure(function(){
-    app.set("port", process.env.PORT || 8888)
+    app.set("port", process.env.PORT || 8080)
     app.use(express.bodyParser())
-    app.use(express.logger("dev"))
+   // app.use(express.logger("dev"))
     app.use(express.static(path.join(__dirname, './../../')))
   })
   

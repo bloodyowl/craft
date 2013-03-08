@@ -92,7 +92,7 @@
     equal(nullCollected, null, "Null is returned if null is set as object")
   })
   
-  test("Object.keys", function(){
+  test("Object.getKeys", function(){
     
     function ctor(){
       this.foo = 1
@@ -110,8 +110,8 @@
       , nullKeys
       , nullExpect = []
     
-    keys = Object.keys(obj)
-    nullKeys = Object.keys(null)
+    keys = Object.getKeys(obj)
+    nullKeys = Object.getKeys(null)
             
     deepEqual(keys, expect, "Keys are right")
     equal(keys.length, 3, "Only owned values")
@@ -119,7 +119,7 @@
     
   })
   
-  test("Object.values", function(){
+  test("Object.getValues", function(){
     
     function ctor(){
       this.foo = 1
@@ -137,8 +137,8 @@
       , nullValues
       , nullExpect = []
     
-    values = Object.values(obj)
-    nullValues = Object.values(null)
+    values = Object.getValues(obj)
+    nullValues = Object.getValues(null)
             
     deepEqual(values, expect, "Values are right")
     equal(values.length, 3, "Only owned values")
@@ -146,7 +146,7 @@
     
   })
   
-  test("Object.pairs", function(){
+  test("Object.getPairs", function(){
     
     function ctor(){
       this.foo = 1
@@ -164,8 +164,8 @@
       , nullPairs
       , nullExpect = []
     
-    pairs = Object.pairs(obj)
-    nullPairs = Object.pairs(null)
+    pairs = Object.getPairs(obj)
+    nullPairs = Object.getPairs(null)
             
     deepEqual(pairs, expect, "Values are right")
     equal(pairs.length, 3, "Only owned values")

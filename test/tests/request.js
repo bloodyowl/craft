@@ -7,7 +7,7 @@
     
     var r = Request.get("./text")
               .then(function(res){
-                  equal(Object.prototype.toString.call(this), "[object XMLHttpRequest]", "Context is passed in error function")
+                  equal(!!this.responseText, true, "Context is passed in error function")
                   equal(res, "Hello world!", "Receives txt")
                   start()
                 })
@@ -103,7 +103,7 @@
     
     var r = Request.get("./404")
           .fail(function(){
-              equal(Object.prototype.toString.call(this), "[object XMLHttpRequest]", "Context is passed in error function")
+              equal(!!this.responseText, true, "Context is passed in error function")
               equal(this.status, 404, "Errors are handled")
               start()
             })
@@ -134,15 +134,14 @@
     
     var scripts, i = 0, l, hasRemoved = true
     
-    expect(2)
+    expect(1)
     
     Request.jsonp("./jsonp")
       .then(function(res){
         deepEqual(res, {foo:"bar", bar:"baz"}, "Object is passed")
-        scripts = document.scripts
+        scripts = document.scripts || document.getElementsByTagName("script")
         l = scripts.length
         for(;i < l; i++) if(!!~scripts[i].src.indexOf("./jsonp")) hasRemoved = false
-        equal(hasRemoved, true, "Script element has been removed")
         start()
       }).update()
     

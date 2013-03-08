@@ -65,6 +65,268 @@
     equal(isArr, els, "Array is passed")
     equal(ctxTest, ctx.verified, "Context is passed")
   })
+
+  test("Elements.prototype.collect", function(){
+    
+    var arr = makeElementSet()
+      , expected = [true, true, true]
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+      , collected 
+      , collectedExpected = ["foo bar", "", "foo"]
+    
+    collected = arr.collect(function(item, index, array){
+      arrTest.push(arr[index] === item)
+      isArr = array
+      ctxTest = "verified" in ctx && ctx.verified
+      return item.className
+    }, ctx)
+    
+    deepEqual(collected, collectedExpected, "Collection is right")
+    deepEqual(arrTest, expected, "Indexes and items are right")
+    equal(isArr, arr, "Array is passed")
+    equal(ctxTest, ctx.verified, "Context is passed")
+    equal(Object.isArray(collected), true, "Array is returned")
+  })
+
+    test("Elements.prototype.select", function(){
+    
+    var arr = makeElementSet()
+      , expected = [true, true, true]
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+      , collected 
+      , collectedExpected = ["foo"]
+    
+    collected = arr.select(function(item, index, array){
+      arrTest.push(arr[index] === item)
+      isArr = array
+      ctxTest = "verified" in ctx && ctx.verified
+      return item.className == "foo"
+    }, ctx)
+    
+    deepEqual(collected.pluck("className"), collectedExpected, "Collection is right")
+    deepEqual(arrTest, expected, "Indexes and items are right")
+    equal(isArr, arr, "Array is passed")
+    equal(ctxTest, ctx.verified, "Context is passed")
+    equal(collected instanceof Elements, true, "Instanceof Elements")
+  })
+
+  test("Elements.prototype.reject", function(){
+    
+    var arr = makeElementSet()
+      , expected = [true, true, true]
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+      , collected 
+      , collectedExpected = ["foo bar", ""]
+    
+    collected = arr.reject(function(item, index, array){
+      arrTest.push(arr[index] === item)
+      isArr = array
+      ctxTest = "verified" in ctx && ctx.verified
+      return item.className == "foo"
+    }, ctx)
+    
+    deepEqual(collected.pluck("className"), collectedExpected, "Collection is right")
+    deepEqual(arrTest, expected, "Indexes and items are right")
+    equal(isArr, arr, "Array is passed")
+    equal(ctxTest, ctx.verified, "Context is passed")
+    equal(collected instanceof Elements, true, "Instanceof Elements")
+  })
+
+  test("Elements.prototype.fold", function(){
+    
+    var arr = makeElementSet()
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+      , collected 
+      , collectedExpected = " foo bar  foo"
+    
+    collected = arr.fold(function(item, next, index, array){
+      isArr = array
+      ctxTest = "verified" in ctx && ctx.verified
+      return item + " " + next.className
+    }, ctx, "")
+    
+    deepEqual(collected, collectedExpected, "Collection is right")
+    equal(isArr, arr, "Array is passed")
+    equal(ctxTest, ctx.verified, "Context is passed")
+  })
+
+
+  test("Elements.prototype.foldRight", function(){
+    
+    var arr = makeElementSet()
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+      , collected 
+      , collectedExpected = " foo  foo bar"
+    
+    collected = arr.foldRight(function(item, next, index, array){
+      isArr = array
+      ctxTest = "verified" in ctx && ctx.verified
+      return item + " " + next.className
+    }, ctx, "")
+    
+    deepEqual(collected, collectedExpected, "Collection is right")
+    equal(isArr, arr, "Array is passed")
+    equal(ctxTest, ctx.verified, "Context is passed")
+  })
+
+ test("Elements.prototype.find", function(){
+    
+    var arr = makeElementSet()
+      , toFind = arr[2]
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+      , collectedExpected = " foo  foo bar"
+    
+    
+    deepEqual(arr.find(toFind), 2, "Find is right")
+    deepEqual(arr.find(toFind, 3), -1, "Find is right")
+  })
+
+
+  test("Elements.prototype.findLast", function(){
+    
+    var arr = makeElementSet()
+      , toFind = arr[2]
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+      , collectedExpected = " foo  foo bar"
+    
+    
+    deepEqual(arr.findLast(toFind), 2, "Find is right")
+    deepEqual(arr.findLast(toFind, 1), -1, "Find is right")
+  })
+
+   test("Elements.prototype.contains", function(){
+    
+    var arr = makeElementSet()
+      , toFind = arr[2]
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+      , collectedExpected = " foo  foo bar"
+    
+    
+    deepEqual(arr.contains(toFind), true, "Contains is right")
+    deepEqual(arr.contains("foo"), false, "Contains is right")
+  })
+
+  test("Elements.prototype.pluck", function(){
+    
+    var arr = makeElementSet()
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+      , collectedExpected = " foo  foo bar"
+    
+    
+    deepEqual(arr.pluck("className"), ["foo bar", "", "foo"], "Pluck is right")
+  })
+
+  test("Elements.prototype.isEmpty", function(){
+    
+    var arr = makeElementSet()
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+    
+    
+    deepEqual(arr.isEmpty(), false, "isEmpty is right")
+    deepEqual($().isEmpty(), true, "isEmpty is right")
+  })
+
+  test("Elements.prototype.intersect", function(){
+    
+    var arr = makeElementSet()
+      , arr2 = $(arr[1])
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+    
+    arr2.push("foo")
+    deepEqual(arr.intersect(arr2), $(arr[1]), "intersect is right")
+  })
+
+  test("Elements.prototype.difference", function(){
+    
+    var arr = makeElementSet()
+      , arr2 = $(arr[1])
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+    
+    arr2.push("foo")
+    deepEqual(arr.difference(arr2), new Elements([arr[0], arr[2]]), "difference is right")
+  })
+
+  test("Elements.prototype.sortBy", function(){
+    
+    var arr = makeElementSet()
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+    arr = new Elements([arr[2], arr[1], arr[0]])
+    deepEqual(arr.sortBy("className"), new Elements([arr[0], arr[1], arr[2]]), "sortBy is right")
+  })
+
+  test("Elements.prototype.groupBy", function(){
+    
+    var arr = makeElementSet()
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+
+    deepEqual(arr.groupBy(2), [[arr[0], arr[1]], [arr[2]]], "groupBy is right")
+  })
+
+  test("Elements.prototype.last", function(){
+    
+    var arr = makeElementSet()
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+
+    deepEqual(arr.last(2), arr[2], "last is right")
+  })
+
+  test("Elements.prototype.groupWith", function(){
+    
+    var arr = makeElementSet()
+      , arr2 = makeElementSet()
+      , ctxTest
+      , arrTest = []
+      , isArr
+      , ctx = { verified : true }
+
+    deepEqual(arr.groupWith(arr2), [[arr[0], arr2[0]], [arr[1], arr2[1]], [arr[2], arr2[2]]], "groupWith is right")
+  })
+  
   
   test("Elements.prototype.html", function(){
     

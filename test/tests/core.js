@@ -163,47 +163,6 @@
     
   })
   
-  test("Object.error", function(){
-        
-    throws(function(){
-      throw Object.error("Wrong stuff")
-    }
-    , Error
-    , "Correctly throws a regular Error")
-        
-    throws(function(){
-      throw Object.error("Wrong stuff")
-    }
-    , /Wrong stuff/
-    , "Correctly sets a regular Error message")
-    
-    
-    throws(function(){
-      throw Object.error("type", "Wrong type")
-    }
-    , TypeError
-    , "Correctly throws a TypeError")
-    
-    throws(function(){
-      throw Object.error("type", "Wrong type")
-    }
-    , /Wrong type/
-    , "Correctly sets a TypeError message")
-    
-    throws(function(){
-      throw Object.error("eval", "Wrong eval")
-    }
-    , EvalError
-    , "Correctly throws an EvalError")
-    
-    throws(function(){
-      throw Object.error("eval", "Wrong eval")
-    }
-    , /Wrong eval/
-    , "Correctly sets an EvalError message")
-        
-  })
-  
   test("Function.prototype.implement", function(){
     
     var fn = function(){}
