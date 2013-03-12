@@ -81,3 +81,52 @@ var MyClass = Class.create({
 
 bar() // "baz"
 ```
+
+
+## Example 
+
+A possible use of `Class`.
+
+```javascript
+var App = Class.create({
+    initialize : function(options){
+      var self = this
+      Object.extend(self, options)
+      Class.attachAll(this, ["domReady", "fillContent"])
+      document.ready(self.domReady)
+    }
+    
+    
+  , domReady : function(){
+      var self = this
+      self.container = $("#container")
+      self.content = $("#content")
+      self.emptyButton = $("#empty").text(self.emptyText || "")
+      self.events()
+    }
+    
+    
+  , events : function(){
+      var self = this
+      self.container.listen("click", "li", function(){
+        Request
+          .get($(this).data("url"))
+          .then(self.fillContent)
+      })
+      self.emptyButton.listen("click", function(){
+          self.content.empty()
+      })
+    }
+    
+    
+  , fillContent : function(res){
+      var self = this
+      self.content.html(res)
+      Request.evaluate(res) // evaluates inline <script> tags
+    }
+})
+
+var myApp = new App({
+  emptyText : "Empty the box"
+})
+```
