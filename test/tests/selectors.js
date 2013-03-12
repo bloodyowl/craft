@@ -1,3 +1,6 @@
+/*jshint forin:true, eqnull:true, noarg:true, noempty:true, boss:true, loopfunc:true, unused:true, browser:true, asi:true, laxcomma:true */
+
+
 ;(function(){
   
   var div = document.createElement("div")

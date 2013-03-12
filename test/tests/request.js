@@ -1,3 +1,6 @@
+/*jshint forin:true, eqnull:true, noarg:true, noempty:true, boss:true, loopfunc:true, unused:true, browser:true, asi:true, laxcomma:true */
+
+
 ;(function(){
   
   asyncTest("Request", function(){
@@ -22,7 +25,7 @@
     
     
     var r = Request.script("./javascript")
-        .then(function(res){
+        .then(function(){
           equal(document.requestDone, 1, "Receives and evals JS")
           start()
         })

@@ -1,11 +1,14 @@
+/*jshint forin:true, eqnull:true, noarg:true, noempty:true, boss:true, loopfunc:true, unused:true, browser:true, asi:true, laxcomma:true */
+
+
 ;(function(){
   
   test("String.parseJSON", function(){
     
     deepEqual(String.parseJSON("{\"foo\":\"bar\",\"bar\":null,\"baz\":20}"), {"foo":"bar","bar":null,"baz":20}, "JSON parses object")
     deepEqual(String.parseJSON("[\"foo\",\"bar\", null, 30]"), ["foo", "bar", null, 30], "JSON parses array")
-    
-    throws(function(){
+
+    window.throws(function(){
       String.parseJSON("")
     }
     , SyntaxError
@@ -16,7 +19,6 @@
   test("String.compiler", function(){
     
     var compiler = String.compiler("hello #{*}!")
-      , compiler2 = String.compiler("hello #{0}#{1}")
       , compiler3 = String.compiler("hello #{w}#{a}")
     
     equal(compiler("world"), "hello world!", "one argument")

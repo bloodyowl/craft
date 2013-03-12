@@ -1,3 +1,6 @@
+/*jshint forin:true, eqnull:true, noarg:true, noempty:true, boss:true, loopfunc:true, unused:true, browser:true, asi:true, laxcomma:true */
+
+
 ;(function(){
   
   test("Function.prototype.attach", function(){
@@ -48,7 +51,7 @@
       return a + (b ? b : "")
     }
     
-    function fn2(a){
+    function fn2(){
       return this
     }
     

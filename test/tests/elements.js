@@ -1,10 +1,13 @@
+/*jshint forin:true, eqnull:true, noarg:true, noempty:true, boss:true, loopfunc:true, unused:true, browser:true, asi:true, laxcomma:true */
+
+
 ;(function(){
   
   function makeElementSet(){
     var stack = [], i = 3, el
     for(;i--;) {
       el = document.createElement("div")
-      if(i % 2 == 0) el.className = "foo"
+      if(i % 2 === 0) el.className = "foo"
       if(i == 2) el.className = "foo bar"
       el.innerHTML = "<p>hello!</p>"
       stack.push(el)
@@ -145,7 +148,6 @@
     
     var arr = makeElementSet()
       , ctxTest
-      , arrTest = []
       , isArr
       , ctx = { verified : true }
       , collected 
@@ -167,7 +169,6 @@
     
     var arr = makeElementSet()
       , ctxTest
-      , arrTest = []
       , isArr
       , ctx = { verified : true }
       , collected 
@@ -187,13 +188,7 @@
  test("Elements.prototype.find", function(){
     
     var arr = makeElementSet()
-      , toFind = arr[2]
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
-      , collectedExpected = " foo  foo bar"
-    
+      , toFind = arr[2]    
     
     deepEqual(arr.find(toFind), 2, "Find is right")
     deepEqual(arr.find(toFind, 3), -1, "Find is right")
@@ -204,11 +199,6 @@
     
     var arr = makeElementSet()
       , toFind = arr[2]
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
-      , collectedExpected = " foo  foo bar"
     
     
     deepEqual(arr.findLast(toFind), 2, "Find is right")
@@ -219,11 +209,6 @@
     
     var arr = makeElementSet()
       , toFind = arr[2]
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
-      , collectedExpected = " foo  foo bar"
     
     
     deepEqual(arr.contains(toFind), true, "Contains is right")
@@ -233,11 +218,6 @@
   test("Elements.prototype.pluck", function(){
     
     var arr = makeElementSet()
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
-      , collectedExpected = " foo  foo bar"
     
     
     deepEqual(arr.pluck("className"), ["foo bar", "", "foo"], "Pluck is right")
@@ -246,10 +226,6 @@
   test("Elements.prototype.isEmpty", function(){
     
     var arr = makeElementSet()
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
     
     
     deepEqual(arr.isEmpty(), false, "isEmpty is right")
@@ -260,10 +236,6 @@
     
     var arr = makeElementSet()
       , arr2 = $(arr[1])
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
     
     arr2.push("foo")
     deepEqual(arr.intersect(arr2), $(arr[1]), "intersect is right")
@@ -273,11 +245,7 @@
     
     var arr = makeElementSet()
       , arr2 = $(arr[1])
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
-    
+      
     arr2.push("foo")
     deepEqual(arr.difference(arr2), new Elements([arr[0], arr[2]]), "difference is right")
   })
@@ -285,10 +253,7 @@
   test("Elements.prototype.sortBy", function(){
     
     var arr = makeElementSet()
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
+  
     arr = new Elements([arr[2], arr[1], arr[0]])
     deepEqual(arr.sortBy("className"), new Elements([arr[0], arr[1], arr[2]]), "sortBy is right")
   })
@@ -296,10 +261,6 @@
   test("Elements.prototype.groupBy", function(){
     
     var arr = makeElementSet()
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
 
     deepEqual(arr.groupBy(2), [[arr[0], arr[1]], [arr[2]]], "groupBy is right")
   })
@@ -307,10 +268,6 @@
   test("Elements.prototype.last", function(){
     
     var arr = makeElementSet()
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
 
     deepEqual(arr.last(2), arr[2], "last is right")
   })
@@ -319,10 +276,6 @@
     
     var arr = makeElementSet()
       , arr2 = makeElementSet()
-      , ctxTest
-      , arrTest = []
-      , isArr
-      , ctx = { verified : true }
 
     deepEqual(arr.groupWith(arr2), [[arr[0], arr2[0]], [arr[1], arr2[1]], [arr[2], arr2[2]]], "groupWith is right")
   })
@@ -333,7 +286,8 @@
     var els = makeElementSet()
       , table = Elements.create("table")
       , p
-      , el = Elements.create("div").append(p = Elements.create("div")).html("")
+      
+    Elements.create("div").append(p = Elements.create("div")).html("")
     
     table.html("<tbody></tbody>")
     
@@ -456,9 +410,9 @@
   
   test("Elements.prototype.insertAfter", function(){
     
-    var els = makeElementSet(), els2 = makeElementSet(), els3 = makeElementSet()
-      , p, f, d
-      , p1, f1, d1
+    var els = makeElementSet()
+      , p
+      , p1
     
     p1 = Elements.create("div")
       .append(p = Elements.create("div"))
@@ -471,9 +425,9 @@
   
   test("Elements.prototype.insertBefore", function(){
     
-    var els = makeElementSet(), els2 = makeElementSet(), els3 = makeElementSet()
-      , p, f, d
-      , p1, f1, d1
+    var els = makeElementSet()
+      , p
+      , p1
     
     p1 = Elements.create("div")
       .append(Elements.create("div"))
@@ -487,9 +441,9 @@
     
     test("Elements.prototype.siblings", function(){
       
-      var els = makeElementSet(), els2 = makeElementSet(), els3 = makeElementSet()
-        , p, f, d
-        , p1, f1, d1
+      var els = makeElementSet()
+        , p
+        , p1
       
       p1 = Elements.create("div")
         .append(Elements.create("div"))
@@ -502,10 +456,10 @@
       
       test("Elements.prototype.siblingsBefore", function(){
         
-        var els = makeElementSet(), els2 = makeElementSet(), els3 = makeElementSet()
-          , p, f, d
-          , p1, f1, d1
-        
+        var els = makeElementSet()
+          , p
+          , p1
+                
         p1 = Elements.create("div")
           .append(Elements.create("div"))
           .append(p = Elements.create("div").addClass("test"))
@@ -517,9 +471,9 @@
         
         test("Elements.prototype.siblingsAfter", function(){
           
-          var els = makeElementSet(), els2 = makeElementSet(), els3 = makeElementSet()
-            , p, f, d
-            , p1, f1, d1
+          var els = makeElementSet()
+            , p
+            , p1
           
           p1 = Elements.create("div")
             .append(Elements.create("div"))
@@ -531,9 +485,9 @@
 
         test("Elements.prototype.children", function(){
           
-          var els = makeElementSet(), els2 = makeElementSet(), els3 = makeElementSet()
-            , p, f, d
-            , p1, f1, d1
+          var els = makeElementSet()
+            , p
+            , p1
           
           p1 = Elements.create("div")
             .append(Elements.create("div"))
@@ -547,9 +501,9 @@
       
         test("Elements.prototype.getElements", function(){
           
-          var els = makeElementSet(), els2 = makeElementSet(), els3 = makeElementSet()
-            , p, f, d
-            , p1, f1, d1
+          var els = makeElementSet()
+            , p
+            , p1
           
           p1 = Elements.create("div")
             .append(Elements.create("span"))
@@ -562,9 +516,9 @@
       
       test("Elements.prototype.empty", function(){
           
-          var els = makeElementSet(), els2 = makeElementSet(), els3 = makeElementSet()
-            , p, f, d
-            , p1, f1, d1
+          var els = makeElementSet()
+            , p
+            , p1
           
           p1 = Elements.create("div")
             .append(Elements.create("span"))
@@ -579,9 +533,9 @@
       
       test("Elements.prototype.remove", function(){
           
-          var els = makeElementSet(), els2 = makeElementSet(), els3 = makeElementSet()
-            , p, f, d
-            , p1, f1, d1
+          var els = makeElementSet()
+            , p
+            , p1
           
           p1 = Elements.create("div")
             .append(Elements.create("span"))
@@ -807,8 +761,7 @@
          var select = document.createElement("select")
            , option1 = document.createElement("option")
            , option2 = document.createElement("option")
-             , option3 = document.createElement("option")
-             , value
+            , option3 = document.createElement("option")
       
          select.multiple = true
          option1.selected = true

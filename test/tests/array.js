@@ -1,3 +1,5 @@
+/*jshint forin:true, eqnull:true, noarg:true, noempty:true, boss:true, loopfunc:true, unused:true, browser:true, maxerr:50, asi:true, laxcomma:true */
+
 ;(function(){
   
   
@@ -109,7 +111,7 @@
       arrTest.push(arr[index] === item)
       isArr = array
       ctxTest = "verified" in ctx && ctx.verified
-      return !(item % 2)
+      return item % 2 === 0
     }, ctx)
     
     deepEqual(selected, selectedExpected, "Selection is right")
@@ -134,7 +136,7 @@
       arrTest.push(arr[index] === item)
       isArr = array
       ctxTest = "verified" in ctx && ctx.verified
-      return !(item % 2)
+      return item % 2 === 0
     }, ctx)
     
     deepEqual(selected, selectedExpected, "Selection is right")
@@ -152,7 +154,6 @@
       , arrTest = []
       , isArr
       , ctx = { verified : true }
-      , rejected 
       , rejectedExpected = [1, 3]
       , reject
       
@@ -160,7 +161,7 @@
       arrTest.push(arr[index] === item)
       isArr = array
       ctxTest = "verified" in ctx && ctx.verified
-      return !(item % 2)
+      return item % 2 === 0
     }, ctx)
     
     deepEqual(reject, rejectedExpected, "Rejection is right")
@@ -178,7 +179,6 @@
       , arrTest = []
       , isArr
       , ctx = { verified : true }
-      , rejected 
       , rejectedExpected = [1, 3]
       , reject
       
@@ -186,7 +186,7 @@
       arrTest.push(arr[index] === item)
       isArr = array
       ctxTest = "verified" in ctx && ctx.verified
-      return !(item % 2)
+      return item % 2 === 0
     }, ctx)
     
     deepEqual(reject, rejectedExpected, "Rejection is right")

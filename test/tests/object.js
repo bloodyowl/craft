@@ -1,3 +1,6 @@
+/*jshint forin:true, eqnull:true, noarg:true, noempty:true, boss:true, loopfunc:true, unused:true, browser:true, asi:true, laxcomma:true */
+
+
 ;(function(){
   
   test("Object.each", function(){
@@ -13,7 +16,6 @@
     
     var obj = new ctor()
       , ctx = {verified : true}
-      , str = ""
       , expect = [true, true, true]
       , arrTest = []
       , ctxTest
@@ -56,7 +58,6 @@
     
     var obj = new ctor()
       , ctx = {verified : true}
-      , str = ""
       , expect = [true, true, true]
       , arrTest = []
       , ctxTest
@@ -105,7 +106,6 @@
     
     var obj = new ctor()
       , expect = ["foo", "bar", "baz"]
-      , nullTest = 0
       , keys
       , nullKeys
       , nullExpect = []
@@ -132,7 +132,6 @@
     
     var obj = new ctor()
       , expect = [1, 2, 3]
-      , nullTest = 0
       , values
       , nullValues
       , nullExpect = []
@@ -159,7 +158,6 @@
     
     var obj = new ctor()
       , expect = [["foo", 1], ["bar", 2], ["baz", 3]]
-      , nullTest = 0
       , pairs
       , nullPairs
       , nullExpect = []
@@ -206,9 +204,7 @@
     
     ok(clone !== obj , "Not the same object")
     ok(typeof clone.test == "undefined", "Doesn't copy prototype")
-    ok(clone.foo === obj.foo 
-    && clone.bar === obj.bar
-    && clone.baz === clone.baz, "Same properties")
+    ok(clone.foo === obj.foo && clone.bar === obj.bar && clone.baz === clone.baz, "Same properties")
     deepEqual(Object.clone(null), null, "Null as object return null")
     
   })

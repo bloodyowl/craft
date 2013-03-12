@@ -1,3 +1,6 @@
+/*jshint forin:true, eqnull:true, noarg:true, noempty:true, boss:true, loopfunc:true, unused:true, browser:true, maxerr:50, asi:true, laxcomma:true */
+
+
 ;(function(){
   
   var _hasOwn = {}.hasOwnProperty

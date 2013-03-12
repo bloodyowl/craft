@@ -1,3 +1,6 @@
+/*jshint forin:true, eqnull:true, noarg:true, noempty:true, boss:true, loopfunc:true, unused:true, browser:true, maxerr:50, asi:true, laxcomma:true */
+
+
 ;(function(){
   
   var Animal = Class.create({
@@ -43,7 +46,7 @@
   
   var Cat = Class.create(Animal, {
       greeting : "meow"
-    , initialize : function(name, age){
+    , initialize : function(name){
       Object.extend(this, Animal.call(this, name))
       this.age = 3
       return this
