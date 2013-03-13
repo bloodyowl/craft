@@ -147,7 +147,7 @@ Array.intersect(myArray, otherArray)
   // -> new array
 ```
 
-## Array.intersect
+## Array.difference
 
 Returns a new array filled with the items that are in the first and not in the second array. 
 
