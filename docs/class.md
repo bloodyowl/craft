@@ -94,6 +94,7 @@ var App = Class.create({
       Object.extend(self, options)
       Class.attachAll(self, ["domReady", "fillContent"])
       document.ready(self.domReady)
+      return self
     }
     
     
@@ -123,6 +124,7 @@ var App = Class.create({
       var self = this
       self.content.html(res)
       Request.evaluate(res) // evaluates inline <script> tags
+      return self
     }
 })
 
