@@ -7,6 +7,7 @@ Craft adds a few objects or methods to the global object (or in the delivered re
 * `Browser` : Browser detection results
 * `Class` : Class methods
 * `$` (alias `Craft`): CSS selector
+* `$$`: CSS selector, only return the first match
 
 ## RequireJS
 

@@ -1664,12 +1664,12 @@ var Request = Class.create({
       , _jsonp : /^jsonp\:/
       , _post : /^post\((.*)\)\:(.*)/
       , done : 0
-      , initialize : function(){
+      , initialize : function(urls){
 
-          var args = [].slice.call(arguments)
+          var args = [].concat(urls)
             , l = args.length
             , self = this
-          if(!(self instanceof Request)) return Request.apply(new Request(), args)
+          if(!(self instanceof Request)) return new Request(urls)
           self.stack = []
             
           self.requests = args.collect(function(item, index){
@@ -3533,6 +3533,7 @@ Selector.matcher = function(selector, root, param, target){
     , Browser : Browser
     , Class : Class
     , $ : $
+    , $$ : $$
     , Craft : $
   }
 

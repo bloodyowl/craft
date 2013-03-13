@@ -34,6 +34,7 @@ div[attr="foo"]
 $("#foo .bar") 
 $(".bar", "#foo") // optional context argument
 $("#foo").getElements(".bar")
+$$(".foo") // first match only
 ```
 
 **NOTE** : You should cache the queries you use more than once.  
