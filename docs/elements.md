@@ -558,7 +558,7 @@ myElements.addClass(classNames)
 
 ### Elements.prototype.removeClass
 
-Removes the given className(s) to each element of the list.
+Removes the given className(s) from each element of the list.
 
 ```javascript
 myElements.removeClass(classNames)
@@ -567,7 +567,7 @@ myElements.removeClass(classNames)
 
 ### Elements.prototype.toggleClass
 
-Toggles the given className(s) to each element of the list.
+Toggles the given className(s) of each element of the list.
 
 ```javascript
 myElements.toggleClass(classNames)
