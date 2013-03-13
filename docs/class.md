@@ -92,7 +92,7 @@ var App = Class.create({
     initialize : function(options){
       var self = this
       Object.extend(self, options)
-      Class.attachAll(this, ["domReady", "fillContent"])
+      Class.attachAll(self, ["domReady", "fillContent"])
       document.ready(self.domReady)
     }
     
