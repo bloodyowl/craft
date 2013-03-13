@@ -2558,7 +2558,7 @@ Selector.matcher = function(selector, root, param, target){
   
   Object.extend(Elements, elementHelpers)
   
-  "collect fold foldRight find findLast contains pluck isEmpty groupBy last groupWith any all"
+  "each collect fold foldRight find findLast contains pluck isEmpty groupBy last groupWith any all"
   .split(" ")
   .each(function(i){
      Elements.implement(i, function(){
@@ -2589,25 +2589,6 @@ Selector.matcher = function(selector, root, param, target){
       for(;i < l; i++) fn(elements[i])
       return elements
     }
-    
-    /*
-      Elements.prototype.each
-      =======
-      Iterates over the elements and executes fn with (el, index, els) as arguments
-      =======
-      @arguments {
-        fn : iterator
-      }
-      @output 
-        elements
-    */
-    
-    function forEach(fn, ctx){
-      var elements = this, i = 0, l = elements.length
-      for(;i < l; i++) fn.call(ctx, elements[i], i, elements)
-      return elements
-    }
-    
     
     
     function escapeNodes(nodes, one){
@@ -3416,7 +3397,6 @@ Selector.matcher = function(selector, root, param, target){
       , length : 0
       , push : [].push
       , append : append
-      , each : forEach
       , html : html
       , text : text
       , appendTo : appendTo

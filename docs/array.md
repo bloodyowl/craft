@@ -56,10 +56,10 @@ Iterates over the given array, executes the `fn` function for each item in the a
 
 ```javascript
 myArray.fold(function(currentValue, nextValue, index, array){}, thisValue, initialValue) 
-  // -> newArray
+  // -> value
 
 Array.fold(myArray, function(currentValue, nextValue, index, array){}, thisValue, initialValue)
-  // -> newArray
+  // -> value
 ```
 
 ## Array.foldRight
