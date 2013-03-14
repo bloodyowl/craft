@@ -155,3 +155,14 @@ Shorthand for `Object.prototype.hasOwnProperty.call`
 Object.owns(object, property)
   // -> boolean
 ```
+
+### Object.extend
+
+Extends an object with an other (optionally copies the properties in the prototype chain). 
+
+```javascript
+Object.extend(dest, source)
+  // -> dest
+Object.extend(dest, source, true)
+  // -> dest, with source inherits
+```

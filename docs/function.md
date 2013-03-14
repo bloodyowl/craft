@@ -1,5 +1,18 @@
 # Function
 
+## Function.prototype.implement
+
+Extends the function's prototype. 
+
+```javascript
+myFunction.implement("foo", function(){})
+  // myFunction
+myFunction.implement({
+    foo : function(){}
+  , bar : 0
+})
+```
+
 ## Function.prototype.attach
 
 `Function.prototype.attach` returns (for a given function) a new function with a bound `thisValue`, and optional arguments. If you attach `null` or `undefined`, a new instance (`new attachedFunction`) will not be possible to create. 
