@@ -19,7 +19,7 @@ myElements.listen(element, "mouseenter", function(e){})
 
 ## Event.stopListening
 
-Stops listening event(s) *(attached by Craft)*. 
+Stops listening event(s) *(attached by Craft)*. Note that if you precise a `handler`, it **must** be the same reference as the one you attached to the event. 
 
 ```javascript
 // Event method
