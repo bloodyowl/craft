@@ -29,6 +29,23 @@ module.exports = function(grunt){
             , dest: "./dist/craft.js"
             , separator : "\n\n\n"
           }
+        , docs : {
+            src : [
+                "docs/README.md"
+              , "docs/browser.md"
+              , "docs/object.md"
+              , "docs/class.md"
+              , "docs/array.md"
+              , "docs/elements.md"
+              , "docs/event.md"
+              , "docs/selector.md"
+              , "docs/string.md"
+              , "docs/request.md"
+              , "docs/function.md"
+            ]
+          , dest : "./dist/docs.md"
+          , separator : "\n\n"
+        }
       }
     , uglify : {
           "./dist/craft-min.js": ["<banner>", "./dist/craft.js"]

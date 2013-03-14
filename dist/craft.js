@@ -503,7 +503,7 @@ var objectMethods = (function(){
     if(object === null) return
     for(var i in object) {
       if(_hasOwn.call(object, i)) {
-        fn.call(context, object[i], i, object)
+        if(fn.call(context, object[i], i, object) === false) break
       }
     }
     return object
