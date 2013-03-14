@@ -17,7 +17,7 @@ If you import Craft with RequireJS, `Request`, `Elements`, `Browser`, `Class`, `
 requirejs(["craft"], function(craft){ console.log(Object.getKeys(craft)) })
 ```
 ```javascript
-["Request", "Elements", "Browser", "Class", "$", "Craft"]
+["Request", "Elements", "Browser", "Class", "$", "Craft", "$$"]
 ```
 
 ## Get the Craft version
