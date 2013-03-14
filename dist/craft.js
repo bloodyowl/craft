@@ -1775,7 +1775,7 @@ var Request = Class.create({
     })
 
   function xhr(self){
-    var req = window.XMLHttpRequest ? new XMLHttpRequest() : null 
+    var req = win.XMLHttpRequest ? new XMLHttpRequest() : null 
     if(req === null) throw new Error("Browser (" + Browser.toString() +") cannot handle Requests")
     self.request = req
     return req
@@ -2356,7 +2356,7 @@ Selector.matcher = function(selector, root, param, target){
   var window_events = {}
     
   function register(el, ev, obj){
-    var storage = el == window ? window_events : el._craftevents_, arr
+    var storage = el == win ? window_events : el._craftevents_, arr
     if(!storage) storage = el._craftevents_ = {}
     arr = storage[ev] = storage[ev] || []
     arr.push(obj)
@@ -2365,7 +2365,7 @@ Selector.matcher = function(selector, root, param, target){
 
   
   function unregister(el, ev, handler){
-    var storage = el == window ? window_events : el._craftevents_, arr
+    var storage = el == win ? window_events : el._craftevents_, arr
     if(!storage) return
     if(!ev) return Object.each(storage, function(item, index, obj){ 
       if(isArray(item)) {
@@ -2404,12 +2404,12 @@ Selector.matcher = function(selector, root, param, target){
     unregister(el, ev, handler)
   }
   
-  Object.extend(window.Event, {
+  Object.extend(win.Event, {
       listen : listen
     , stopListening : stopListening
   })
   
-  if(Browser.IE) listen(window, "unload", function(){ ieCache.each(function(item){ stopListening(item) }) })
+  if(Browser.IE) listen(win, "unload", function(){ ieCache.each(function(item){ stopListening(item) }) })
   
   var regExpAttr = /^@([\w\-]+)/
     , _buggyAttributes = /class|for/
@@ -3498,9 +3498,9 @@ Selector.matcher = function(selector, root, param, target){
     return Selector(string, context, Elements, limit || 1)
   }
 
-  var dollar = window.$
+  var dollar = win.$
   $.noConflict = function(){
-    window.$ = dollar
+    win.$ = dollar
     return $
   }
   $.version = "2.0.0"
