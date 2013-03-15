@@ -66,20 +66,20 @@ Array.fold(myArray, function(currentValue, nextValue, index, array){}, thisValue
 
 `Array.foldRight` is the same as `Array.fold`, except it loops backwards. 
 
-## Array.find
+## Array.firstMatch
 
-Finds the first occurrence of the given `value` in the given `array` (strict equality), optionally starting from an specified `index`, and returns the `index` of the item, or `-1` if not found. 
+Finds the first occurrence of the given `value` in the given `array` (strict equality), optionally starting from an specified `index`, and returns the `index` of the item, or `-1` if not found. If `value` is a function, `firstMatch` returns the first item for which `value` returned a truthy value (`value` is in that case executed with an optional `thisValue`, and `item, index, array` as arguments (to get the default `index` with a `thisValue`, just set `index` to `null`). If `value` is a `RegExp`, the result will be the first item matching the regular expression.  
 
 ```javascript
-myArray.find(value, index)
+myArray.firstMatch(value, index, thisValue)
   // -> index
-Array.find(myArray, value, index)
+Array.firstMatch(myArray, value, index, thisValue)
   // -> index
 ```
 
-## Array.findLast
+## Array.lastMatch
 
-`Array.findLast` is the same as `Array.find`, except it loops backwards. 
+`Array.lastMatch` is the same as `Array.firstMatch`, except it loops backwards. 
 
 ## Array.contains
 

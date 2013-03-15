@@ -383,51 +383,99 @@
     
     var arr = [1,2,3,4,5,6,7,2,8]
     
-    equal(arr.find(2), 1, "Finds correctly")
-    equal(arr.find(9), -1, "Not present")
-    equal(arr.find(2, -3), 1, "Finds correctly with negative start")
-    equal(arr.find(2, 2), 7, "Finds correctly with custom start")
-    equal(arr.find(2, 90), -1, "Returns -1 if start is > length")
-    equal(arr.find(2, NaN), 1, "Start becomes 0 if NaN is set as start")
+    equal(arr.firstMatch(2), 1, "Finds correctly")
+    equal(arr.firstMatch(9), -1, "Not present")
+    equal(arr.firstMatch(2, -3), 1, "Finds correctly with negative start")
+    equal(arr.firstMatch(2, 2), 7, "Finds correctly with custom start")
+    equal(arr.firstMatch(2, 90), -1, "Returns -1 if start is > length")
+    equal(arr.firstMatch(2, NaN), 1, "Start becomes 0 if NaN is set as start")
+    
+    var arr2 = ["foo", "bar", "baz"]
+    
+    equal(arr2.firstMatch(/bar/), 1, "Finds correctly RegExp")
+    equal(arr2.firstMatch(/\s/), -1, "Finds correctly RegExp")
+    
+    var arr3 = ["foo", "barbaz", "a"]
+    
+    equal(arr3.firstMatch(function(item, index, arr){
+      if(!index) equal(this, "foo", "context")
+      return item.length == 1
+    }, null, "foo"), 2, "Function")
     
   })
 
-   test("Array.find", function(){
+   test("Array.firstMatch", function(){
     
     var arr = [1,2,3,4,5,6,7,2,8]
     
-    equal(Array.find(arr, 2), 1, "Finds correctly")
-    equal(Array.find(arr, 9), -1, "Not present")
-    equal(Array.find(arr, 2, -3), 1, "Finds correctly with negative start")
-    equal(Array.find(arr, 2, 2), 7, "Finds correctly with custom start")
-    equal(Array.find(arr, 2, 90), -1, "Returns -1 if start is > length")
-    equal(Array.find(arr, 2, NaN), 1, "Start becomes 0 if NaN is set as start")
+    equal(Array.firstMatch(arr, 2), 1, "Finds correctly")
+    equal(Array.firstMatch(arr, 9), -1, "Not present")
+    equal(Array.firstMatch(arr, 2, -3), 1, "Finds correctly with negative start")
+    equal(Array.firstMatch(arr, 2, 2), 7, "Finds correctly with custom start")
+    equal(Array.firstMatch(arr, 2, 90), -1, "Returns -1 if start is > length")
+    equal(Array.firstMatch(arr, 2, NaN), 1, "Start becomes 0 if NaN is set as start")
+    
+    var arr2 = ["foo", "bar", "baz"]
+    
+    equal(Array.firstMatch(arr2, /bar/), 1, "Finds correctly RegExp")
+    equal(Array.firstMatch(arr2, /\s/), -1, "Finds correctly RegExp")
+    
+    var arr3 = ["foo", "barbaz", "a"]
+    
+    equal(Array.firstMatch(arr3, function(item, index, arr){
+      if(!index) equal(this, "foo", "context")
+      return item.length == 1
+    }, null, "foo"), 2, "Function")
     
   })
   
-  test("Array.prototype.findLast", function(){
+  test("Array.prototype.lastMatch", function(){
     
     var arr = [1,2,3,4,5,6,7,2,8]
     
-    equal(arr.findLast(2), 7, "Finds correctly")
-    equal(arr.findLast(9), -1, "Not present")
-    equal(arr.findLast(2, 8), 7, "Finds correctly with custom start")
-    equal(arr.findLast(2, 90), 7, "Finds correctly with a > length start")
-    equal(arr.findLast(2, -3), -1, "Returns -1 if start is < 0")
-    equal(arr.findLast(2, NaN), 7, "Start becomes 0 if NaN is set as start")
+    equal(arr.lastMatch(2), 7, "Finds correctly")
+    equal(arr.lastMatch(9), -1, "Not present")
+    equal(arr.lastMatch(2, 8), 7, "Finds correctly with custom start")
+    equal(arr.lastMatch(2, 90), 7, "Finds correctly with a > length start")
+    equal(arr.lastMatch(2, -3), -1, "Returns -1 if start is < 0")
+    equal(arr.lastMatch(2, NaN), 7, "Start becomes 0 if NaN is set as start")
+    
+    var arr2 = ["foo", "bar", "baz"]
+    
+    equal(arr2.lastMatch(/bar/), 1, "Finds correctly RegExp")
+    equal(arr2.lastMatch(/\s/), -1, "Finds correctly RegExp")
+    
+    var arr3 = ["foo", "barbaz", "a"]
+    
+    equal(arr3.lastMatch(function(item, index, arr){
+      if(!index) equal(this, "foo", "context")
+      return item.length == 1
+    }, null, "foo"), 2, "Function")
     
   })
 
-    test("Array.findLast", function(){
+    test("Array.lastMatch", function(){
     
     var arr = [1,2,3,4,5,6,7,2,8]
     
-    equal(Array.findLast(arr, 2), 7, "Finds correctly")
-    equal(Array.findLast(arr, 9), -1, "Not present")
-    equal(Array.findLast(arr, 2, 8), 7, "Finds correctly with custom start")
-    equal(Array.findLast(arr, 2, 90), 7, "Finds correctly with a > length start")
-    equal(Array.findLast(arr, 2, -3), -1, "Returns -1 if start is < 0")
-    equal(Array.findLast(arr, 2, NaN), 7, "Start becomes 0 if NaN is set as start")
+    equal(Array.lastMatch(arr, 2), 7, "Finds correctly")
+    equal(Array.lastMatch(arr, 9), -1, "Not present")
+    equal(Array.lastMatch(arr, 2, 8), 7, "Finds correctly with custom start")
+    equal(Array.lastMatch(arr, 2, 90), 7, "Finds correctly with a > length start")
+    equal(Array.lastMatch(arr, 2, -3), -1, "Returns -1 if start is < 0")
+    equal(Array.lastMatch(arr, 2, NaN), 7, "Start becomes 0 if NaN is set as start")
+    
+    var arr2 = ["foo", "bar", "baz"]
+    
+    equal(Array.lastMatch(arr2, /bar/), 1, "Finds correctly RegExp")
+    equal(Array.lastMatch(arr2, /\s/), -1, "Finds correctly RegExp")
+    
+    var arr3 = ["foo", "barbaz", "a"]
+    
+    equal(Array.lastMatch(arr3, function(item, index, arr){
+      if(!index) equal(this, "foo", "context")
+      return item.length == 1
+    }, null, "foo"), 2, "Function")
     
   })
   

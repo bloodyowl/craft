@@ -185,24 +185,35 @@
     equal(ctxTest, ctx.verified, "Context is passed")
   })
 
- test("Elements.prototype.find", function(){
+ test("Elements.prototype.firstMatch", function(){
     
     var arr = makeElementSet()
       , toFind = arr[2]    
     
-    deepEqual(arr.find(toFind), 2, "Find is right")
-    deepEqual(arr.find(toFind, 3), -1, "Find is right")
+    deepEqual(arr.firstMatch(toFind), 2, "Find is right")
+    deepEqual(arr.firstMatch(toFind, 3), -1, "Find is right")
+    
+    equal(arr.firstMatch(function(item, index, arr){
+      if(!index) equal(this, "foo", "context")
+      return item == arr[2]
+    }, null, "foo"), 2, "Function")
+    
   })
 
 
-  test("Elements.prototype.findLast", function(){
+  test("Elements.prototype.lastMatch", function(){
     
     var arr = makeElementSet()
       , toFind = arr[2]
     
     
-    deepEqual(arr.findLast(toFind), 2, "Find is right")
-    deepEqual(arr.findLast(toFind, 1), -1, "Find is right")
+    deepEqual(arr.lastMatch(toFind), 2, "Find is right")
+    deepEqual(arr.lastMatch(toFind, 1), -1, "Find is right")
+    
+    equal(arr.lastMatch(function(item, index, arr){
+      if(!index) equal(this, "foo", "context")
+      return item == arr[2]
+    }, null, "foo"), 2, "Function")
   })
 
    test("Elements.prototype.contains", function(){

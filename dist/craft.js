@@ -895,13 +895,19 @@ var Arrays = (function(){
       number : index
   */
 
-  function find(search, start){
+  function firstMatch(search, start, thisValue){
     var self = this
       , index = typeof start == "number" && !isNaN(start) ? start : 0
       , length = self.length
     if(index < 0) index = 0
     if(index > self.length) return -1
-    for(;index < length; index++) if(self[index] === search) return index
+    if(Object.isFunction(search)) {
+      for(;index < length; index++) if(search.call(thisValue, self[index], index, self)) return index
+    } else if(Object.isRegExp(search)) {
+      for(;index < length; index++) if(typeof self[index] == "string" && search.test(self[index])) return index
+    } else {
+      for(;index < length; index++) if(self[index] === search) return index
+    }
     return -1
   }
   
@@ -918,12 +924,18 @@ var Arrays = (function(){
       number : index
   */
 
-  function findLast(search, start){
+  function lastMatch(search, start, thisValue){
     var self = this
       , index = typeof start == "number" && !isNaN(start) ? start : self.length
     if(index > self.length) index = self.length
     if(index < 0) return -1
-    for(;index--;) if(self[index] === search) return index
+    if(Object.isFunction(search)) {
+      for(;index--;) if(search.call(thisValue, self[index], index, self)) return index
+    } else if(Object.isRegExp(search)) {
+      for(;index--;) if(typeof self[index] == "string" && search.test(self[index])) return index
+    } else {
+      for(;index--;) if(self[index] === search) return index
+    }
     return -1
   }
   
@@ -941,7 +953,10 @@ var Arrays = (function(){
 
 
   function contains(value){
-    return !!~find.call(this, value)
+    var self = this
+      , index = 0, l = self.length
+    for(;index < l; index++) if(value === self[index]) return true
+    return false
   }
   
   /*
@@ -1249,7 +1264,7 @@ var Arrays = (function(){
 
   return {
       each: each
-    , findLast : findLast
+    , lastMatch : lastMatch
     , clone: clone
     , collect: collect
     , groupWith : groupWith
@@ -1261,7 +1276,7 @@ var Arrays = (function(){
     , fold: fold
     , foldRight : foldRight
     , flatten: flatten
-    , find: find
+    , firstMatch: firstMatch
     , last : last
     , contains: contains
     , pluck: pluck
@@ -2416,7 +2431,7 @@ Selector.matcher = function(selector, root, param, target){
     , _collect = [].collect
     , _select = [].select
     , _contains = [].contains
-    , _find = [].find
+    , _find = [].firstMatch
     , _pluck = [].pluck
     , _each = [].each
     , _ctnr = doc.createElement("div")
@@ -2558,7 +2573,7 @@ Selector.matcher = function(selector, root, param, target){
   
   Object.extend(Elements, elementHelpers)
   
-  "each collect fold foldRight find findLast contains pluck isEmpty groupBy last groupWith any all"
+  "each collect fold foldRight firstMatch lastMatch contains pluck isEmpty groupBy last groupWith any all"
   .split(" ")
   .each(function(i){
      Elements.implement(i, function(){
