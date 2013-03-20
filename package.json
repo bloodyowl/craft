@@ -15,7 +15,7 @@
     "url": "https://github.com/mlbli/craft/issues"
   },
   "scripts": {
-    "start": "node app"
+    "test" : "grunt travis --verbose"
   },
   "engines" :{
     "node" : "0.8.11",

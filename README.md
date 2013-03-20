@@ -1,7 +1,5 @@
 ![Craft](http://f.cl.ly/items/3z2l3I3G1N1V370W1913/craft-2.png)
 
-**NOTE** : Craft 2 is still alpha. 
-
 ## Introduction 
 
 Craft is a lightweight, nevertheless powerful JavaScript toolbelt. 
