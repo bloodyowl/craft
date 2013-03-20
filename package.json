@@ -1,6 +1,19 @@
 {
   "name": "craft",
-  "version": "1.2.9",
+  "version": "2.0.0",
+  "description": "A lightweight, pragmatic JavaScript toolbelt.",
+  "homepage": "http://craftjs.org",
+  "author": {
+    "name": "Matthias Le Brun",
+    "url": "https://github.com/mlbli"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mlbli/craft.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mlbli/craft/issues"
+  },
   "scripts": {
     "start": "node app"
   },
