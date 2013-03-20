@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>unit tests</title>
+  <link rel="stylesheet" href="./assets/qunit.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="./assets/qunit.js"></script>
+  <script src="./assets/require.js"></script>
+  <script>
+
+      require.config({
+          baseUrl : "/dist/"
+        , paths: {
+              "craft": "craft"
+          }
+      })
+
+      require(
+         ["craft"]
+      , function(Craft){
+        
+        test("RequireJS compatible", function(){
+
+          equal(typeof Craft, "object", "Object is passed")
+          equal(typeof Craft.$, "function", "Dollar is passed")
+          equal(typeof window.$, "undefined", "Dollar isn't exposed to window")
+          equal(typeof Craft.Browser, "object", "Browser is passed")
+          equal(typeof window.Browser, "undefined", "Browser isn't exposed to window")
+          equal(typeof Craft.Class, "object", "Class is passed")
+          equal(typeof window.Class, "undefined", "Class isn't exposed to window")
+          equal(typeof Craft.Craft, "function", "Craft is passed")
+          equal(typeof window.Craft, "undefined", "Craft isn't exposed to window")
+          equal(typeof Craft.Elements, "function", "Elements is passed")
+          equal(typeof window.Elements, "undefined", "Elements isn't exposed to window")
+          equal(typeof Craft.Request, "function", "Request is passed")
+          equal(typeof window.Request, "undefined", "Request isn't exposed to window")
+          
+          Craft.foo = "bar"
+          
+          requirejs(["craft"], function(Craft2){
+            test("Params are kept", function(){
+              equal(Craft2.foo, "bar", "Setup is executed once")
+            })
+          })
+      })
+  })
+  </script>
+</body>
+</html>

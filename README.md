@@ -1,115 +1,65 @@
-# Craft
+![Craft](http://f.cl.ly/items/3z2l3I3G1N1V370W1913/craft-2.png)
 
-[![Build Status](https://travis-ci.org/mlbli/craft.png?branch=master)](https://travis-ci.org/mlbli/craft)
+**NOTE** : Craft 2 is still alpha. 
 
-Craft.js is a lightweight & extensible JavaScript framework that handles much of the boilerplate you want to get rid of. Craft makes JavaScript development much quicker and lets you keep your code clean and performant.
+## Introduction 
 
-## Compatibility
+Craft is a lightweight, nevertheless powerful JavaScript toolbelt. 
 
-Craft is compatible with all of the major browsers. (IE : 6+, Firefox : 3.6+, Safari : 4+, Chrome, Opera : 8+)
+## Documentation 
 
-## API
-Available on [craftjs.org](http://craftjs.org).
-
-## Get Craft
-
-```
-git clone https://github.com/mlbli/Craft.git
-```
-
+Comming soon. 
 
 ## Build
 
-Builds, lints, minifies, tests. 
+Just open your terminal and go for :
 
 ```
-grunt
+$ cd path/to/craft
+$ grunt
 ```
 
-## Test
+Your build is waiting for you in `./dist/`
 
-Requires PhantomJS. 
+## Test it in a specific browser
 
 ```
-$ grunt test
-Running "server" task
-Starting static web server on port 8000.
-
-Running "qunit:all" (qunit) task
-Testing test/..............................................................................OK
->> 139 assertions passed (3204ms)
-
-Done, without errors.
+$ cd path/to/craft
+$ node test/server/launch.js
 ```
 
-Available on [craftjs.org/test](http://craftjs.org/test).
+and go to `http://localhost:8080`
 
-## Acknowledgement
+## Browser compatibility
 
-**Prototype.js** for its inspiring API (you can see Craft.js as a *Prototype-lite* even if it doesn't target the same usages).
+Craft has been fully-tested in : 
 
-## Changelog
+* Opera 9.6+
+* Firefox 3.6+
+* IE7+
+* Safari 4+
+* Chrome 7+
 
-**25/12/2012** : 
-  `Defer`, `JSONP` & Event delegation. 
+## RequireJS support
 
-**16/11/2012** :
-  Renamed `Element.create` -> `Element.make`. The previous one causes a bug on some versions of IE8.
+```javascript
+require.config({
+    // ***
+  , paths: {
+        "craft": "craft"
+    }
+    // ***
+})
 
-**15/11/2012** :
-  Added `Event.listen` & `Event.stopListening` to let `window` be listened.
+require(["craft"]
+, function(Craft){
+  /* 
+    Craft object contains the properties 
+    that are otherwise placed in the global object.
+  */
+})
+```
 
-**14/11/2012** :
+## Contribute 
 
-* `Function.prototype` is not overwritten anymore :
-	* `(function(){}).bind` -> `(function(){}).attach`
-
-* For a better understanding :
-	* `(function(){}).curry` ->  `(function(){}).partial`
-
-* Unit tests added.
-
-**13/11/2012** :
-
-* `Array.prototype` is not overwritten anymore :
-
-	* `[].forEach` -> `[].each`
-	* `[].map` -> `[].collect`
-	* `[].filter` -> `[].select`
-	* `[].indexOf` -> `[].find`
-	* `[].reduce` -> `[].fold`
-
-* `[].fold` now accepts `undefined` as initial value.
-* `Craft.noConflict` added to stock `$` in `Craft.$` and in any variable if needed.
-
-**12/11/2012** : Element ready now acts like an event callback (errors thrown inside don't stop the others callbacks).
-
-**09/11/2012** : New Element API (check the [docs](http://craftjs.org/docs))
-
-**03/11/2012** : Fixed IE issue when using `Hash#get` and `DOM#get` with DOM elements in IE.
-
-**02/11/2012** :
-
-* Added nesting support for `DOM#get` and `Hash#get` (such as `myEl.get("foo.bar")`)
-* Made DOM, AJAX, and Hash constructor invokable without `new` keyword.
-
-**01/11/2012** : Changed `Craft.Browser.isChrome` and `Craft.Browser.isSafari` to `Craft.Browser.isWebkit`
-
-**31/10/2012** : Added possibility to pass a DOM object as first argument of `DOM#insert`
-
-**31/10/2012** : Made `Array.prototype` polyfills compatible with ES5
-
-**29/10/2012** : Added `DOM#getElement`  method
-
-**26/10/2012** : Fixed IE issues
-
-**24/10/2012** : Fixed `DOM#serialize` issue
-
-**18/10/2012** :
-
-* Removed `Function#toHandler` and created `Event.stop(eventObject)` instead.
-* Fixed `Craft.AJAX` issues.
-* `Craft.AJAX#send` has been rename to `Craft.AJAX#update`.
-* API created
-
-**17/10/2012** : Initial commit.
+To contribute, please follow the [coding style guidelines](https://github.com/mlbli/guidelines#javascript), update the unit-tests and the docs if your pull-request has an impact on it. 
