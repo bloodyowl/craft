@@ -91,7 +91,7 @@ module.exports = function(grunt){
   grunt.registerTask("server", function(){
     require("./test/server/launch")
   })
-  grunt.registerTask("test", ["server", "qunit"])
+  grunt.registerTask("test", ["concat", "jshint", "server", "qunit"])
   grunt.registerTask("default", ["concat", "jshint", "uglify", "test"])
 
 }
