@@ -1,5 +1,7 @@
 ![Craft](http://f.cl.ly/items/3z2l3I3G1N1V370W1913/craft-2.png)
 
+[![Build Status](https://travis-ci.org/mlbli/craft.png?branch=master)](https://travis-ci.org/mlbli/craft)
+
 ## Introduction 
 
 Craft is a lightweight, nevertheless powerful JavaScript toolbelt. 
