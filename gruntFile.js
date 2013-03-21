@@ -70,7 +70,6 @@ module.exports = function(grunt){
             , browser: true
             , undef : true
             , unused : true
-            , strict : true
             , validthis : true
             , newcap : false
             , globals : {
