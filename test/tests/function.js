@@ -42,6 +42,7 @@
     deepEqual(new attached4(), fn2.prototype, "Passing 0 doesn't prevent the function from creating an instance")
     deepEqual(new attached5(), fn2.prototype, "Passing \"\" doesn't prevent the function from creating an instance")
     deepEqual(new attached6(), fn2.prototype, "Passing false doesn't prevent the function from creating an instance")
+    equal(Math.pow.attach(Math, 2)(3), 8, "Works if function prototype is undefined")
     
   })
   

@@ -39,6 +39,7 @@ var Class = (function(){
   */
   
   function from(inherit){
+    if(!isObject(inherit)) inherit = {}
     if(objectCreate) return objectCreate(inherit)
     function F(){}
     F.prototype = inherit
@@ -3548,7 +3549,7 @@ Selector.matcher = function(selector, root, param, target){
     win.$ = dollar
     return $
   }
-  $.version = "2.0.1"
+  $.version = "2.0.3"
   $.implement = Function.prototype.implement.attach(Elements)
   
 
