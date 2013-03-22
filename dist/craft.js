@@ -319,7 +319,7 @@ var Class = (function(){
    */
   
    function isString(object){
-     return typeof object == "string"
+     return typeof object == "string" || _toString.call(object) == "[object String]"
    }
    
    /*
@@ -335,7 +335,7 @@ var Class = (function(){
    */
   
    function isNumber(object){
-     return typeof object == "number"
+     return typeof object == "number" || _toString.call(object) == "[object Number]"
    }
    
    /*
@@ -368,7 +368,7 @@ var Class = (function(){
    */
    
    function isBoolean(bool){
-     return typeof bool == "boolean"
+     return typeof bool == "boolean" || _toString.call(bool) == "[object Boolean]"
    }
    
    /*
