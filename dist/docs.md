@@ -422,7 +422,7 @@ Array.collect(myArray, function(item, index, array){}, thisValue)
 
 ## Array.select
 
-Iterates over the given array, executes the `fn` function for each item in the array, with `item, index, array` as arguments, and an optional `thisValue`. The returned value is a new array containing the items of the first array for which `fn` returned a strict `true`. 
+Iterates over the given array, executes the `fn` function for each item in the array, with `item, index, array` as arguments, and an optional `thisValue`. The returned value is a new array containing the items of the first array for which `fn` returned a truthy value. 
 
 ```javascript
 myArray.select(function(item, index, array){}, thisValue) 

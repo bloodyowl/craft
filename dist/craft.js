@@ -751,8 +751,11 @@ var Arrays = (function(){
     var self = this
       , index = 0
       , length = self.length
-
-    for(;index < length; index++) if(fn.call(context, self[index], index, self) === false) break
+    if(arguments.length > 1){
+      for(;index < length; index++) if(fn.call(context, self[index], index, self) === false) break
+    } else {
+      for(;index < length; index++) if(fn(self[index], index, self) === false) break
+    }
 
     return self
   }
@@ -776,7 +779,11 @@ var Arrays = (function(){
       , index = 0
       , length = self.length
 
-    for(;index < length; index++) mapped[index] = fn.call(context, self[index], index, self)
+    if(arguments.length > 1){
+      for(;index < length; index++) mapped[index] = fn.call(context, self[index], index, self)
+    } else {
+      for(;index < length; index++) mapped[index] = fn(self[index], index, self)
+    }
 
     return mapped
   }
@@ -799,8 +806,19 @@ var Arrays = (function(){
       , filtered = []
       , index = 0
       , length = self.length
+      , cache
 
-    for(;index < length; index++) if(fn.call(context, self[index], index, self) === true) filtered.push(self[index])
+    if(arguments.length > 1){
+      for(;index < length; index++) {
+        cache = self[index]
+        if(fn.call(context, cache, index, self)) filtered.push(cache)
+      }
+    } else {
+      for(;index < length; index++) {
+        cache = self[index]
+        if(fn(cache, index, self)) filtered.push(cache)
+      }
+    }
 
     return filtered
   }
@@ -823,9 +841,19 @@ var Arrays = (function(){
       , filtered = []
       , index = 0
       , length = self.length
+      , cache
 
-    for(;index < length; index++) if(fn.call(context, self[index], index, self) !== true) filtered.push(self[index])
-
+    if(arguments.length > 1) {
+      for(;index < length; index++) {
+        cache = self[index]
+        if(!fn.call(context, cache, index, self)) filtered.push(cache)
+      } 
+    } else {
+      for(;index < length; index++) {
+        cache = self[index]
+        if(!fn(cache, index, self)) filtered.push(cache)
+      } 
+    }
     return filtered
   }
   
