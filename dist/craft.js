@@ -139,6 +139,9 @@ var Class = (function(){
       }
       if(isNaN(object)) return "nan"
       if(isWindow(object)) return "window"
+      if(isBoolean(object)) return "boolean"
+      if(isNumber(object)) return "number"
+      if(isString(object)) return "string"
       return type
    }
    
