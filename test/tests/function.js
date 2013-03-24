@@ -34,6 +34,7 @@
         , fn : attached
       }
       
+    equal(attachedArg.getLength(), 1, "getLength")
     equal(obj2.fn("foo"), obj.foo + "foo", "Correctly attached")
     equal(attachedArg("foo"), obj.foo + "foofoo", "Correctly attached, and argument passed")
     equal(attached.prototype.getFoo, fn.prototype.getFoo, "Prototype is passed")
@@ -63,7 +64,8 @@
     var partial = fn.partial()
       , partial2 = fn.partial("foo")
       , partial3 = fn2.partial()
-      
+    
+    equal(partial2.getLength(), 1, "getLength")
     equal(partial("foo"), "foo", "Empty partial is a function copy")
     equal(partial2("foo"), "foofoo", "Partial works")
     deepEqual(partial2.prototype, fn.prototype, "Prototypes are taken") 
