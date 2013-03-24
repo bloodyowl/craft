@@ -3558,7 +3558,7 @@ Selector.matcher = function(selector, root, param, target){
     win.$ = dollar
     return $
   }
-  $.version = "2.0.3"
+  $.version = "2.0.4"
   $.implement = Function.prototype.implement.attach(Elements)
   
 
