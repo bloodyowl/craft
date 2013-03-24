@@ -7,7 +7,7 @@ module.exports = function(grunt){
 
   grunt.initConfig({
       meta : {
-        banner : "/*!\n  Craft.js\n  2.0.4 \n*/"
+        banner : "/*!\n  Craft.js\n  2.0.5 \n*/"
       }
     , concat : {
           dist : {

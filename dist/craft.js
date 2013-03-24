@@ -1401,6 +1401,7 @@ var functionMethods = (function(){
     var self = this
       , args = _arrayFrom(arguments, 1)
       , fn
+      , length = self.getLength() - args.length
       
       if(args.length) {
         fn = function fn(){
@@ -1420,6 +1421,7 @@ var functionMethods = (function(){
         }
       
     fn.prototype = Class.from(self.prototype)
+    fn.__length__ = length
     return fn
   }
 
@@ -1439,6 +1441,7 @@ var functionMethods = (function(){
   function partial(){
     var self = this
       , args = _arrayFrom(arguments)
+      , length = self.getLength() - args.length
       
       function fn(){
         return arguments.length ? 
@@ -1447,6 +1450,7 @@ var functionMethods = (function(){
       }
       
     fn.prototype = Class.from(self.prototype)
+    fn.__length__ = length
     return fn
   }
 
@@ -1497,11 +1501,18 @@ var functionMethods = (function(){
     }
   }
   
+  
+  function getLength(){
+    var self = this
+    return self.__length__ || self.length || 0
+  }
+  
   return {
       attach : attach
     , partial : partial
     , delay : delay
     , debounce : debounce
+    , getLength : getLength
   }
 
 })()
@@ -3558,7 +3569,7 @@ Selector.matcher = function(selector, root, param, target){
     win.$ = dollar
     return $
   }
-  $.version = "2.0.4"
+  $.version = "2.0.5"
   $.implement = Function.prototype.implement.attach(Elements)
   
 
