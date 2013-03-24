@@ -8,7 +8,7 @@ Craft is a lightweight, nevertheless powerful JavaScript toolbelt.
 
 ## Documentation 
 
-Comming soon. 
+Check the [separated files](https://github.com/mlbli/craft/tree/master/docs) or the [concatenated one](https://github.com/mlbli/craft/blob/master/dist/docs.md). 
 
 ## Build
 
