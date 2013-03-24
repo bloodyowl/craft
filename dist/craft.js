@@ -1401,7 +1401,7 @@ var functionMethods = (function(){
     var self = this
       , args = _arrayFrom(arguments, 1)
       , fn
-      , length = self.length - args.length
+      , length = self.getLength() - args.length
       
       if(args.length) {
         fn = function fn(){
@@ -1441,7 +1441,7 @@ var functionMethods = (function(){
   function partial(){
     var self = this
       , args = _arrayFrom(arguments)
-      , length = self.length - args.length
+      , length = self.getLength() - args.length
       
       function fn(){
         return arguments.length ? 
@@ -3569,7 +3569,7 @@ Selector.matcher = function(selector, root, param, target){
     win.$ = dollar
     return $
   }
-  $.version = "2.0.4"
+  $.version = "2.0.5"
   $.implement = Function.prototype.implement.attach(Elements)
   
 

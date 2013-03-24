@@ -1701,6 +1701,19 @@ var moveLeft = move(-1)
 moveLeft(30) // moves 30px left
 ```
 
+## Function.prototype.getLength
+
+Introduced in Craft 2.0.5. 
+
+`Function.prototype.getLength` returns the expected number of arguments of a given function. `.partial` and  `.attach` use the `arguments` object to prepend parameters, so the `function.length` is always `0`. `function.getLength()` returns the accurate length for arity consistency. 
+
+```javascript
+function foo(a,b,c){}
+var bar = foo.partial(1).partial(2)
+bar.length // 0
+bar.getLength() // 1
+```
+
 ## Function.prototype.delay 
 
 `Function.prototype.delay` delays the execution of a function of `n` second, with, optionally, the given arguments. 
