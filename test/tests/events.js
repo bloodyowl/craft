@@ -6,7 +6,7 @@
 
   asyncTest("Listen/Fire", function(){
     
-    expect(3)
+    expect(5)
     
     $(function(){
       
@@ -27,6 +27,15 @@
       body.stopListening("test:fire")
       body.fire("test:fire", {foo:"Fires"})
       
+      
+      body.listen("foo:bar foo:baz", function(e){
+        ok(e.eventName == "foo:bar" || e.eventName == "foo:baz", "Listens to multiple events in the same declaration")
+      })
+      body.fire("foo:bar")
+      body.fire("foo:baz")
+      body.stopListening("foo:bar foo:baz")
+      body.fire("foo:bar")
+      body.fire("foo:baz")
       
     })
     

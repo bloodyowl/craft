@@ -848,7 +848,7 @@ myElements.intersect(otherElements)
   // -> newElements
 ```
 
-### Elements.prototype.intersect
+### Elements.prototype.difference
 
 Returns a new `Elements` instance filled with the items that are in the first and not in the second list. 
 
@@ -1261,6 +1261,8 @@ Event.listen(element, "mouseenter", function(e){})
 // Elements method
 myElements.listen(element, "mouseenter", ".list-item", function(e){})
 myElements.listen(element, "mouseenter", function(e){})
+// Multiple events
+myElements.listen(element, "click myclass:create", function(e){})
 ```
 
 ## Event.stopListening
@@ -1276,6 +1278,8 @@ Event.stopListening(element, "click", handler) // stops listening the "click" ev
 myElements.stopListening() // stops listening every event
 myElements.stopListening("click") // stops listening every "click" event
 myElements.stopListening("click", handler) // stops listening the "click"
+// Multiple events
+myElements.stopListening(element, "click myclass:create")
 ```
 
 ## Event.fire
