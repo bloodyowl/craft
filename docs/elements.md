@@ -179,7 +179,7 @@ myElements.intersect(otherElements)
   // -> newElements
 ```
 
-### Elements.prototype.intersect
+### Elements.prototype.difference
 
 Returns a new `Elements` instance filled with the items that are in the first and not in the second list. 
 

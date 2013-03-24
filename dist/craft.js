@@ -2438,16 +2438,25 @@ Selector.matcher = function(selector, root, param, target){
   
   function listen(el, ev, selector, handler){
     var delegated = isString(selector), response
+      , events = ev.match(/\S+/g)
+      , l = 0, item
+    if(events) l = events.length
     if(!delegated) {
       handler = selector
       selector = null
     }
-    response = createHandler(el, ev, handler, selector)
-    listener(el, ev, response, delegated)
+  
+    for(;l--;) {
+      item = events[l]
+      response = createHandler(el, item, handler, selector)
+      listener(el, item, response, delegated)
+    }
   }
   
   function stopListening(el, ev, handler){
-    unregister(el, ev, handler)
+    var events = ev.match(/\S+/g), l = 0
+    if(events) l = events.length
+    for(;l--;) unregister(el, events[l], handler)
   }
   
   Object.extend(win.Event, {
