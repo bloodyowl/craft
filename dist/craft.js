@@ -2465,9 +2465,14 @@ Selector.matcher = function(selector, root, param, target){
   }
   
   function stopListening(el, ev, handler){
-    var events = ev.match(/\S+/g), l = 0
-    if(events) l = events.length
-    for(;l--;) unregister(el, events[l], handler)
+    var events, l = 0
+    if(Object.isString(ev)) {
+      events = ev.match(/\S+/g)
+      if(events) l = events.length
+      for(;l--;) unregister(el, events[l], handler)
+    } else {
+      unregister(el)
+    }
   }
   
   Object.extend(win.Event, {
@@ -3569,7 +3574,7 @@ Selector.matcher = function(selector, root, param, target){
     win.$ = dollar
     return $
   }
-  $.version = "2.0.5"
+  $.version = "2.0.6"
   $.implement = Function.prototype.implement.attach(Elements)
   
 
