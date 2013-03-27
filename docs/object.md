@@ -134,6 +134,23 @@ Object.toQueryString(object)
   // -> "foo=bar&bar=baz"
 ```
 
+### Object.fromQueryString
+
+Returns an object from a queryString. 
+
+```javascript
+var str = "foo=bar&baz=baz"
+Object.fromQueryString(str) 
+  // -> {foo:"bar", baz:"baz"}
+var str2 = "foo=bar&baz[]=baz&baz[]=bar"
+Object.fromQueryString(str2) 
+  // -> {foo:"bar", baz:["baz", "bar"]}
+var str3 = "foo=bar&baz[]=baz&baz[]=bar&baz=foo"
+Object.fromQueryString(str2) 
+  // -> {foo:"bar", baz:"foo"}
+```
+
+
 ### Object.uniqueId 
 
 Returns a string with an optional prefix with a unique number (one increment for every generated id) 

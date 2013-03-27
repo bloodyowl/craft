@@ -660,6 +660,34 @@ var objectMethods = (function(){
       queryString = queryString.slice(0, -1)
       return "encodeURI" in win ? win.encodeURI(queryString) : win.escape(queryString)
     } 
+    
+  /*
+    Object.toQueryString
+    =======
+    Converts an queryString into an object
+    =======
+    @arguments {
+      str : Object to convert
+    }
+    @output 
+      string : queryString
+  */
+    
+  function fromQueryString(str){
+    var obj = {}, arr, i = 0, l, cache
+    if(str == null) return {}
+    arr = str.match(/[^\&\=]+/g)
+    l = arr.length
+    for(;i < l; i = i+2) {
+      cache = arr[i]
+      if(/\[\]$/.test(cache) && (cache = cache.replace(/\[\]$/, ""))) {
+        obj[cache] = (Object.isArray(obj[cache]) ? obj[cache] : []).concat(window.unescape ? window.unescape(arr[i+1]) : arr[i+1])
+      } else {
+        obj[cache] = window.unescape ? window.unescape(arr[i+1]) : arr[i+1]
+      }
+    }
+    return obj
+  }
 
   /*
     Object.uniqGenerator
@@ -706,6 +734,7 @@ var objectMethods = (function(){
     , isEmpty : isEmpty
     , clone : clone
     , toQueryString : toQueryString
+    , fromQueryString : fromQueryString
     , uniqueId : uniqueId
     , owns : owns
     , typeOf : typeOf
@@ -3574,7 +3603,7 @@ Selector.matcher = function(selector, root, param, target){
     win.$ = dollar
     return $
   }
-  $.version = "2.0.6"
+  $.version = "2.0.7"
   $.implement = Function.prototype.implement.attach(Elements)
   
 
