@@ -62,4 +62,4 @@ require(["craft"]
 
 ## Contribute 
 
-To contribute, please follow the [coding style guidelines](https://github.com/mlbli/guidelines#javascript), update the unit-tests and the docs if your pull-request has an impact on it. 
+To contribute, please follow the [coding style guidelines](https://github.com/mlbli/guidelines#javascript), update the unit-tests and the docs if your pull-request has an impact on it.
