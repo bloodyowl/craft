@@ -674,8 +674,10 @@ var objectMethods = (function(){
   */
     
   function fromQueryString(str){
-    var obj = {}, arr, i = 0, l, cache
+    var obj = {}, arr, i = 0, l, cache, first
     if(str == null) return {}
+    first = str.charAt(0)
+    if(first == "&" || first == "?") str = str.slice(1)
     arr = str.match(/[^\&\=]+/g)
     l = arr.length
     for(;i < l; i = i+2) {
@@ -3603,7 +3605,7 @@ Selector.matcher = function(selector, root, param, target){
     win.$ = dollar
     return $
   }
-  $.version = "2.0.7"
+  $.version = "2.0.8"
   $.implement = Function.prototype.implement.attach(Elements)
   
 
