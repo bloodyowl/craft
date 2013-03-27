@@ -231,6 +231,18 @@
     
   })
   
+  
+  test("Object.fromQueryString", function(){
+  
+    deepEqual(Object.fromQueryString("foo=1&bar=2&bar=4&bar=6&baz=3"),  {bar: "6", baz: "3", foo: "1"}, "Returns the right object")
+    deepEqual(Object.fromQueryString("foo=1&bar[]=2&bar[]=4&bar[]=6&baz=3"), {bar: ["2", "4", "6"], baz: "3", foo: "1"}, "Optional Array params works")
+    deepEqual(Object.fromQueryString("foo=1&bar=2&bar[]=4&bar[]=6&baz=3"), {bar: ["4", "6"], baz: "3", foo: "1"}, "Array params after non-array erases the first one")
+    deepEqual(Object.fromQueryString("foo=1&bar[]=2&bar[]=4&bar=6&baz=3"), {bar: "6", baz: "3", foo: "1"}, "Last prop erases previous array")
+    deepEqual(Object.fromQueryString(), {}, "undefined param returns empty object")
+    deepEqual(Object.fromQueryString(null), {}, "null param returns empty object")
+  })
+  
+  
   test("Object.uniqueId", function(){
     
     var uniq1 = Object.uniqueId.partial("foo")
