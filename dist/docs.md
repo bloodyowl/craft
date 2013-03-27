@@ -1259,10 +1259,10 @@ The `callback` is a function, with an `eventObject` as first argument, and the e
 Event.listen(element, "mouseenter", ".list-item", function(e){})
 Event.listen(element, "mouseenter", function(e){})
 // Elements method
-myElements.listen(element, "mouseenter", ".list-item", function(e){})
-myElements.listen(element, "mouseenter", function(e){})
+myElements.listen("mouseenter", ".list-item", function(e){})
+myElements.listen("mouseenter", function(e){})
 // Multiple events
-myElements.listen(element, "click myclass:create", function(e){})
+myElements.listen("click myclass:create", function(e){})
 ```
 
 ## Event.stopListening
@@ -1279,7 +1279,7 @@ myElements.stopListening() // stops listening every event
 myElements.stopListening("click") // stops listening every "click" event
 myElements.stopListening("click", handler) // stops listening the "click"
 // Multiple events
-myElements.stopListening(element, "click myclass:create")
+myElements.stopListening("click myclass:create")
 ```
 
 ## Event.fire
