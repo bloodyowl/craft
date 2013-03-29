@@ -444,7 +444,7 @@ var Class = (function(){
   
    function extend(object, source, inherits){
      var i
-     if(!source || !object) return null
+     if(!source || !object) return null
      if(inherits) {
        for(i in source) object[i] = source[i]
      } else {
@@ -677,7 +677,7 @@ var objectMethods = (function(){
     var obj = {}, arr, i = 0, l, cache, first
     if(str == null) return {}
     first = str.charAt(0)
-    if(first == "&" || first == "?") str = str.slice(1)
+    if(first == "&" || first == "?") str = str.slice(1)
     arr = str.match(/[^\&\=]+/g)
     l = arr.length
     for(;i < l; i = i+2) {
@@ -1370,7 +1370,7 @@ Object.extend(Array, Object.collect(Arrays, function(a){return function(i){retur
   */
 
 Array.from = function(arrayLike, start){
-  if(!isObject(arrayLike) || !("length" in arrayLike)) return []
+  if(!isObject(arrayLike) || !("length" in arrayLike)) return []
   var i = start || 0
     , l = arrayLike.length
     , array = []
@@ -1535,7 +1535,7 @@ var functionMethods = (function(){
   
   function getLength(){
     var self = this
-    return self.__length__ || self.length || 0
+    return self.__length__ || self.length || 0
   }
   
   return {
@@ -1702,7 +1702,7 @@ var stringMethods = (function(){
     String.prototype.compile
     =======
     Fill the string #{path} elements with given data
-    #{index} for an array or an object
+    #{index} for an array or an object
     #{*} for a whole string
     =======
     @arguments {
