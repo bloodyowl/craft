@@ -1442,15 +1442,16 @@ var functionMethods = (function(){
             self.apply(ctx, args.concat(_arrayFrom(arguments))) : 
             self.apply(ctx, args)
         }
-      } 
-      fn = function fn(){
+      } else {
+        fn = function fn(){
           var t = this
             , ctx = t instanceof fn && context != null ? t : context
           return arguments.length ? 
-            self.apply(ctx, args.concat(_arrayFrom(arguments))) : 
-            self.apply(ctx, args)
+            self.apply(ctx, arguments) : 
+            self.apply(ctx)
         }
-      
+      } 
+
     fn.prototype = Class.from(self.prototype)
     fn.__length__ = length
     return fn
@@ -3605,7 +3606,7 @@ Selector.matcher = function(selector, root, param, target){
     win.$ = dollar
     return $
   }
-  $.version = "2.0.8"
+  $.version = "2.0.9"
   $.implement = Function.prototype.implement.attach(Elements)
   
 
