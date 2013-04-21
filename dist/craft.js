@@ -46,6 +46,16 @@ var Class = (function(){
     return new F()
   }
   
+  
+  function shortcut(fn){
+    function noop(){}
+    noop.prototype = fn.prototype
+    return function(){
+      return fn.apply(new noop(), arguments)
+    }
+  }
+  
+  
   /*
     Class.create
     =======
@@ -76,6 +86,7 @@ var Class = (function(){
       if(inherits) ctor.prototype = Class.from(inherits)
             
       ctor.implement(object)
+      ctor.create = shortcut(ctor)
       return ctor
   }
   

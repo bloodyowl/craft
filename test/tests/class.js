@@ -31,6 +31,17 @@
     equal(dog.getAge(), 1)
   })
   
+  test("Class.create (w/ .create shortcut)", function(){
+    
+    equal(Animal, Animal.prototype.initialize, "Constructor is in the prototype")
+    var dog = Animal.create("Random dog")
+    equal(dog.name, "Random dog")
+    equal(Animal.prototype.age, dog.age)
+    dog.addYear()
+    notEqual(Animal.prototype.age, dog.age)
+    equal(dog.getAge(), 1)
+  })
+  
   var Dog = Class.create(Animal, {
       greeting : "waf"
     , sayHello : function(){
