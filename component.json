@@ -1,5 +1,0 @@
-{
-  "name": "craft",
-  "version": "2.0.9",
-  "main": "./dist/craft.js"
-}

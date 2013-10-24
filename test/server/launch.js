@@ -1,7 +1,0 @@
-;(function(){
-  
-  
-  require('./dist').run()
-
-
-})()
