@@ -1,4 +1,7 @@
-;(function(win){
+;(function(win, fn){
+  
+  
+})(this.window, function(win){
   
   var doc = win.document
     , docEl = doc.documentElement
@@ -6,7 +9,7 @@
     , exposed
 
   craft.version = "3.0.0dev"
-  
+
   craft.create = Object.create ? 
     function(object) {
       return Object.create(object)
@@ -16,7 +19,12 @@
       K.prototype = object
       return new K()
     }
-
+  
+  craft.parseInt = craftParseInt
+  function craftParseInt(number, base){
+    return parseInt(number, base || 10)
+  }
+  
 
   ;(function(craft){
     
@@ -363,30 +371,55 @@
 
   ;(function(craft){
   
-    craft.events = craft.defineClass({}, function(){
+    craft.events = craft.defineClass(Object.prototype, function(){
       
       var self = this
         , _isPrototypeOf = {}.isPrototypeOf
   
+      function recursiveAsyncEach(array, fn){
+        var index = -1
+          , length = array.length
+        array = array.concat()
+        function iterator(){
+          if(++index >= length) return
+          setTimeout(function(){
+            fn(array[index], index, array)
+            iterator()
+          }, 0)
+        }
+        iterator()
+      }
       
       self.constructor = Events
       function Events(parent){
         var self = this
-        self.__events__ = craft.create(null)
-        self.__parent__ = parent
+        self._events = craft.create(null)
+        self._parent = parent
         return self
       }
       
-      self.__events__ = null
-      self.__parent__ = null
+      self._events = null
+      self._parent = null
   
       self.listen = listen
       function listen(eventName, callback){
         var self = this
-          , eventsObject = self.__events__
-        if(!eventsObject[eventName]) eventsObject[eventName] = []
+          , eventsObject = self._events
+        if(!eventsObject[eventName]) {
+          eventsObject[eventName] = []
+        }
         eventsObject[eventName].push(callback)
         return self
+      }
+      
+      self.listenOnce = listenOnce
+      function listenOnce(eventName, callback){
+        var self = this
+        self.listen(eventName, handler)
+        function handler(){
+          callback.apply(this, arguments)
+          self.stopListening(eventName, handler)
+        }
       }
       
       function removeCallback(callbackList, callback){
@@ -403,7 +436,6 @@
       function removeAllListeners(object){
         var i
         for(i in object) {
-          if(i == "__parent__" || i == "__events__") continue
           delete object[i]
         }
       }
@@ -411,7 +443,7 @@
       self.stopListening = stopListening
       function stopListening(eventName, callback){
         var self = this
-          , eventsObject = self.__events__
+          , eventsObject = self._events
           , eventsObjectCallbacks
         if(!eventsObject) return self
         if(!eventName) {
@@ -433,7 +465,7 @@
       self.fire = fire
       function fire(eventName, data){
         var self = this
-          , eventsObject = self.__events__
+          , eventsObject = self._events
           , eventsObjectCallbacks
           , i = -1, l
           , parent
@@ -451,17 +483,12 @@
         eventsObjectCallbacks = eventsObject[eventName]
       
         if(eventsObjectCallbacks) {
-          l = eventsObjectCallbacks.length
-          while(++i < l) {
-            (function(callback){
-              setTimeout(function(){
-                callback(eventWalker)
-              }, 0) 
-            })(eventsObjectCallbacks[i])
-          }
+          recursiveAsyncEach(eventsObjectCallbacks, function(item){
+            item(eventWalker)
+          })
         }
       
-        if((parent = self.__parent__) && !eventWalker.__stopped__) {
+        if((parent = self._parent) && !eventWalker._stopped) {
           fire.call(parent, eventName, eventWalker)
         }
         return self
@@ -470,15 +497,15 @@
       
     })
     
-    craft.eventObject = craft.defineClass({}, function(){
+    craft.eventObject = craft.defineClass(function(){
       
       var self = this
       
-      self.__stopped__ = false
+      self._stopped = false
       
       self.stop = stop
       function stop(){
-        this.__stopped__ = true
+        this._stopped = true
       }
       
     })
@@ -970,6 +997,107 @@
       this.each(destroyCallback)
     }
     
+    nodeList.getDimensions = getDimensions
+    function getDimensions(){
+      var dimensions
+        , style = getStyle.call(this)
+      if(!style) return null
+      dimensions = {}
+      dimensions.height = craftParseInt(style.height)
+      dimensions.width = craftParseInt(style.width)
+      return dimensions
+    }
+    
+    nodeList.getOffset = getOffset
+    function getOffset(){
+      var dimensions, clientRect
+        , first = this[0]
+        , top, left
+      if(!first) return null
+      top = win.pageYOffset || docEl.scrollTop || doc.body.scrollTop || 0
+      left = win.pageXOffset || docEl.scrollLeft || doc.body.scrollLeft || 0
+      clientRect = first.getBoundingClientRect()
+      dimensions = {}
+      dimensions.top = craftParseInt(top + clientRect.top)
+      dimensions.right = craftParseInt(left + clientRect.right)
+      dimensions.bottom = craftParseInt(top + clientRect.bottom)
+      dimensions.left = craftParseInt(left + clientRect.left)
+      dimensions.height = craftParseInt(clientRect.right - clientRect.left)
+      dimensions.width = craftParseInt(clientRect.bottom - clientRect.top)
+      return dimensions
+    }
+    
+    nodeList.getParent = getParent
+    function getParent(){
+      var first = this[0]
+        , parent
+        , doc
+      if(!first) return toNodeList()
+      parent = first.parentNode
+      if(parent == first.ownerDocument) return toNodeList()
+      return toNodeList(parent)
+    }
+    
+    nodeList.getParentChain = getParentChain
+    function getParentChain(){
+      var element = this[0]
+        , doc
+        , list = toNodeList()
+        , currentDoc = element.ownerDocument
+      if(!element) return list
+      while((element = element.parentNode) && (element != currentDoc)){
+        list.push(element)
+      }
+      return list
+    }
+    
+    nodeList.getChildren = getChildren
+    function getChildren(){
+      var element = this[0]
+      if(!element) return toNodeList() 
+      return toNodeList(element.children)
+    }
+    
+    nodeList.getSiblings = getSiblings
+    function getSiblings(){
+      var self = this
+        , el = self[0]
+        , children = self.getParent().getChildren()
+        , length = children.length
+      while(--length > -1) {
+        if(children[length] === el) {
+          children.splice(length, 1)
+          break
+        }
+      }
+      return children
+    }
+    
+    function siblingsCallback(item){
+      return item !== this
+    }
+    
+    nodeList.get = get
+    function get(property){
+      var first = this[0]
+      if(!first) return null
+      return first[property]
+    }
+    
+    craft.each(
+      "push sort join reduce slice concat".split(" ") 
+    , function(item){
+        var native = Array.prototype[item]
+        nodeList[item] = convertMethod(native)
+      })
+      
+    function convertMethod(native){
+      return function (){
+        var array = native.apply(this, arguments)
+        return toNodeList(array)
+      }
+    }
+    
     craft.$ = $
     function $(selector, context){
       return toNodeList.apply(null, arguments)
@@ -1388,32 +1516,42 @@
         var index = -1
           , callbacks = self.callbacks
           , length = self.callbacks.length
-        while(++index < length) (function(){
-          var callbackObject = callbacks[index]
-          
-          if(callbackObject.state & (~state | self.EXECUTED)) return
-          
+          , result
+          , callbackObject
+        craft.each(callbacks, function(cb){
+          if(cb.state & (~state | self.EXECUTED)) return
+          try {
+            if(self._isWhenPromise) {
+              result = cb.callback.apply(self, self[state])
+            } else {
+              result = cb.callback.call(self, self[state])
+            }
+            cb.state |= self.EXECUTED
+          } catch(e){
+              cb.state |= self.EXECUTED
+              setTimeout(function(){
+                cb.boundPromise.reject(e)
+              }, 0)
+            return
+          }
           setTimeout(function(){
-            var result = callbackObject.callback[self._isWhenPromise ? "apply" : "call"](self, self[state])
-            callbackObject.state |= self.EXECUTED
-            
             if(promise.isPromise(result)) {
-              return result.then(function(value){
-                callbackObject.boundPromise.fulfill(value)
+              result.then(function(value){
+                cb.boundPromise.fulfill(value)
               }, function(value){
-                callbackObject.boundPromise.reject(value)
+                cb.boundPromise.reject(value)
               })
-            } 
-  
-            callbackObject.boundPromise
-              [callbackObject.state & self.FULFILLED ? "fulfill" : "reject"]
-                (result)
-                      
+              return
+            }
+            
+            if(cb.state & self.FULFILLED) {
+              cb.boundPromise.fulfill(result)
+            } else {
+              cb.boundPromise.reject(result)
+            }
           }, 0)
-          
-        })()
+        })
       }
-      
     }
     
     craft.when = promise.extend(function(){
@@ -1458,12 +1596,51 @@
           }
         }
       }
-  
-  
     })
       
     
   })(craft)
   
+
+  ;(function(craft){
+      
+    var stack = []
+      , domReadyRE = /interactive|complete|loaded/
+      , isReady = false
+    
+    craft.domReady = domReadyInterface
+    function domReadyInterface(fn){
+      if(typeof fn != "function") {
+        return craft
+      }
+      if(isReady) {
+        run(fn)
+        return craft
+      }
+      stack.push(fn)
+      return craft
+    }
+    
+    function run(fn){
+      setTimeout(function(){
+        fn(craft)
+      }, 0)
+    }
+    
+    function checkStatus(){
+      var item
+      if(isReady) return
+      if(domReadyRE.test(doc.readyState)) {
+        isReady = true
+        while(item = stack.shift()) run(item)
+        return
+      }
+      setTimeout(checkStatus, 10)
+    }
+    
+    checkStatus()
+    
+  })(craft)
   
-})(this.window)
+  
+})

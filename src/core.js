@@ -1,4 +1,7 @@
-;(function(win){
+;(function(win, fn){
+  
+  
+})(this.window, function(win){
   
   var doc = win.document
     , docEl = doc.documentElement
@@ -38,5 +41,6 @@
   //= ./src/bom.js
   //= ./src/animation.js
   //= ./src/promise.js
+  //= ./src/dom-ready.js
   
-})(this.window)
+})

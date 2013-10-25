@@ -395,6 +395,77 @@
     return dimensions
   }
   
+  nodeList.getParent = getParent
+  function getParent(){
+    var first = this[0]
+      , parent
+      , doc
+    if(!first) return toNodeList()
+    parent = first.parentNode
+    if(parent == first.ownerDocument) return toNodeList()
+    return toNodeList(parent)
+  }
+  
+  nodeList.getParentChain = getParentChain
+  function getParentChain(){
+    var element = this[0]
+      , doc
+      , list = toNodeList()
+      , currentDoc = element.ownerDocument
+    if(!element) return list
+    while((element = element.parentNode) && (element != currentDoc)){
+      list.push(element)
+    }
+    return list
+  }
+  
+  nodeList.getChildren = getChildren
+  function getChildren(){
+    var element = this[0]
+    if(!element) return toNodeList() 
+    return toNodeList(element.children)
+  }
+  
+  nodeList.getSiblings = getSiblings
+  function getSiblings(){
+    var self = this
+      , el = self[0]
+      , children = self.getParent().getChildren()
+      , length = children.length
+    while(--length > -1) {
+      if(children[length] === el) {
+        children.splice(length, 1)
+        break
+      }
+    }
+    return children
+  }
+  
+  function siblingsCallback(item){
+    return item !== this
+  }
+  
+  nodeList.get = get
+  function get(property){
+    var first = this[0]
+    if(!first) return null
+    return first[property]
+  }
+  
+  craft.each(
+    "push sort join reduce slice concat".split(" ") 
+  , function(item){
+      var native = Array.prototype[item]
+      nodeList[item] = convertMethod(native)
+    })
+    
+  function convertMethod(native){
+    return function (){
+      var array = native.apply(this, arguments)
+      return toNodeList(array)
+    }
+  }
+  
   craft.$ = $
   function $(selector, context){
     return toNodeList.apply(null, arguments)

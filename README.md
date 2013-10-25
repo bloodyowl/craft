@@ -6,8 +6,6 @@ JavaScript library.
 
 * MouseEnter / MouseLeave detection methods
 * Form parsing / serializing
-* Element dimensions / positioning
-* Parents / Children / Siblings getters
 * DOM Ready
 * UMD
 

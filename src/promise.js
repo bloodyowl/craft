@@ -102,7 +102,7 @@
           }
           
           if(cb.state & self.FULFILLED) {
-            cb.boundPromise.fullfill(result)
+            cb.boundPromise.fulfill(result)
           } else {
             cb.boundPromise.reject(result)
           }

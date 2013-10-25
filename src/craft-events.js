@@ -22,21 +22,33 @@
     self.constructor = Events
     function Events(parent){
       var self = this
-      self.__events__ = craft.create(null)
-      self.__parent__ = parent
+      self._events = craft.create(null)
+      self._parent = parent
       return self
     }
     
-    self.__events__ = null
-    self.__parent__ = null
+    self._events = null
+    self._parent = null
 
     self.listen = listen
     function listen(eventName, callback){
       var self = this
-        , eventsObject = self.__events__
-      if(!eventsObject[eventName]) eventsObject[eventName] = []
+        , eventsObject = self._events
+      if(!eventsObject[eventName]) {
+        eventsObject[eventName] = []
+      }
       eventsObject[eventName].push(callback)
       return self
+    }
+    
+    self.listenOnce = listenOnce
+    function listenOnce(eventName, callback){
+      var self = this
+      self.listen(eventName, handler)
+      function handler(){
+        callback.apply(this, arguments)
+        self.stopListening(eventName, handler)
+      }
     }
     
     function removeCallback(callbackList, callback){
@@ -60,7 +72,7 @@
     self.stopListening = stopListening
     function stopListening(eventName, callback){
       var self = this
-        , eventsObject = self.__events__
+        , eventsObject = self._events
         , eventsObjectCallbacks
       if(!eventsObject) return self
       if(!eventName) {
@@ -82,7 +94,7 @@
     self.fire = fire
     function fire(eventName, data){
       var self = this
-        , eventsObject = self.__events__
+        , eventsObject = self._events
         , eventsObjectCallbacks
         , i = -1, l
         , parent
@@ -100,12 +112,12 @@
       eventsObjectCallbacks = eventsObject[eventName]
     
       if(eventsObjectCallbacks) {
-        recursiveAsyncEach(function(item){
+        recursiveAsyncEach(eventsObjectCallbacks, function(item){
           item(eventWalker)
         })
       }
     
-      if((parent = self.__parent__) && !eventWalker.__stopped__) {
+      if((parent = self._parent) && !eventWalker._stopped) {
         fire.call(parent, eventName, eventWalker)
       }
       return self
@@ -114,15 +126,15 @@
     
   })
   
-  craft.eventObject = craft.defineClass({}, function(){
+  craft.eventObject = craft.defineClass(function(){
     
     var self = this
     
-    self.__stopped__ = false
+    self._stopped = false
     
     self.stop = stop
     function stop(){
-      this.__stopped__ = true
+      this._stopped = true
     }
     
   })
