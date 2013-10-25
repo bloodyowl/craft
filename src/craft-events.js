@@ -1,10 +1,23 @@
 ;(function(craft){
 
-  craft.events = craft.defineClass({}, function(){
+  craft.events = craft.defineClass(Object.prototype, function(){
     
     var self = this
       , _isPrototypeOf = {}.isPrototypeOf
 
+    function recursiveAsyncEach(array, fn){
+      var index = -1
+        , length = array.length
+      array = array.concat()
+      function iterator(){
+        if(++index >= length) return
+        setTimeout(function(){
+          fn(array[index], index, array)
+          iterator()
+        }, 0)
+      }
+      iterator()
+    }
     
     self.constructor = Events
     function Events(parent){
@@ -40,7 +53,6 @@
     function removeAllListeners(object){
       var i
       for(i in object) {
-        if(i == "__parent__" || i == "__events__") continue
         delete object[i]
       }
     }
@@ -88,14 +100,9 @@
       eventsObjectCallbacks = eventsObject[eventName]
     
       if(eventsObjectCallbacks) {
-        l = eventsObjectCallbacks.length
-        while(++i < l) {
-          (function(callback){
-            setTimeout(function(){
-              callback(eventWalker)
-            }, 0) 
-          })(eventsObjectCallbacks[i])
-        }
+        recursiveAsyncEach(function(item){
+          item(eventWalker)
+        })
       }
     
       if((parent = self.__parent__) && !eventWalker.__stopped__) {
