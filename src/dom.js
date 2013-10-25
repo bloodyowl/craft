@@ -365,6 +365,36 @@
     this.each(destroyCallback)
   }
   
+  nodeList.getDimensions = getDimensions
+  function getDimensions(){
+    var dimensions
+      , style = getStyle.call(this)
+    if(!style) return null
+    dimensions = {}
+    dimensions.height = craftParseInt(style.height)
+    dimensions.width = craftParseInt(style.width)
+    return dimensions
+  }
+  
+  nodeList.getOffset = getOffset
+  function getOffset(){
+    var dimensions, clientRect
+      , first = this[0]
+      , top, left
+    if(!first) return null
+    top = win.pageYOffset || docEl.scrollTop || doc.body.scrollTop || 0
+    left = win.pageXOffset || docEl.scrollLeft || doc.body.scrollLeft || 0
+    clientRect = first.getBoundingClientRect()
+    dimensions = {}
+    dimensions.top = craftParseInt(top + clientRect.top)
+    dimensions.right = craftParseInt(left + clientRect.right)
+    dimensions.bottom = craftParseInt(top + clientRect.bottom)
+    dimensions.left = craftParseInt(left + clientRect.left)
+    dimensions.height = craftParseInt(clientRect.right - clientRect.left)
+    dimensions.width = craftParseInt(clientRect.bottom - clientRect.top)
+    return dimensions
+  }
+  
   craft.$ = $
   function $(selector, context){
     return toNodeList.apply(null, arguments)
