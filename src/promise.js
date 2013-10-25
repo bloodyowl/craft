@@ -78,9 +78,14 @@
       craft.each(callbacks, function(cb){
         if(cb.state & (~state | self.EXECUTED)) return
         try {
-          result = cb.callback[self._isWhenPromise ? "apply" : "call"](self, self[state])
+          if(self._isWhenPromise) {
+            result = cb.callback.apply(self, self[state])
+          } else {
+            result = cb.callback.call(self, self[state])
+          }
           cb.state |= self.EXECUTED
         } catch(e){
+            cb.state |= self.EXECUTED
             setTimeout(function(){
               cb.boundPromise.reject(e)
             }, 0)
@@ -96,9 +101,11 @@
             return
           }
           
-          cb.boundPromise
-            [cb.state & self.FULFILLED ? "fulfill" : "reject"]
-              (result)
+          if(cb.state & self.FULFILLED) {
+            cb.boundPromise.fullfill(result)
+          } else {
+            cb.boundPromise.reject(result)
+          }
         }, 0)
       })
     }
@@ -146,8 +153,6 @@
         }
       }
     }
-
-
   })
     
   
