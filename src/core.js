@@ -6,7 +6,7 @@
     , exposed
 
   craft.version = "3.0.0dev"
-  
+
   craft.create = Object.create ? 
     function(object) {
       return Object.create(object)
@@ -16,7 +16,12 @@
       K.prototype = object
       return new K()
     }
-
+  
+  craft.parseInt = craftParseInt
+  function craftParseInt(number, base){
+    return parseInt(number, base || 10)
+  }
+  
   //= ./src/class.js
   //= ./src/iterators.js
   //= ./src/craft-events.js
