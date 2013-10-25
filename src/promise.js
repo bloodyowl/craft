@@ -73,32 +73,35 @@
       var index = -1
         , callbacks = self.callbacks
         , length = self.callbacks.length
-      while(++index < length) (function(){
-        var callbackObject = callbacks[index]
-        
-        if(callbackObject.state & (~state | self.EXECUTED)) return
-        
+        , result
+        , callbackObject
+      craft.each(callbacks, function(cb){
+        if(cb.state & (~state | self.EXECUTED)) return
+        try {
+          result = cb.callback[self._isWhenPromise ? "apply" : "call"](self, self[state])
+          cb.state |= self.EXECUTED
+        } catch(e){
+            setTimeout(function(){
+              cb.boundPromise.reject(e)
+            }, 0)
+          return
+        }
         setTimeout(function(){
-          var result = callbackObject.callback[self._isWhenPromise ? "apply" : "call"](self, self[state])
-          callbackObject.state |= self.EXECUTED
-          
           if(promise.isPromise(result)) {
-            return result.then(function(value){
-              callbackObject.boundPromise.fulfill(value)
+            result.then(function(value){
+              cb.boundPromise.fulfill(value)
             }, function(value){
-              callbackObject.boundPromise.reject(value)
+              cb.boundPromise.reject(value)
             })
-          } 
-
-          callbackObject.boundPromise
-            [callbackObject.state & self.FULFILLED ? "fulfill" : "reject"]
+            return
+          }
+          
+          cb.boundPromise
+            [cb.state & self.FULFILLED ? "fulfill" : "reject"]
               (result)
-                    
         }, 0)
-        
-      })()
+      })
     }
-    
   }
   
   craft.when = promise.extend(function(){
