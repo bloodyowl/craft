@@ -1,6 +1,6 @@
 ;(function(craft){
   
-  var promise = craft.defineClass(_promise)
+  var promise = craft.defineClass(craft.events, _promise)
     , _isPrototypeOf = {}.isPrototypeOf
     , _hasOwnProperty = {}.hasOwnProperty
   
@@ -20,6 +20,7 @@
     self.constructor = Promise
     function Promise(){
       var self = this
+      craft.events.constructor.call(self)
       self.callbacks = []
       return self
     }
@@ -34,6 +35,7 @@
       var self = this
       if(self.status) return self
       self.status = self.FULFILLED
+      self.fire("fulfill", value, self)
       self[self.FULFILLED] = value
       run(self, self.status)
       return self
@@ -44,6 +46,7 @@
       var self = this
       if(self.status) return self
       self.status = self.REJECTED
+      self.fire("reject", value, self)
       self[self.REJECTED] = reason
       run(self, self.status)
       return self
