@@ -91,6 +91,18 @@
     return values
   }
   
+  craft.getPairs = getPairs
+  function getPairs(object){
+    var keys = getKeys(object)
+      , index = -1, length = keys.length
+      , values = [], key
+    while(++index < length) {
+      key = keys[index]
+      values[index] = [key, object[key]]
+    }
+    return values
+  }
+  
   function createCallback(fn, thisValue, length){
     if(thisValue === void 0) {
       return fn

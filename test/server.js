@@ -23,3 +23,8 @@ var express = require("express")
   http.createServer(app).listen(app.get("port"), function(){
     console.log(colors.blue("  Test server running on port ") + colors.green(app.get("port")) + "\n")
   })
+
+  app.get("/request", function(req, res){
+    res.set("Content-Type", "text/html")
+    res.send("Helloworld!")
+  })

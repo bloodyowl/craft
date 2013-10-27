@@ -5,9 +5,7 @@ JavaScript library.
 ## TODO
 
 * MouseEnter / MouseLeave detection methods
-* Form parsing / serializing
-* DOM Ready
-* UMD
+* Requests 
 
 ### To test
 

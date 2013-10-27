@@ -1,6 +1,6 @@
 ;(function(win, fn){
-  
-  
+  var craft = fn(win)
+  if (typeof define == "function" && define.amd) return define(craft)
 })(this.window, function(win){
   
   var doc = win.document
@@ -163,6 +163,18 @@
       while(++index < length) {
         key = keys[index]
         values[index] = object[key]
+      }
+      return values
+    }
+    
+    craft.getPairs = getPairs
+    function getPairs(object){
+      var keys = getKeys(object)
+        , index = -1, length = keys.length
+        , values = [], key
+      while(++index < length) {
+        key = keys[index]
+        values[index] = [key, object[key]]
       }
       return values
     }
@@ -376,14 +388,14 @@
       var self = this
         , _isPrototypeOf = {}.isPrototypeOf
   
-      function recursiveAsyncEach(array, fn){
+      function recursiveAsyncEach(array, fn, thisValue){
         var index = -1
           , length = array.length
         array = array.concat()
         function iterator(){
           if(++index >= length) return
           setTimeout(function(){
-            fn(array[index], index, array)
+            fn.call(thisValue, array[index], index, array)
             iterator()
           }, 0)
         }
@@ -463,7 +475,7 @@
       }
       
       self.fire = fire
-      function fire(eventName, data){
+      function fire(eventName, data, thisValue){
         var self = this
           , eventsObject = self._events
           , eventsObjectCallbacks
@@ -484,8 +496,8 @@
       
         if(eventsObjectCallbacks) {
           recursiveAsyncEach(eventsObjectCallbacks, function(item){
-            item(eventWalker)
-          })
+            item.call(this, eventWalker)
+          }, thisValue)
         }
       
         if((parent = self._parent) && !eventWalker._stopped) {
@@ -654,6 +666,12 @@
       , trimRE = /^\s+|\s+$/g
       , trim = "".trim || function(){ return this.replace(trimRE, "") }
       , trash = doc.createElement("div")
+      , valueElementsRegExp = /^(INPUT|TEXTAREA|SELECT|BUTTON)$/
+      , checkableElementsRegExp = /^(checkbox|radio)$/
+      , valueSetters = {}, valueGetters = {}
+      , nativeConcat = [].concat
+      , _toString = {}.toString 
+      , ARRAY_CLASS = "[object Array]"
     
     craft.nodeList = nodeList
     craft.__matchesSelector__ = matchesSelector
@@ -1077,6 +1095,134 @@
       return item !== this
     }
     
+    
+    
+  
+    valueGetters.INPUT = valueGetters.TEXTAREA = valueGetters.BUTTON = getInputValue 
+    function getInputValue(el){
+      var match = (el.type || "").match(checkableElementsRegExp)
+      if(match) return el.checked ? el.value : null
+      return el.value
+    }
+    
+    valueGetters.SELECT = getSelectValue
+    function getSelectValue(el){
+      var options = el.children, value, i, l, k, item
+      if(el.multiple){
+        value = []
+        i = -1
+        k = -1
+        l = options.length
+        while(++i < l) {
+          item = options[i]
+          if(item.selected) value[++k] = item.value 
+        }
+        return value
+      } 
+      return options[el.selectedIndex].value
+    }
+    
+    valueSetters.INPUT = valueSetters.BUTTON = setInputValue 
+    function setInputValue(el, value){
+      var match = (el.type || "").match(checkableElementsRegExp)
+      el.value = value
+      if(match) el.checked = "checked" 
+    }
+    
+    valueSetters.TEXTAREA = setTextAreaValue
+    function setTextAreaValue(el, value){
+      emptyCallback(el)
+      el.appendChild(doc.createTextNode(value))
+    }
+  
+  
+    valueSetters.SELECT = setSelectValue
+    function setSelectValue(el, value){
+      var options = getChildren.call(el)
+        , i, l, k, m, item, option, toSelect = []
+      value = nativeConcat.call(value)
+      i = -1
+      l = value.length
+      while(++i < l) {
+        item = value[i]
+        k = -1
+        m = options.length
+        while(++k < m) {
+          if((option = options[k]).value == item) {
+            toSelect.push(option)
+          }
+          option.selected = null
+        }
+      }
+      i = -1
+      l = toSelect.length
+      while(++i < l) toSelect[i].selected = "selected"
+    }
+  
+    
+    
+    
+    function setValueCallback(element){
+      var value = this
+        , tagName = self.nodeName.match(valueElementsRegExp)
+      if(!tagName || self.disabled) return null 
+      tagName = tagName[1]
+      valueSetters[tagName](self, value ? value.valueOf() : value)
+    }
+    
+    nodeList.setValue = setValue 
+    function setValue(value){
+      return this.each(setValueCallback, value)
+    }
+    
+    nodeList.getValue = getValue 
+    function getValue(){
+      var self = this[0]
+        , tagName
+      if(!self) return null
+      tagName = self.nodeName.match(valueElementsRegExp)
+      if(!tagName || self.disabled) return null 
+      tagName = tagName[1]
+      return valueGetters[tagName](self)
+    }
+    
+    nodeList.serialize = serialize
+    function serialize(){
+      if(!this[0]) return null
+      var elements = toNodeList("input, textarea, select", this[0])
+        , results = {}
+      craft.each(elements, serializeCallback, results)
+      return results
+    }
+  
+    function serializeCallback(item){
+      var object = this
+        , name = item.name
+        , value = getValue.call([item])
+      if(value == null) return
+      if(_hasOwnProperty.call(object, name)) {
+        if(_toString.call(object[name]) != ARRAY_CLASS) object[name] = [object[name]]
+        object[name].push(value)
+        return
+      }
+      object[name] = value
+    }
+    
+    craft._contains = _contains
+    function _contains(ancestor, node){
+       return !!(ancestor.contains ? 
+          ancestor != node && ancestor.contains(node) : 
+            ancestor.compareDocumentPosition(node) & 16)
+    }
+    
+    nodeList.contains = contains 
+    function contains(node){
+      var el = this[0]
+      if(!el) return null
+      return _contains(el, node)
+    }
+    
+    
     nodeList.get = get
     function get(property){
       var first = this[0]
@@ -1116,6 +1262,7 @@
       , _toString = {}.toString
       , STRING_CLASS = "[object String]"
       , ARRAY_CLASS = "[object Array]"
+      , _contains = craft._contains
     
     craft.eventClass = eventClass
     
@@ -1126,6 +1273,25 @@
     function stopPropagation(){
       this.cancelBubble = true
     }
+    
+    function enters(root){
+      var self = this
+        , element = self.relatedTarget || self.fromElement
+      if(element && (element == root || _contains(root, element))) {
+        return false
+      }
+      return true
+    }
+    
+    function leaves(root){
+      var self = this
+        , element = self.relatedTarget || self.toElement
+      if(element && (element == root || _contains(root, element))) {
+        return false
+      }
+      return true
+    }
+    
     
     function eventObject(evt){
       var object = craft.create(evt)
@@ -1147,6 +1313,8 @@
           if(button & 4) object.which = 2
         }
       } 
+      object.enters = enters
+      object.leaves = leaves
       return object
     }
     
@@ -1443,7 +1611,7 @@
 
   ;(function(craft){
     
-    var promise = craft.defineClass(_promise)
+    var promise = craft.defineClass(craft.events, _promise)
       , _isPrototypeOf = {}.isPrototypeOf
       , _hasOwnProperty = {}.hasOwnProperty
     
@@ -1463,6 +1631,7 @@
       self.constructor = Promise
       function Promise(){
         var self = this
+        craft.events.constructor.call(self)
         self.callbacks = []
         return self
       }
@@ -1477,6 +1646,7 @@
         var self = this
         if(self.status) return self
         self.status = self.FULFILLED
+        self.fire("fulfill", value, self)
         self[self.FULFILLED] = value
         run(self, self.status)
         return self
@@ -1487,6 +1657,7 @@
         var self = this
         if(self.status) return self
         self.status = self.REJECTED
+        self.fire("reject", value, self)
         self[self.REJECTED] = reason
         run(self, self.status)
         return self
@@ -1642,5 +1813,151 @@
     
   })(craft)
   
+
+  ;(function(craft){
+    
+    var request = craft.events.extend(requestProto)
+      , _toString = {}.toString
+      , _hasOwnProperty = {}.hasOwnProperty
+      , STRING_CLASS = "[object String]"
+    
+    craft.request = request
+    
+    function requestProto(){
+      
+      var self = this
+      
+      self.PENDING = 0
+      self.ACTIVE = 1
+      self.DONE = 2
+      self.SUCCESS = 4
+      self.ERROR = 8
+      
+      self.status = self.PENDING
+      
+      self.headers = null
+      self.method = "GET"
+      self.url = null
+      self.queryString = null
+      self.data = null
   
+      self.xhr = null
+          
+      self.constructor = Request
+      function Request(params){
+        var self = this
+        craft.events.constructor.call(self)
+        if(_toString.call(params) == STRING_CLASS) {
+          params = {url:params}
+        }
+        if(params.headers) self.headers = params.headers
+        if(params.method) self.method = params.methods
+        if(params.url) self.url = params.url
+        if(params.queryString) self.queryString = params.queryString
+        if(params.data) self.data = params.data
+        if("withCredentials" in params) self.withCredentials = params.withCredentials
+        return self
+      }
+      
+      function createXHRCallback(self){
+        return function(){
+          var xhr = this
+            , readyState = xhr.readyState
+            , status = xhr.status
+          if(readyState != 4) return
+          self.fire("done", xhr.responseText, xhr)
+          self.status &= ~self.ACTIVE
+          self.status |= self.DONE
+          if(status >= 200 && status < 300 || status == 304) {
+            self.fire("success", xhr.responseText, xhr)
+            self.status &= ~self.ERROR
+            self.status |= self.SUCCESS
+          }
+          if((status < 200 || 300 < status) && status != 304) {
+            self.fire("error", xhr.responseText, xhr)
+            self.status &= ~self.SUCCESS
+            self.status |= self.ERROR
+          }
+          self.fire(status, xhr.responseText, xhr)
+        }
+      }
+      
+      self.start = start
+      function start(){
+        var self = this
+          , callback = createXHRCallback(self)
+          , xhr = new XMLHttpRequest()
+          , method = self.method
+          , headers = self.headers
+          , url = self.url + (self.queryString ? (self.url.indexOf("?") != 1 ? "&" : "?") + self.queryString : "")
+          , i 
+        self.xhr = xhr
+        xhr.open(method, url, true)
+        if(method == "POST") {
+          xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+          xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        }
+        if(headers){
+          for(i in headers) {
+            if(!_hasOwnProperty.call(headers, i)) continue
+            xhr.setRequestHeader(i, headers[i])
+          }
+        }
+        xhr.withCredentials = self.withCredentials || false
+        xhr.onreadystatechange = createXHRCallback(self)
+        xhr.send(self.data || null)
+        self.status = self.ACTIVE
+        return self
+      }
+      
+      self.stop = stop
+      function stop(){
+        var self = this
+        if(self.xhr && self.xhr.readyState != 4) {
+          self.xhr.abort()
+          self.status = self.PENDING
+        }
+        return self
+      }
+      
+    }
+    
+  })(craft)
+  
+
+  ;(function(craft){
+    
+    var uniq = -1
+      , prefix = "craftjsonp"
+    
+    craft.jsonp = jsonp
+    function jsonp(url, callbackName){
+      var object = craft.promise.create()
+        , parent = 
+            doc.head || 
+            doc.getElementsByTagName("head")[0] || 
+            doc.documentElement
+        , script = doc.createElement("script")
+        , uniqCallback = prefix + (++uniq)
+      
+      if(!callbackName) callbackName = "callback"
+      script.src = 
+            url + 
+            (url.indexOf("?") == -1 ? "?" : "&") + 
+            callbackName + "=" +
+            uniqCallback
+      
+      win[uniqCallback] = function(value){
+        object.fulfill(value)
+        win[uniqCallback] = null
+        parent.removeChild(script)
+      }
+      
+      parent.appendChild(script)
+      return object
+    }
+    
+  })(craft)
+  
+  return craft
 })

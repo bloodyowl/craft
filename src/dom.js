@@ -22,6 +22,12 @@
     , trimRE = /^\s+|\s+$/g
     , trim = "".trim || function(){ return this.replace(trimRE, "") }
     , trash = doc.createElement("div")
+    , valueElementsRegExp = /^(INPUT|TEXTAREA|SELECT|BUTTON)$/
+    , checkableElementsRegExp = /^(checkbox|radio)$/
+    , valueSetters = {}, valueGetters = {}
+    , nativeConcat = [].concat
+    , _toString = {}.toString 
+    , ARRAY_CLASS = "[object Array]"
   
   craft.nodeList = nodeList
   craft.__matchesSelector__ = matchesSelector
@@ -444,6 +450,134 @@
   function siblingsCallback(item){
     return item !== this
   }
+  
+  
+  
+
+  valueGetters.INPUT = valueGetters.TEXTAREA = valueGetters.BUTTON = getInputValue 
+  function getInputValue(el){
+    var match = (el.type || "").match(checkableElementsRegExp)
+    if(match) return el.checked ? el.value : null
+    return el.value
+  }
+  
+  valueGetters.SELECT = getSelectValue
+  function getSelectValue(el){
+    var options = el.children, value, i, l, k, item
+    if(el.multiple){
+      value = []
+      i = -1
+      k = -1
+      l = options.length
+      while(++i < l) {
+        item = options[i]
+        if(item.selected) value[++k] = item.value 
+      }
+      return value
+    } 
+    return options[el.selectedIndex].value
+  }
+  
+  valueSetters.INPUT = valueSetters.BUTTON = setInputValue 
+  function setInputValue(el, value){
+    var match = (el.type || "").match(checkableElementsRegExp)
+    el.value = value
+    if(match) el.checked = "checked" 
+  }
+  
+  valueSetters.TEXTAREA = setTextAreaValue
+  function setTextAreaValue(el, value){
+    emptyCallback(el)
+    el.appendChild(doc.createTextNode(value))
+  }
+
+
+  valueSetters.SELECT = setSelectValue
+  function setSelectValue(el, value){
+    var options = getChildren.call(el)
+      , i, l, k, m, item, option, toSelect = []
+    value = nativeConcat.call(value)
+    i = -1
+    l = value.length
+    while(++i < l) {
+      item = value[i]
+      k = -1
+      m = options.length
+      while(++k < m) {
+        if((option = options[k]).value == item) {
+          toSelect.push(option)
+        }
+        option.selected = null
+      }
+    }
+    i = -1
+    l = toSelect.length
+    while(++i < l) toSelect[i].selected = "selected"
+  }
+
+  
+  
+  
+  function setValueCallback(element){
+    var value = this
+      , tagName = self.nodeName.match(valueElementsRegExp)
+    if(!tagName || self.disabled) return null 
+    tagName = tagName[1]
+    valueSetters[tagName](self, value ? value.valueOf() : value)
+  }
+  
+  nodeList.setValue = setValue 
+  function setValue(value){
+    return this.each(setValueCallback, value)
+  }
+  
+  nodeList.getValue = getValue 
+  function getValue(){
+    var self = this[0]
+      , tagName
+    if(!self) return null
+    tagName = self.nodeName.match(valueElementsRegExp)
+    if(!tagName || self.disabled) return null 
+    tagName = tagName[1]
+    return valueGetters[tagName](self)
+  }
+  
+  nodeList.serialize = serialize
+  function serialize(){
+    if(!this[0]) return null
+    var elements = toNodeList("input, textarea, select", this[0])
+      , results = {}
+    craft.each(elements, serializeCallback, results)
+    return results
+  }
+
+  function serializeCallback(item){
+    var object = this
+      , name = item.name
+      , value = getValue.call([item])
+    if(value == null) return
+    if(_hasOwnProperty.call(object, name)) {
+      if(_toString.call(object[name]) != ARRAY_CLASS) object[name] = [object[name]]
+      object[name].push(value)
+      return
+    }
+    object[name] = value
+  }
+  
+  craft._contains = _contains
+  function _contains(ancestor, node){
+     return !!(ancestor.contains ? 
+        ancestor != node && ancestor.contains(node) : 
+          ancestor.compareDocumentPosition(node) & 16)
+  }
+  
+  nodeList.contains = contains 
+  function contains(node){
+    var el = this[0]
+    if(!el) return null
+    return _contains(el, node)
+  }
+  
   
   nodeList.get = get
   function get(property){

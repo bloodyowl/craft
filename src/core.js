@@ -1,6 +1,6 @@
 ;(function(win, fn){
-  
-  
+  var craft = fn(win)
+  if (typeof define == "function" && define.amd) return define(craft)
 })(this.window, function(win){
   
   var doc = win.document
@@ -42,5 +42,8 @@
   //= ./src/animation.js
   //= ./src/promise.js
   //= ./src/dom-ready.js
+  //= ./src/request.js
+  //= ./src/jsonp.js
   
+  return craft
 })

@@ -5,14 +5,14 @@
     var self = this
       , _isPrototypeOf = {}.isPrototypeOf
 
-    function recursiveAsyncEach(array, fn){
+    function recursiveAsyncEach(array, fn, thisValue){
       var index = -1
         , length = array.length
       array = array.concat()
       function iterator(){
         if(++index >= length) return
         setTimeout(function(){
-          fn(array[index], index, array)
+          fn.call(thisValue, array[index], index, array)
           iterator()
         }, 0)
       }
@@ -92,7 +92,7 @@
     }
     
     self.fire = fire
-    function fire(eventName, data){
+    function fire(eventName, data, thisValue){
       var self = this
         , eventsObject = self._events
         , eventsObjectCallbacks
@@ -113,8 +113,8 @@
     
       if(eventsObjectCallbacks) {
         recursiveAsyncEach(eventsObjectCallbacks, function(item){
-          item(eventWalker)
-        })
+          item.call(this, eventWalker)
+        }, thisValue)
       }
     
       if((parent = self._parent) && !eventWalker._stopped) {

@@ -8,6 +8,7 @@
     , _toString = {}.toString
     , STRING_CLASS = "[object String]"
     , ARRAY_CLASS = "[object Array]"
+    , _contains = craft._contains
   
   craft.eventClass = eventClass
   
@@ -18,6 +19,25 @@
   function stopPropagation(){
     this.cancelBubble = true
   }
+  
+  function enters(root){
+    var self = this
+      , element = self.relatedTarget || self.fromElement
+    if(element && (element == root || _contains(root, element))) {
+      return false
+    }
+    return true
+  }
+  
+  function leaves(root){
+    var self = this
+      , element = self.relatedTarget || self.toElement
+    if(element && (element == root || _contains(root, element))) {
+      return false
+    }
+    return true
+  }
+  
   
   function eventObject(evt){
     var object = craft.create(evt)
@@ -39,6 +59,8 @@
         if(button & 4) object.which = 2
       }
     } 
+    object.enters = enters
+    object.leaves = leaves
     return object
   }
   
