@@ -1849,6 +1849,7 @@
       function Request(params){
         var self = this
         craft.events.constructor.call(self)
+        if(!params) return self
         if(_toString.call(params) == STRING_CLASS) {
           params = {url:params}
         }
