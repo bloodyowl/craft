@@ -1233,7 +1233,7 @@
     }
     
     craft.each(
-      "push sort join reduce slice concat".split(" ") 
+      "sort join reduce slice concat".split(" ") 
     , function(item){
         var native = Array.prototype[item]
         nodeList[item] = convertMethod(native)
