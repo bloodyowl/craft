@@ -12,6 +12,7 @@
     return defineClass(this, fn)
   }
   
+  craft.extend = extend
   function extend(object, source){
     var keys = craft.getKeys(source)
       , index = -1, length = keys.length
@@ -20,6 +21,7 @@
       key = keys[index]
       object[key] = source[key]
     }
+    return object
   }
   
   craft.defineClass = defineClass
