@@ -1855,7 +1855,9 @@
         if(params.url) self.url = params.url
         if(params.queryString) self.queryString = params.queryString
         if(params.data) self.data = params.data
-        if("withCredentials" in params) self.withCredentials = params.withCredentials
+        if("withCredentials" in params) {
+          self.withCredentials = params.withCredentials
+        }
         return self
       }
       
@@ -1889,7 +1891,10 @@
           , xhr = new XMLHttpRequest()
           , method = self.method
           , headers = self.headers
-          , url = self.url + (self.queryString ? (self.url.indexOf("?") != 1 ? "&" : "?") + self.queryString : "")
+          , url = 
+                self.url + 
+                (self.queryString ? (self.url.indexOf("?") != 1 ? "&" : "?") +
+                self.queryString : "")
           , i 
         self.xhr = xhr
         xhr.open(method, url, true)
