@@ -291,7 +291,7 @@
       length = keys.length
       while(++index < length) {
         key = keys[index]
-        if(callback(item = collection[key], key, collection)) {
+        if(callback(item = collection[key], key, collection)) {
           result[key] = item
         }
       }
@@ -320,7 +320,7 @@
       length = keys.length
       while(++index < length) {
         key = keys[index]
-        if(!callback(item = collection[key], key, collection)) {
+        if(!callback(item = collection[key], key, collection)) {
           result[key] = item
         }
       }
