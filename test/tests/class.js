@@ -8,6 +8,8 @@ test("craft.defineClass", function(){
       })
     , subKlass = craft.defineClass(klass, {bar:"foo"})
     , hasOwn = {}.hasOwnProperty
+    , subKlass2 = klass.extend({bar:"foo"})
+
   
   equal(
       typeof klass.create
@@ -64,6 +66,13 @@ test("craft.defineClass", function(){
       subKlass.foo
     , "baz"
     , "SubClass, inheritance preserved through references"  
+  )
+  
+  
+  deepEqual(
+      subKlass
+    , subKlass2
+    , "Extends is define(this, object)"
   )
   
 })

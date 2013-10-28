@@ -15,13 +15,14 @@
   }
 
   .header {
-    padding: 1em 0;
+    padding: 1em 0 .5em;
     background-color: #226a7d;
     color: #fff;
   }
   
   .title {
-    font-size: 1.4em;
+    font-size: 1em;
+    line-height: 1;
     font-weight: 300;
   }
   
