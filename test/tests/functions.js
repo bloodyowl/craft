@@ -151,7 +151,7 @@ asyncTest(
           , "Arguments are well passed"
         )
         
-        start()
+        QUnit.start()
       }
       
       while(j < 3) afterZero(++j)
@@ -189,7 +189,7 @@ asyncTest(
           , 1
           , "Delay passes arguments after a given time"
         )
-        start()
+        QUnit.start()
       }, 300)
       
     }
@@ -198,19 +198,20 @@ asyncTest(
 asyncTest(
     "craft.debounce"
   , function(){
-
-      var arg
-        , debounced = craft.debounce(callback, 400) 
-
+    
       expect(1)
+      
+      var arg
+        , debounced = craft.debounce(fn, 400) 
 
-      function callback(arg){
+
+      function fn(arg){
         equal(
             arg
           , "baz"
           , "Debounce works"  
         )
-        start()
+        QUnit.start()
       }
       
       debounced("foo")

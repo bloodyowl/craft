@@ -28,6 +28,15 @@
     , nativeConcat = [].concat
     , _toString = {}.toString 
     , ARRAY_CLASS = "[object Array]"
+    , sidesMap = {}
+    , parentNodeBugString = "[object HTMLDocument]"
+    , hasParentNodeBug = (function(){
+          var parent = doc.createElement("div")
+            .appendChild(doc.createElement("span"))
+            .parentNode.parentNode 
+          return ("" + parent) == parentNodeBugString
+        })()
+          
   
   craft.nodeList = nodeList
   craft.__matchesSelector__ = matchesSelector
@@ -93,7 +102,6 @@
     var nodeList = createNodeList()
       , index = -1, length
       , match, currentSandbox
-    
     if(!selector) return nodeList
     
     if(typeof selector == "string") {
@@ -102,12 +110,12 @@
         context.querySelectorAll(selector) : 
           []
     }
-    
+
     if(selector.nodeType || selector == win && selector.window == selector) {
       selector = [selector]
     }
     
-    if(_hasOwnProperty.call(selector, "length")) {
+    if(typeof selector.length == "number") {
       if(_hasOwnProperty.call(selector, (length = selector.length) - 1)){
         while(++index < length) nodeList[index] = selector[index]
       }
@@ -201,7 +209,7 @@
     return true
   }
   
-  function hasCallback(item){
+  function hasClassCallback(item){
     var classNames = this
       , length = classNames.length
       , itemClassName = " " + item.className + " "
@@ -213,7 +221,7 @@
     return true
   }
 
-  function addCallback(item){
+  function addClassCallback(item){
     var classNames = this
       , length = classNames.length
       , itemClassName = " " + item.className + " "
@@ -226,7 +234,7 @@
     item.className = trim.call(itemClassName)
   }
   
-  function removeCallback(item){
+  function removeClassCallback(item){
     var classNames = this
       , length = classNames.length
       , itemClassName = " " + item.className + " "
@@ -240,7 +248,7 @@
   }
   
   
-  function toggleCallback(item){
+  function toggleClassCallback(item){
     var classNames = this
       , length = classNames.length
       , itemClassName = " " + item.className + " "
@@ -258,19 +266,19 @@
   nodeList.addClass = addClass
   function addClass(){
     var classNames = nativeSlice.call(arguments)
-    return this.each(supportsClassList ? classListAddCallback : addCallback, classNames)
+    return this.each(supportsClassList ? classListAddCallback : addClassCallback, classNames)
   }
   
   nodeList.removeClass = removeClass
   function removeClass(){
     var classNames = nativeSlice.call(arguments)
-    return this.each(supportsClassList ? classListRemoveCallback : removeCallback, classNames)
+    return this.each(supportsClassList ? classListRemoveCallback : removeClassCallback, classNames)
   }
   
   nodeList.toggleClass = toggleClass
   function toggleClass(){
     var classNames = nativeSlice.call(arguments)
-    return this.each(supportsClassList ? classListToggleCallback : toggleCallback, classNames)
+    return this.each(supportsClassList ? classListToggleCallback : toggleClassCallback, classNames)
   }
   
   nodeList.hasClass = hasClass
@@ -279,7 +287,7 @@
       , first = self[0]
       , classNames = nativeSlice.call(arguments)
     return first ? 
-      (supportsClassList ? classListHasCallback : hasCallback).call(classNames, first) : 
+      (supportsClassList ? classListHasCallback : hasClassCallback).call(classNames, first) : 
         null
   }
   
@@ -332,28 +340,26 @@
   nodeList.insertBefore = insertBefore
   function insertBefore(node){
     var self = this
-      , first = self[0]
       , parent
       , fragment
-    if(!first) return self
-    parent = first.parentNode
+    if(!node) return self
+    parent = node.parentNode
     if(!parent) return self
-    fragment = toNodeList.apply(null, arguments).toFragment()
-    parent.insertBefore(fragment, first)
+    fragment = self.toFragment()
+    parent.insertBefore(fragment, node)
     return self
   }
   
   nodeList.insertAfter = insertAfter
   function insertAfter(node){
     var self = this
-      , first = self[0]
       , parent
       , fragment
-    if(!first) return self
-    parent = first.parentNode
+    if(!node) return self
+    parent = node.parentNode
     if(!parent) return self
-    fragment = toNodeList.apply(null, arguments).toFragment()
-    parent.insertBefore(fragment, first.nextSibling)
+    fragment = self.toFragment()
+    parent.insertBefore(fragment, node.nextSibling)
     return self
   }
   
@@ -373,17 +379,56 @@
   
   nodeList.destroy = destroy
   function destroy(){
-    this.each(destroyCallback)
+    var self = this
+    self.each(destroyCallback)
+    self.length = 0
+    return self
+  }
+  
+  function removeCallback(item){
+    if(item.parentNode) {
+      item.parentNode.removeChild(item)
+    }
+  }
+  
+  nodeList.remove = remove
+  function remove(){
+    return this.each(removeCallback)
+  }
+  
+  sidesMap.Top = sidesMap.Bottom = "height"
+  sidesMap.Left = sidesMap.Right = "width"
+  
+  function getDimensionsCompat(node, style){
+    var nodeArray = [node]
+      , offset = getOffset.call(nodeArray)
+      , dimensions = {
+            height : offset.height
+          , width : offset.width
+        }
+      
+    if(supportsStyleProperty("boxSizing") == "border-box") {
+      return dimensions
+    }
+    craft.each(sidesMap, function(item, key){
+      dimensions[item] -= craftParseInt(style["padding" + key]) 
+    })
+    return dimensions
   }
   
   nodeList.getDimensions = getDimensions
   function getDimensions(){
     var dimensions
       , style = getStyle.call(this)
-    if(!style) return null
+      , isBorderBox
+    if(!style) return null    
     dimensions = {}
-    dimensions.height = craftParseInt(style.height)
-    dimensions.width = craftParseInt(style.width)
+    if(supportsGetComputedStyle) {
+      dimensions.height = craftParseInt(style.height)
+      dimensions.width = craftParseInt(style.width)
+    } else {
+      return getDimensionsCompat(this[0], style)
+    }
     return dimensions
   }
   
@@ -401,8 +446,8 @@
     dimensions.right = craftParseInt(left + clientRect.right)
     dimensions.bottom = craftParseInt(top + clientRect.bottom)
     dimensions.left = craftParseInt(left + clientRect.left)
-    dimensions.height = craftParseInt(clientRect.right - clientRect.left)
-    dimensions.width = craftParseInt(clientRect.bottom - clientRect.top)
+    dimensions.width = craftParseInt(clientRect.right - clientRect.left)
+    dimensions.height = craftParseInt(clientRect.bottom - clientRect.top)
     return dimensions
   }
   
@@ -413,7 +458,13 @@
       , doc
     if(!first) return toNodeList()
     parent = first.parentNode
+    if(!parent) return toNodeList()
     if(parent == first.ownerDocument) return toNodeList()
+    if(hasParentNodeBug) {
+      if(parent.nodeType == 11 && (parent + "") == parentNodeBugString) {
+        return toNodeList()
+      }
+    }
     return toNodeList(parent)
   }
   
@@ -425,6 +476,11 @@
       , currentDoc = element.ownerDocument
     if(!element) return list
     while((element = element.parentNode) && (element != currentDoc)){
+      if(hasParentNodeBug && 
+          element.nodeType == 11 && 
+          (element + "") == parentNodeBugString) {
+        break
+      }
       list.push(element)
     }
     return list
@@ -485,9 +541,7 @@
   
   valueSetters.INPUT = valueSetters.BUTTON = setInputValue 
   function setInputValue(el, value){
-    var match = (el.type || "").match(checkableElementsRegExp)
     el.value = value
-    if(match) el.checked = "checked" 
   }
   
   valueSetters.TEXTAREA = setTextAreaValue
@@ -499,25 +553,26 @@
 
   valueSetters.SELECT = setSelectValue
   function setSelectValue(el, value){
-    var options = getChildren.call(el)
+    var options = el.options
       , i, l, k, m, item, option, toSelect = []
-    value = nativeConcat.call(value)
+      , values = {}
+    value = nativeConcat.call([], value)
     i = -1
     l = value.length
-    while(++i < l) {
-      item = value[i]
-      k = -1
-      m = options.length
-      while(++k < m) {
-        if((option = options[k]).value == item) {
-          toSelect.push(option)
-        }
-        option.selected = null
+    while(++i < l) values[value[i]] = 1
+    k = -1
+    m = options.length
+    while(++k < m) {
+      option = options[k]
+      if(option.value in values) {
+        toSelect.push(option)
       }
+      option.selected = null
     }
-    i = -1
     l = toSelect.length
-    while(++i < l) toSelect[i].selected = "selected"
+    while(--l > -1) {
+      toSelect[l].selected = true
+    }
   }
 
   
@@ -525,10 +580,10 @@
   
   function setValueCallback(element){
     var value = this
-      , tagName = self.nodeName.match(valueElementsRegExp)
-    if(!tagName || self.disabled) return null 
+      , tagName = element.nodeName.match(valueElementsRegExp)
+    if(!tagName || element.disabled) return null 
     tagName = tagName[1]
-    valueSetters[tagName](self, value ? value.valueOf() : value)
+    valueSetters[tagName](element, value ? value.valueOf() : value)
   }
   
   nodeList.setValue = setValue 
@@ -560,7 +615,7 @@
     var object = this
       , name = item.name
       , value = getValue.call([item])
-    if(value == null) return
+    if(value == null || !name) return
     if(_hasOwnProperty.call(object, name)) {
       if(_toString.call(object[name]) != ARRAY_CLASS) object[name] = [object[name]]
       object[name].push(value)
@@ -591,8 +646,35 @@
     return first[property]
   }
   
+  function setCallback(item){
+    var self = this
+    item[self[0]] = self[1]
+  }
+  
+  nodeList.set = set
+  function set(property, value){
+    return this.each(setCallback, arguments)
+  }
+  
+  nodeList.getAttribute = getAttribute
+  function getAttribute(attribute){
+    var first = this[0]
+    if(!first) return null
+    return first.getAttribute(attribute)
+  }
+  
+  function setAttributeCallback(item){
+    var self = this
+    item.setAttribute(self[0], self[1])
+  }
+  
+  nodeList.setAttribute = setAttribute
+  function setAttribute(attribute, value){
+    return this.each(setAttributeCallback, arguments)
+  }
+  
   craft.each(
-    "sort join reduce slice concat".split(" ") 
+    "slice concat".split(" ") 
   , function(item){
       var native = Array.prototype[item]
       nodeList[item] = convertMethod(native)

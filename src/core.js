@@ -25,6 +25,7 @@
     return parseInt(number, base || 10)
   }
   
+  //= ./src/types.js
   //= ./src/class.js
   //= ./src/iterators.js
   //= ./src/craft-events.js

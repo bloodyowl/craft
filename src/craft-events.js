@@ -99,7 +99,9 @@
     
       if(eventsObjectCallbacks) {
         craft.each(eventsObjectCallbacks, function(item){
-          item.call(thisValue, eventWalker)
+          setTimeout(function(){
+            item.call(thisValue, eventWalker)
+          }, 0)
         })
       }
     

@@ -1,0 +1,41 @@
+  body
+, html {
+    padding: 0;
+    margin: 0;
+    border: none;
+    font: 1em/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  
+  .width {
+    max-width: 48em;
+    padding: 0 1em;
+    margin: 0 auto;
+    overflow: auto;
+    position: relative;
+  }
+
+  .header {
+    padding: 1em 0;
+    background-color: #226a7d;
+    color: #fff;
+  }
+  
+  .title {
+    font-size: 1.4em;
+    font-weight: 300;
+  }
+  
+  .introduction {
+    background-color: #f0f0f0; 
+    background-image: -webkit-linear-gradient(top, #fff, #eee);
+    background-image: -ms-linear-gradient(top, #fff, #eee);
+    background-image: linear-gradient(top bottom, #fff, #eee);
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .introduction-text {
+    font-size: 4em;
+    line-height: 1.3;
+    font-weight: 300;
+    text-shadow: 0 1px #fff;
+  }

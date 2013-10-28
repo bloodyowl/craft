@@ -46,7 +46,7 @@
       var self = this
       if(self.status) return self
       self.status = self.REJECTED
-      self.fire("reject", value, self)
+      self.fire("reject", reason, self)
       self[self.REJECTED] = reason
       run(self, self.status)
       return self
@@ -80,21 +80,21 @@
         , callbackObject
       craft.each(callbacks, function(cb){
         if(cb.state & (~state | self.EXECUTED)) return
-        try {
-          if(self._isWhenPromise) {
-            result = cb.callback.apply(self, self[state])
-          } else {
-            result = cb.callback.call(self, self[state])
-          }
-          cb.state |= self.EXECUTED
-        } catch(e){
-            cb.state |= self.EXECUTED
-            setTimeout(function(){
-              cb.boundPromise.reject(e)
-            }, 0)
-          return
-        }
         setTimeout(function(){
+          try {
+            if(self._isWhenPromise) {
+              result = cb.callback.apply(null, self[state])
+            } else {
+              result = cb.callback.call(null, self[state])
+            }
+            cb.state |= self.EXECUTED
+          } catch(e){
+              cb.state |= self.EXECUTED
+              setTimeout(function(){
+                cb.boundPromise.reject(e)
+              }, 0)
+            return
+          }
           if(promise.isPromise(result)) {
             result.then(function(value){
               cb.boundPromise.fulfill(value)
