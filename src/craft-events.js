@@ -4,20 +4,6 @@
     
     var self = this
       , _isPrototypeOf = {}.isPrototypeOf
-
-    function recursiveAsyncEach(array, fn, thisValue){
-      var index = -1
-        , length = array.length
-      array = array.concat()
-      function iterator(){
-        if(++index >= length) return
-        setTimeout(function(){
-          fn.call(thisValue, array[index], index, array)
-          iterator()
-        }, 0)
-      }
-      iterator()
-    }
     
     self.constructor = Events
     function Events(parent){
@@ -112,9 +98,9 @@
       eventsObjectCallbacks = eventsObject[eventName]
     
       if(eventsObjectCallbacks) {
-        recursiveAsyncEach(eventsObjectCallbacks, function(item){
-          item.call(this, eventWalker)
-        }, thisValue)
+        craft.each(eventsObjectCallbacks, function(item){
+          item.call(thisValue, eventWalker)
+        })
       }
     
       if((parent = self._parent) && !eventWalker._stopped) {

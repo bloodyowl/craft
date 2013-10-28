@@ -116,6 +116,11 @@
     return nodeList
   }
   
+  nodeList.getElementsBySelector = getElementsBySelector
+  function getElementsBySelector(selector){
+    return toNodeList(selector, this[0])
+  }
+  
   nodeList.each = each
   function each(fn, thisValue){
     var self = this
@@ -603,6 +608,16 @@
   craft.$ = $
   function $(selector, context){
     return toNodeList.apply(null, arguments)
+  }
+  
+  craft.$$ = $$
+  function $$(selector, context){
+    var node
+    if(arguments.length < 2) context = doc
+    node = context.querySelector ? 
+        context.querySelector(selector) : 
+        null
+    return toNodeList.call(null, node)
   }
   
 })(craft)

@@ -389,20 +389,6 @@
       
       var self = this
         , _isPrototypeOf = {}.isPrototypeOf
-  
-      function recursiveAsyncEach(array, fn, thisValue){
-        var index = -1
-          , length = array.length
-        array = array.concat()
-        function iterator(){
-          if(++index >= length) return
-          setTimeout(function(){
-            fn.call(thisValue, array[index], index, array)
-            iterator()
-          }, 0)
-        }
-        iterator()
-      }
       
       self.constructor = Events
       function Events(parent){
@@ -497,9 +483,9 @@
         eventsObjectCallbacks = eventsObject[eventName]
       
         if(eventsObjectCallbacks) {
-          recursiveAsyncEach(eventsObjectCallbacks, function(item){
-            item.call(this, eventWalker)
-          }, thisValue)
+          craft.each(eventsObjectCallbacks, function(item){
+            item.call(thisValue, eventWalker)
+          })
         }
       
         if((parent = self._parent) && !eventWalker._stopped) {
@@ -760,6 +746,11 @@
       }
       
       return nodeList
+    }
+    
+    nodeList.getElementsBySelector = getElementsBySelector
+    function getElementsBySelector(selector){
+      return toNodeList(selector, this[0])
     }
     
     nodeList.each = each
@@ -1249,6 +1240,16 @@
     craft.$ = $
     function $(selector, context){
       return toNodeList.apply(null, arguments)
+    }
+    
+    craft.$$ = $$
+    function $$(selector, context){
+      var node
+      if(arguments.length < 2) context = doc
+      node = context.querySelector ? 
+          context.querySelector(selector) : 
+          null
+      return toNodeList.call(null, node)
     }
     
   })(craft)
