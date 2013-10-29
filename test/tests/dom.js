@@ -1286,3 +1286,29 @@ test(
       
     }
 )
+
+
+test(
+    "craft.createElement"
+  , function(){
+      
+      var _isPrototypeOf = {}.isPrototypeOf
+      
+      ok(
+          _isPrototypeOf.call(craft.nodeList, craft.createElement("div"))
+        , "Returns a nodeList"
+      )
+      
+      equal(
+          craft.createElement("div")[0].nodeName
+        , "DIV"
+        , "Creates the right element"
+      )
+      
+      equal(
+          craft.createElement("div", {className:"block-Hello"})[0].className
+        , "block-Hello"
+        , "Sets properties"  
+      )
+    }  
+)

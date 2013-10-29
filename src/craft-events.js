@@ -30,8 +30,11 @@
     self.listenOnce = listenOnce
     function listenOnce(eventName, callback){
       var self = this
+        , called = false
       self.listen(eventName, handler)
       function handler(){
+        if(called) return
+        called = true
         callback.apply(this, arguments)
         self.stopListening(eventName, handler)
       }
@@ -104,10 +107,12 @@
           }, 0)
         })
       }
-    
-      if((parent = self._parent) && !eventWalker._stopped) {
-        fire.call(parent, eventName, eventWalker)
-      }
+      setTimeout(function(){
+        if((parent = self._parent) && !eventWalker._stopped) {
+          fire.call(parent, eventName, eventWalker, thisValue)
+        }
+      }, 0)
+      
       return self
     }
 
