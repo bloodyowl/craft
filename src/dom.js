@@ -687,6 +687,13 @@
     }
   }
   
+  craft.createElement = createElement
+  function createElement(nodeName, properties) {
+    var element = doc.createElement(nodeName)
+    if(properties) craft.extend(element, properties)
+    return toNodeList(element)
+  }
+  
   craft.$ = $
   function $(selector, context){
     return toNodeList.apply(null, arguments)
