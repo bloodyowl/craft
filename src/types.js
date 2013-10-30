@@ -40,7 +40,7 @@
     return typeof value == "function"
   }
   
-  function isFunction(value){
+  function isFunctionCompat(value){
     return typeof value == "function" &&
         _toString.call(value) == FUNCTION_CLASS
   }
