@@ -28,3 +28,16 @@ var express = require("express")
     res.set("Content-Type", "text/html")
     res.send("Helloworld!")
   })
+  
+  app.get("/request/404", function(req, res){
+    res.set("Content-Type", "text/html")
+    res.send(404, "404")
+  })
+  
+  app.get("/jsonp", function(req, res){
+    var callbackName = req.param("callback")
+      , json = JSON.stringify({foo:"bar"})
+
+    res.set("Content-Type", "text/javascript")
+    res.send(callbackName ? callbackName + "(" + json + ")" : json)
+  })

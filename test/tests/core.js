@@ -3,6 +3,9 @@ module("Core")
 test(
     "craft"
   , function(){
+    
+      var _isPrototypeOf = {}.isPrototypeOf
+    
       ok(
           Object.prototype.hasOwnProperty.call(window, "craft")
         , "`craft` in window"
@@ -14,6 +17,10 @@ test(
       ok(
           typeof craft.version == "string"
         , "`craft` has a string version property"
+      )
+      ok(
+          _isPrototypeOf.call(craft.events, craft)
+        , "craft is an instance of craft.events"
       )
     }
 )

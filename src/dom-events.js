@@ -9,7 +9,11 @@
     , STRING_CLASS = "[object String]"
     , ARRAY_CLASS = "[object Array]"
     , _contains = craft._contains
-  
+    , captureEvents = {
+          focus : "focusin"
+        , blur : "focusout"
+      }
+
   craft.eventClass = eventClass
   
   function preventDefault(){
@@ -40,28 +44,26 @@
   
   
   function eventObject(evt){
-    var object = craft.create(evt)
-      , charCodeExists
-      , button = object.button
+    var charCodeExists
+      , button = evt.button
     
-    if(!("target" in evt)) object.target = evt.srcElement
-    if(!("preventDefault" in evt)) object.preventDefault = preventDefault
-    if(!("stopPropagation" in evt)) object.stopPropagation = stopPropagation
-
-    if(object.which == null) {
-      if(object.charCode != null || object.keyCode != null) {
-        object.which = object.charCode != null ? object.charCode : object.keyCode
+    evt.target = evt.target || evt.srcElement
+    if(!("preventDefault" in evt)) evt.preventDefault = preventDefault
+    if(!("stopPropagation" in evt)) evt.stopPropagation = stopPropagation
+    if(evt.which == null) {
+      if(evt.charCode != null || evt.keyCode != null) {
+        evt.which = evt.charCode != null ? evt.charCode : evt.keyCode
       }
       if(button != null) {
-        object.which = 0
-        if(button & 1) object.which = 1
-        if(button & 2) object.which = 3
-        if(button & 4) object.which = 2
+        evt.which = 0
+        if(button & 1) evt.which = 1
+        if(button & 2) evt.which = 3
+        if(button & 4) evt.which = 2
       }
     } 
-    object.enters = enters
-    object.leaves = leaves
-    return object
+    evt.enters = enters
+    evt.leaves = leaves
+    return evt
   }
   
   
@@ -83,20 +85,24 @@
     function handleEvent(evt){
       var self = this
         , list = self[evt.type]
-        , target
+        , target, evtObject
       if(!list) return self
-      evt = eventObject(evt)
+      evtObject = eventObject(evt)
+    
       craft.each(list, function(item){ 
         if(item.selector){
-          evt.delegated = matches(evt.target, item.selector)
-          if(!evt.delegated) return
+          evtObject.delegated = matches(evt.target, item.selector)
+          if(!evtObject.delegated) return
         }
         if(_toString.call(item.listener) == STRING_CLASS) {
           item.listener = self[item.listener]
         }
+        
         if(typeof item.listener != "function") return
-        item.listener.call(self.thisValue, evt)
+        item.listener.call(self.thisValue, evtObject)
       })
+      
+      
     }
     
     self.fire = fire
@@ -104,12 +110,20 @@
       var self = this
         , object
         
+      if(self.thisValue.nodeName == "INPUT") {
+        if("checked" in self.thisValue && 
+            typeof self.thisValue.click == "function") {
+          self.thisValue.click()
+        }
+        return self
+      }
+
       if(standard) {
         object = doc.createEvent("HTMLEvents")
-        object.initEvent(type, true, true, win, 1)
+        object.initEvent(type, true, true)
         self.thisValue.dispatchEvent(object)
       } else {
-        self.thisValue.fireEvent("on" + type, doc.createEventObject())
+        self.thisValue.fireEvent("on" + type)
       }
       return self
     }
@@ -164,6 +178,10 @@
       var self = this
         , object = {}
       
+      if(!standard && useCapture) {
+        type = captureEvents[type] || type
+      }
+      
       if(typeof selector == "function") {
         useCapture = listener
         listener = selector
@@ -182,6 +200,10 @@
     function remove(type, selector, listener, useCapture){
       var self = this
         , object = {}
+      
+      if(!standard && useCapture) {
+        type = captureEvents[type] || type
+      }
       
       if(typeof selector == "function") {
         listener = selector
