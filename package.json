@@ -3,4 +3,5 @@
 				"express" : "*"
 			, "uglify-js" : "*"
 		}
+	, "test" : "make configure && make"
 }
