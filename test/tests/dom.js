@@ -1324,7 +1324,7 @@ test(
 )
 
 test(
-    "getNextElementSibling"
+    "nodeList#getNextElementSibling"
   , function(){
       var children = craft.$([
               document.createElement("div")
@@ -1343,7 +1343,7 @@ test(
 )
 
 test(
-    "getPreviousElementSibling"
+    "nodeList#getPreviousElementSibling"
   , function(){
       var children = craft.$([
               document.createElement("div")
@@ -1359,6 +1359,154 @@ test(
         , craft.$(children[0])
       )
     }  
+)
+
+test(
+    "nodeList#filter"
+  , function(){
+      var children = craft.$([
+              document.createElement("div")
+            , document.createElement("span")
+            , document.createElement("i")
+          ])
+      
+      children.appendTo(document.createElement("div"))
+      
+      deepEqual(
+          children.filter(function(item){
+            return item.nodeName == "DIV"
+          })
+        , children.slice(0, 1)
+        , "Function callback"
+      )
+      
+      deepEqual(
+          children.filter("div")
+        , children.slice(0, 1)
+        , "String callback"
+      )
+
+    }
+)
+
+test(
+    "nodeList#select"
+  , function(){
+      var children = craft.$([
+              document.createElement("div")
+            , document.createElement("span")
+            , document.createElement("i")
+          ])
+        
+      children.appendTo(document.createElement("div"))
+      
+      deepEqual(
+          children.select(function(item){
+            return item.nodeName == "DIV"
+          })
+        , children.slice(0, 1)
+        , "Function callback"
+      )
+      
+      deepEqual(
+          children.select("div")
+        , children.slice(0, 1)
+        , "String callback"
+      )
+
+    }
+)
+
+
+test(
+    "nodeList#reject"
+  , function(){
+      var children = craft.$([
+              document.createElement("div")
+            , document.createElement("span")
+            , document.createElement("i")
+          ])
+     
+      children.appendTo(document.createElement("div"))
+      
+      deepEqual(
+          children.reject(function(item){
+            return item.nodeName == "DIV"
+          })
+        , children.slice(1, 3)
+        , "Function callback"
+      )
+      
+      deepEqual(
+          children.reject("div")
+        , children.slice(1, 3)
+        , "String callback"
+      )
+
+    }
+)
+
+
+test(
+    "nodeList#map"
+  , function(){
+      var children = craft.$([
+              document.createElement("div")
+            , document.createElement("span")
+            , document.createElement("i")
+          ])
+     
+      children.appendTo(document.createElement("div"))
+      
+      deepEqual(
+          children.map(function(item){
+            return item.nodeName
+          })
+        , ["DIV", "SPAN", "I"]
+      )
+
+    }
+)
+
+test(
+    "nodeList#collect"
+  , function(){
+      var children = craft.$([
+              document.createElement("div")
+            , document.createElement("span")
+            , document.createElement("i")
+          ])
+     
+      children.appendTo(document.createElement("div"))
+      
+      deepEqual(
+          children.collect(function(item){
+            return item.nodeName
+          })
+        , ["DIV", "SPAN", "I"]
+      )
+
+    }
+)
+
+
+test(
+    "nodeList#pluck"
+  , function(){
+      var children = craft.$([
+              document.createElement("div")
+            , document.createElement("span")
+            , document.createElement("i")
+          ])
+     
+      children.appendTo(document.createElement("div"))
+      
+      deepEqual(
+          children.pluck("nodeName")
+        , ["DIV", "SPAN", "I"]
+      )
+
+    }
 )
 
 

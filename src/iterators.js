@@ -104,6 +104,11 @@
   }
   
   function createCallback(fn, thisValue, length){
+    if(typeof fn == "string") {
+      return function(item){
+        return exposed.__matchesSelector__.call(item, fn)
+      }
+    }
     if(thisValue === void 0) {
       return fn
     }

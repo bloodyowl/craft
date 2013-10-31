@@ -286,6 +286,11 @@
     }
     
     function createCallback(fn, thisValue, length){
+      if(typeof fn == "string") {
+        return function(item){
+          return exposed.__matchesSelector__.call(item, fn)
+        }
+      }
       if(thisValue === void 0) {
         return fn
       }
@@ -771,6 +776,8 @@
       , checkableElementsRegExp = /^(checkbox|radio)$/
       , valueSetters = {}, valueGetters = {}
       , nativeConcat = [].concat
+      , nativeSlice = [].slice
+      , nativeSplice = [].splice
       , _toString = {}.toString 
       , ARRAY_CLASS = "[object Array]"
       , sidesMap = {}
@@ -1491,16 +1498,47 @@
     craft.each(
       "slice concat".split(" ") 
     , function(item){
-        var native = Array.prototype[item]
-        nodeList[item] = convertMethod(native)
+        var original = Array.prototype[item]
+        nodeList[item] = convertMethod(original)
       })
       
-    function convertMethod(native){
+    function convertMethod(original){
       return function (){
-        var array = native.apply(this, arguments)
+        var array = original.apply(this, arguments)
         return toNodeList(array)
       }
     }
+    
+    craft.each(
+        "filter select reject".split(" ")
+      , function(item){
+          var original = craft[item]
+          nodeList[item] = convertIterator(original)
+        }
+    )
+    
+    function convertIterator(method, realArray) {
+      return realArray ? 
+          function(){
+            var args = nativeSlice.call(arguments)
+            nativeSplice.call(args, 0, 0, this)
+            return method.apply(this, args)
+          } :
+          function(){
+            var args = nativeSlice.call(arguments)
+            nativeSplice.call(args, 0, 0, this)
+            return toNodeList(method.apply(this, args))
+          }
+    }
+    
+    craft.each(
+        "map collect pluck".split(" ")
+      , function(item){
+          var original = craft[item]
+          nodeList[item] = convertIterator(original, 1)
+        }
+    )
+  
     
     craft.createElement = createElement
     function createElement(nodeName, properties) {
