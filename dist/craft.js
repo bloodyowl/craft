@@ -781,6 +781,8 @@
               .parentNode.parentNode 
             return ("" + parent) == parentNodeBugString
           })()
+      , getSibling
+      , supportsNextElementSibling = "nextElementSibling" in docEl
             
     
     craft.nodeList = nodeList
@@ -1455,6 +1457,35 @@
     function setTextContent(string){
       string = string != void 0 ? string : ""
       return this.each(setTextContentCallback, arguments)
+    }
+  
+    getSibling = 
+        supportsNextElementSibling ? 
+        getElementSibling : 
+        getElementSiblingLegacy
+    
+    function getElementSibling(node, type){
+      return node[type + "ElementSibling"]
+    }
+    
+    function getElementSiblingLegacy(node, type){
+      while(node = node[type + "Sibling"]) {
+        if(node.nodeType == 1) return node
+      }
+    }
+    
+    nodeList.getNextElementSibling = getNextElementSibling
+    function getNextElementSibling(){
+      var element = this[0]
+      if(!element) return toNodeList()
+      return toNodeList(getSibling(element, "next"))
+    }
+    
+    nodeList.getPreviousElementSibling = getPreviousElementSibling
+    function getPreviousElementSibling(){
+      var element = this[0]
+      if(!element) return toNodeList()
+      return toNodeList(getSibling(element, "previous"))
     }
     
     craft.each(

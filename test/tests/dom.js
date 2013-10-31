@@ -1324,6 +1324,45 @@ test(
 )
 
 test(
+    "getNextElementSibling"
+  , function(){
+      var children = craft.$([
+              document.createElement("div")
+            , document.createTextNode("")
+            , document.createElement("div")
+          ])
+        , element = 
+            craft.createElement("div")
+              .append(children)
+      
+      deepEqual(
+          children.getNextElementSibling()
+        , craft.$(children[2])
+      )
+    }  
+)
+
+test(
+    "getPreviousElementSibling"
+  , function(){
+      var children = craft.$([
+              document.createElement("div")
+            , document.createTextNode("")
+            , document.createElement("div")
+          ])
+        , element = 
+            craft.createElement("div")
+              .append(children)
+      
+      deepEqual(
+          children.slice(2,3).getPreviousElementSibling()
+        , craft.$(children[0])
+      )
+    }  
+)
+
+
+test(
     "nodeList array accessors"
   , function(){
       
