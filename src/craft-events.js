@@ -88,6 +88,8 @@
         , i = -1, l
         , parent
         , eventWalker
+        
+      if(!eventsObject) return self
     
       if(!_isPrototypeOf.call(craft.eventObject, data)) {
         eventWalker = craft.create(craft.eventObject)

@@ -1256,6 +1256,74 @@ test(
 )
 
 test(
+    "nodeList#getHTMLContent"
+  , function(){
+      
+      var node = document.createElement("div")
+      node.innerHTML = "<p>foo&amp;</p>"
+      
+      equal(
+          craft.$(node).getHTMLContent().toUpperCase()
+        , "<P>FOO&AMP;</P>"
+        , "Gets HTML correctly"
+      )
+      
+    }  
+)
+
+test(
+    "nodeList#setHTMLContent"
+  , function(){
+      
+      var node = document.createElement("div")
+      
+      equal(
+          craft.$(node)
+            .setHTMLContent("<p>foo&amp;</p>")
+            .getHTMLContent()
+            .toUpperCase()
+        , "<P>FOO&AMP;</P>"
+        , "Sets HTML correctly"
+      )
+      
+    }  
+)
+
+test(
+    "nodeList#getTextContent"
+  , function(){
+
+      var node = document.createElement("div")
+      node.innerHTML = "<p>foo&amp;</p>"
+
+      equal(
+          craft.$(node).getTextContent()
+        , "foo&"
+        , "Gets text correctly"
+      )
+
+    }  
+)
+
+
+test(
+    "nodeList#setTextContent"
+  , function(){
+      
+      var node = document.createElement("div")
+      
+      equal(
+          craft.$(node)
+            .setTextContent("foo")
+            .getTextContent()
+        , "foo"
+        , "Sets Text correctly"
+      )
+      
+    }  
+)
+
+test(
     "nodeList array accessors"
   , function(){
       

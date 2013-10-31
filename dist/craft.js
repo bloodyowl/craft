@@ -68,7 +68,7 @@
       return typeof value == "function"
     }
     
-    function isFunction(value){
+    function isFunctionCompat(value){
       return typeof value == "function" &&
           _toString.call(value) == FUNCTION_CLASS
     }
@@ -577,6 +577,8 @@
           , i = -1, l
           , parent
           , eventWalker
+          
+        if(!eventsObject) return self
       
         if(!_isPrototypeOf.call(craft.eventObject, data)) {
           eventWalker = craft.create(craft.eventObject)
@@ -1414,6 +1416,45 @@
     nodeList.setAttribute = setAttribute
     function setAttribute(attribute, value){
       return this.each(setAttributeCallback, arguments)
+    }
+    
+    nodeList.getHTMLContent = getHTMLContent
+    function getHTMLContent(){
+      var element = this[0]
+      if(!element) return ""
+      return element.innerHTML || ""
+    }
+    
+    function setHTMLContentCallback(item){
+      item.innerHTML = this[0]
+    }
+    
+    nodeList.setHTMLContent = setHTMLContent
+    function setHTMLContent(string){
+      string = string != void 0 ? string : ""
+      return this.each(setHTMLContentCallback, arguments)
+    }
+    
+    nodeList.getTextContent = getTextContent
+    function getTextContent(){
+      var element = this[0]
+      if(!element) return null
+      return element.textContent || element.innerText || ""
+    }
+    
+    function setTextContentCallback(item){
+      var string = this[0]
+      if("textContent" in item) {
+        item.textContent = string
+      } else {
+        item.innerText = string
+      }
+    }
+    
+    nodeList.setTextContent = setTextContent
+    function setTextContent(string){
+      string = string != void 0 ? string : ""
+      return this.each(setTextContentCallback, arguments)
     }
     
     craft.each(
