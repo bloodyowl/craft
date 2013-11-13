@@ -164,7 +164,7 @@
     self.unregister = unregister
     function unregister(type, useCapture){
       var self = this
-      if(!self[type] || !self[type].listener) return
+      if(!self[type] || !self[type].listener || self[type].length) return
       self[type].listener = false
       if(standard) {
         self.thisValue.removeEventListener(type, self, useCapture)

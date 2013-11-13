@@ -204,7 +204,7 @@ asyncTest(
     "nodeList#stopListening (callback)"
   , function(){
     
-      expect(2)
+      expect(3)
     
       var element = craft.createElement("div")
       
@@ -217,8 +217,17 @@ asyncTest(
           , "Didn't remove listener"
         )
       }
+
+      function J(){
+        ok(
+            1
+          , "Kept the right listener"
+        )
+      }
+      
       
       element.listen("click", K)
+      element.listen("click", J)
       
       equal(
           element.stopListening("click", K)
@@ -227,9 +236,9 @@ asyncTest(
       )
       
       deepEqual(
-          element[0].events.click
-        , []
-        , "Removes event"
+          element[0].events.click.length
+        , 1
+        , "Removes the right event"
       )
       
       element.fire("click")
