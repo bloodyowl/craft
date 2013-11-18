@@ -131,6 +131,8 @@
   })(craft)
 
   ;(function(craft){
+  
+    var objectProto = Object.prototype
     
     function create(){
       var self = craft.create(this)
@@ -161,7 +163,7 @@
       var klass
       if(!fn) {
         fn = inherits
-        inherits = null
+        inherits = objectProto
       }
       klass = craft.create(inherits)
       klass.create = create
